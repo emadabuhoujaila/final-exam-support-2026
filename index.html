@@ -592,7 +592,14 @@ function dp(e,tid){e.preventDefault();e.currentTarget.classList.remove('dov');if
 
 function goNext(){if(cur<TOTAL_QS-1){cur++;mSel=null;renderNav();renderQ();}}
 function goPrev(){if(cur>0){cur--;mSel=null;renderNav();renderQ();}}
-function confirmSubmit(){const u=ANS.filter(a=>a===null).length;showConf('📝','تسليم الاختبار',u>0?`لديك ${u} سؤال غير مجاب. هل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟',()=>finish(false));}
+function confirmSubmit(){
+  const u=ANS.filter(a=>a===null).length;
+  const msg=u>0?`لديك ${u} سؤال غير مجاب.\nهل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟';
+  showConf('📝','تسليم الاختبار',msg,()=>{
+    try{ finish(false); }
+    catch(e){ alert('خطأ: '+e.message); }
+  });
+}
 
 // ══ إنهاء الاختبار ══
 async function finish(timed){
