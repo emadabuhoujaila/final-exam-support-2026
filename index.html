@@ -597,6 +597,8 @@ function confirmSubmit(){const u=ANS.filter(a=>a===null).length;showConf('📝',
 // ══ إنهاء الاختبار ══
 async function finish(timed){
   stopTimer();quizActive=false;
+  // نحفظ نسخة ثابتة من بيانات الطالب الحالي فوراً
+  const studentData={...sData};
   let mcqSc=0,mcqD=[];
   QS.forEach((q,i)=>{
     if(q.t==='mcq'){
@@ -610,19 +612,51 @@ async function finish(timed){
   let oSc=0;
   const oIdx=QS.findIndex(q=>q.t==='ordering');
   if(oIdx>=0){const oQ=QS[oIdx],oA=ANS[oIdx]||oQ.items.map(x=>x.id);oQ.correct.forEach((id,i)=>{if(oA[i]===id)oSc+=0.5;});oSc=parseFloat(oSc.toFixed(2));}
-  const total=parseFloat((mcqSc+mSc+oSc).toFixed(2)),maxScore=mcqD.length+4;
-  const pct=Math.round(total/maxScore*100),gi=gradeInfo(pct);
+  const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
+  const maxScore=mcqD.length+4;
+  const pct=Math.round(total/maxScore*100);
+  const gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
   const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,level:d.level,correct:d.correct?1:0}));
-  lastRec={name:sData.name,section:sData.sec,grade:sData.grade,pin:sData.pin,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails};
-  try{
-    await db.ref(DB.results).push(lastRec);
-    await db.ref(DB.submissions+'/'+sData.pin).set({submitted:true,name:sData.name,section:sData.sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false});
-    await db.ref(DB.locks+'/'+sData.pin).remove();
-    await db.ref(DB.active+'/'+sData.pin).remove();
-    toast('✅ تم إرسال نتيجتك للمعلم!',4000);
-  }catch(e){toast('⚠️ تعذّر الإرسال.',4000);console.error(e);}
+  // بناء السجل بقيم ثابتة من studentData
+  const rec={
+    name:studentData.name,
+    section:studentData.sec,
+    grade:studentData.grade,
+    pin:studentData.pin,
+    score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,
+    pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),
+    timedOut:timed,time:ts,maxScore,qDetails
+  };
+  lastRec=rec;
+  // عرض النتيجة فوراً
   showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore);
+  // حفظ في Firebase بشكل مستقل
+  saveResult(rec,studentData.pin,studentData.name,studentData.sec,total,maxScore,pct,gi.lbl,ts);
+}
+
+async function saveResult(rec, pin, name, sec, total, maxScore, pct, gradeLabel, ts, attempt=1){
+  try{
+    await db.ref(DB.results).push(rec);
+    await db.ref(DB.submissions+'/'+pin).set({
+      submitted:true, name, section:sec,
+      score:total, maxScore, pct, gradeLabel,
+      time:ts, retryAllowed:false
+    });
+    // حذف القفل والنشاط بعد النجاح فقط
+    db.ref(DB.locks+'/'+pin).remove().catch(()=>{});
+    db.ref(DB.active+'/'+pin).remove().catch(()=>{});
+    toast('✅ تم إرسال نتيجتك للمعلم!',4000);
+  }catch(e){
+    console.error('Firebase save attempt '+attempt+' failed:',e);
+    if(attempt<4){
+      // إعادة المحاولة بعد تأخير متزايد
+      setTimeout(()=>saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt+1), attempt*2000);
+      if(attempt===1) toast('⚠️ جاري إعادة الإرسال...', 3000);
+    } else {
+      toast('❌ تعذّر الإرسال — تحقق من الاتصال بالإنترنت.',6000);
+    }
+  }
 }
 
 function gradeInfo(pct){
@@ -661,20 +695,48 @@ function doTL(){
 }
 
 function startDash(){
-  db.ref(DB.results).on('value',snap=>{allResults=[];snap.forEach(c=>allResults.push({id:c.key,...c.val()}));renderDash(activeDashTab);if(anVisible)buildAnalysis();});
-  db.ref(DB.active).on('value',snap=>{presData={};snap.forEach(c=>presData[c.key]=c.val());renderPres();});
-  db.ref(DB.submissions).on('value',snap=>{subsData={};snap.forEach(c=>subsData[c.key]=c.val());renderPres();});
-  db.ref(DB.locks).on('value',()=>renderPres());
+  db.ref(DB.results).on('value',snap=>{
+    allResults=[];
+    snap.forEach(c=>allResults.push({id:c.key,...c.val()}));
+    renderDash(activeDashTab);
+    if(anVisible)buildAnalysis();
+  });
+  db.ref(DB.submissions).on('value',snap=>{
+    subsData={};
+    snap.forEach(c=>{subsData[c.key]=c.val();});
+    renderPres();
+  });
+  db.ref(DB.active).on('value',snap=>{
+    presData={};
+    snap.forEach(c=>{presData[c.key]=c.val();});
+    renderPres();
+  });
+  db.ref(DB.locks).on('value',snap=>{
+    // تحديث حالة القفل داخل presData مباشرة
+    snap.forEach(c=>{
+      const lock=c.val();
+      if(lock&&lock.locked===true){
+        if(!presData[c.key])presData[c.key]={};
+        presData[c.key].status='locked';
+      } else if(presData[c.key]&&presData[c.key].status==='locked'){
+        presData[c.key].status='active';
+      }
+    });
+    renderPres();
+  });
 }
 
 // ══ مراقبة الحضور ══
 function setPresFilter(f){presFilter=f;renderPres();}
 
 function stuStatus(pin){
+  if(!pin)return'absent';
+  // الأولوية: submitted > active > locked > absent
   const sub=subsData[pin];
-  if(sub&&sub.submitted&&!sub.retryAllowed)return'submitted';
+  if(sub&&sub.submitted===true&&!sub.retryAllowed)return'submitted';
   const act=presData[pin];
-  if(act){if(act.status==='locked')return'locked';if(act.status==='active')return'active';}
+  if(act&&act.status==='locked')return'locked';
+  if(act&&act.status==='active')return'active';
   return'absent';
 }
 
