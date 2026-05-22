@@ -4,11 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>الاختبار النهائي - دعم وتمكين 2026</title>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-/* جميع الأنماط كما هي دون تغيير */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100vh;background:linear-gradient(135deg,#0d1b2a,#1b263b,#415a77,#778da9);color:#fff;overflow-x:hidden}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -25,7 +21,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .fld select option{background:#1b263b;color:#fff}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .btn{display:block;width:100%;padding:12px;background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b;border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(224,201,127,.35)}
+.btn:hover{transform:translateY(-2px)}
 .btn2{padding:8px 16px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;border:none}
 .err{color:#ff6464;font-size:12px;margin-bottom:8px}
 .tmr{position:sticky;top:7px;z-index:50;background:rgba(4,4,28,.92);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:11px 16px;margin-bottom:14px;display:flex;align-items:center;gap:13px;flex-wrap:wrap}
@@ -35,7 +31,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.25}}
 .tbr{flex:1;min-width:90px}
 .tbr-bar{height:8px;background:rgba(255,255,255,.14);border-radius:8px;overflow:hidden;margin-top:5px}
-.tbr-fill{height:100%;border-radius:8px;transition:width .9s linear,background .5s}
+.tbr-fill{height:100%;border-radius:8px;transition:width .9s linear}
 .prog{margin-bottom:16px}
 .prog-info{display:flex;justify-content:space-between;font-size:12px;color:#a0c4ff;margin-bottom:5px}
 .prog-bar{height:6px;background:rgba(255,255,255,.18);border-radius:8px;overflow:hidden}
@@ -70,7 +66,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .cv{flex:1;color:#64ff96}
 .ol{display:flex;flex-direction:column;gap:8px;margin-bottom:11px}
 .oi{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:11px;border:2px solid rgba(224,201,127,.3);background:rgba(255,255,255,.06);cursor:grab;transition:all .2s;user-select:none}
-.oi:hover{border-color:#e0c97f;background:rgba(224,201,127,.08)}
+.oi:hover{border-color:#e0c97f}
 .oi.dov{border-color:#64ff96;background:rgba(100,255,150,.1)}
 .oi.drg{opacity:.35}
 .onum{width:26px;height:26px;border-radius:50%;background:rgba(224,201,127,.22);color:#e0c97f;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
@@ -78,19 +74,14 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .rev-item.rok{border-color:rgba(100,255,150,.4)}
 .rev-item.rng{border-color:rgba(255,100,100,.4)}
 .nav{display:flex;gap:9px;justify-content:center;margin-top:16px;flex-wrap:wrap}
-.nb{padding:10px 24px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
-.nb.nx{background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b;border:none}
+.nb{padding:10px 24px;border-radius:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;border:none}
+.nb.nx{background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b}
 .nb.pv{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.28)}
-.nb.sub{background:linear-gradient(135deg,#64ff96,#00cc66);color:#000;border:none;font-size:14px;padding:12px 32px}
-.nb:hover{transform:translateY(-2px)}
+.nb.sub{background:linear-gradient(135deg,#64ff96,#00cc66);color:#000;font-size:14px;padding:12px 32px}
+.nb.sub-confirm{background:linear-gradient(135deg,#ff4444,#cc0000);color:#fff;font-size:14px;padding:12px 32px}
 .blk{display:none;position:fixed;inset:0;background:linear-gradient(135deg,#1a0000,#3d0000);z-index:1000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:26px}
 .blk h2{font-size:22px;color:#ff4444;margin-bottom:12px}
 .blk p{color:#ffaaaa;margin-bottom:20px;line-height:1.8}
-.cov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:2000;align-items:center;justify-content:center;direction:rtl}
-.cbox{background:#1b263b;border:1px solid rgba(224,201,127,.38);border-radius:16px;padding:26px;max-width:340px;width:90%;text-align:center}
-.cbtns{display:flex;gap:9px;justify-content:center;margin-top:18px}
-.cyes{padding:9px 24px;background:linear-gradient(135deg,#ff4444,#cc0000);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
-.cno{padding:9px 24px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit}
 .tst{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:9999;background:linear-gradient(135deg,#1a6e1a,#2da82d);color:#fff;padding:11px 22px;border-radius:13px;font-size:13px;font-weight:700;transition:transform .32s ease;text-align:center;pointer-events:none;max-width:88vw}
 .tst.show{transform:translateX(-50%) translateY(0)}
 .rcirc{width:110px;height:110px;border-radius:50%;margin:0 auto 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid #e0c97f;background:rgba(224,201,127,.1)}
@@ -158,7 +149,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .plan-crit{border-color:#ff6464;background:rgba(255,100,100,.07)}
 .plan-warn{border-color:#ffc864;background:rgba(255,200,100,.07)}
 .plan-ok{border-color:#64ff96;background:rgba(100,255,150,.07)}
-.chart-wrap{position:relative;width:100%}
 @media(max-width:600px){.g2{grid-template-columns:1fr}}
 </style>
 </head>
@@ -166,22 +156,11 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 <div class="stars" id="stars"></div>
 <div class="tst" id="tst"></div>
 
-<!-- قفل الشاشة -->
 <div class="blk" id="blk">
   <div style="font-size:65px;margin-bottom:14px">🔒</div>
   <h2>تم إيقاف الاختبار</h2>
   <p>غادرت نافذة الاختبار.<br>تواصل مع المعلم لإعادة التعيين.</p>
   <p style="font-size:12px;color:#ffaaaa;margin-top:8px">رمزك: <strong id="blk-pin" style="color:#e0c97f"></strong></p>
-</div>
-
-<!-- تأكيد -->
-<div class="cov" id="cov">
-  <div class="cbox">
-    <div style="font-size:36px;margin-bottom:9px" id="cic">⚠️</div>
-    <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px" id="ctit"></div>
-    <div style="font-size:13px;color:#a0c4ff;line-height:1.8;white-space:pre-wrap" id="cmsg"></div>
-    <div class="cbtns"><button class="cyes" id="cyes">تأكيد</button><button class="cno" onclick="window.closeConf()">إلغاء</button></div>
-  </div>
 </div>
 
 <div class="w" id="mc">
@@ -192,36 +171,32 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <p style="font-size:10px;opacity:.55;margin-top:3px">إعداد: الأستاذ عماد أبو حجيلة</p>
   </div>
 
-  <!-- الصفحة الرئيسية -->
   <div class="card" id="pg-land" style="text-align:center">
     <p style="color:#a0c4ff;margin-bottom:18px;font-size:14px">اختر دورك للمتابعة</p>
     <div style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap">
-      <button class="btn" style="width:auto;padding:11px 30px" onclick="window.go('pg-reg')">🎒 طالب — أبدأ الاختبار</button>
-      <button class="btn" style="width:auto;padding:11px 30px;background:linear-gradient(135deg,#415a77,#1b263b);color:#e0c97f" onclick="window.go('pg-tl')">👨‍🏫 معلم</button>
+      <button class="btn" style="width:auto;padding:11px 30px" onclick="go('pg-reg')">🎒 طالب — أبدأ الاختبار</button>
+      <button class="btn" style="width:auto;padding:11px 30px;background:linear-gradient(135deg,#415a77,#1b263b);color:#e0c97f" onclick="go('pg-tl')">👨‍🏫 معلم</button>
     </div>
   </div>
 
-  <!-- دخول معلم -->
   <div class="card hidden" id="pg-tl">
     <h3 style="color:#e0c97f;margin-bottom:14px">🔐 دخول المعلم</h3>
     <div class="fld"><label>رمز المعلم</label><input type="password" id="tl-i" placeholder="الرمز السري..."></div>
     <div class="err hidden" id="tl-e">رمز خاطئ</div>
-    <button class="btn" onclick="window.doTL()">دخول ←</button>
-    <button onclick="window.go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
+    <button class="btn" onclick="doTL()">دخول ←</button>
+    <button onclick="go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
   </div>
 
-  <!-- لوحة المعلم -->
   <div class="hidden" id="pg-dash">
-    <!-- مراقبة الحضور -->
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
         <h3 style="color:#e0c97f;font-size:14px;margin:0">👁️ مراقبة مباشرة <span class="live-dot"></span></h3>
         <div style="display:flex;gap:5px;flex-wrap:wrap">
-          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="window.setPresFilter('all')">الكل</button>
-          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="window.setPresFilter('1')">ش١</button>
-          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="window.setPresFilter('2')">ش٢</button>
-          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="window.setPresFilter('4')">ش٤</button>
-          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="window.setPresFilter('5')">ش٥</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('all')">الكل</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('1')">ش١</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('2')">ش٢</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('4')">ش٤</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('5')">ش٥</button>
         </div>
       </div>
       <div class="legend">
@@ -234,55 +209,51 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
       <div class="presence-grid" id="pres-grid"></div>
     </div>
 
-    <!-- النتائج -->
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin-bottom:12px">
         <h3 style="color:#e0c97f;font-size:14px;margin:0">📊 النتائج <span class="live-dot"></span></h3>
-        <button class="btn2" style="background:rgba(255,100,100,.14);color:#ff6464;border:1px solid #ff6464" onclick="window.doClear()">🗑 مسح الكل</button>
+        <button class="btn2" style="background:rgba(255,100,100,.14);color:#ff6464;border:1px solid #ff6464" onclick="doClear()">🗑 مسح الكل</button>
       </div>
       <div class="xl-btns">
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="window.doXL('1')">📥 ش١</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="window.doXL('2')">📥 ش٢</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="window.doXL('4')">📥 ش٤</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="window.doXL('5')">📥 ش٥</button>
-        <button class="btn2" style="background:rgba(224,201,127,.15);color:#e0c97f;border:1px solid #e0c97f" onclick="window.doXLAll()">📥 الكل</button>
-        <button class="btn2" style="background:rgba(255,100,200,.15);color:#ff64c8;border:1px solid #ff64c8" onclick="window.toggleAnalysis()">📈 تحليل متقدم</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('1')">📥 ش١</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('2')">📥 ش٢</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('4')">📥 ش٤</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('5')">📥 ش٥</button>
+        <button class="btn2" style="background:rgba(224,201,127,.15);color:#e0c97f;border:1px solid #e0c97f" onclick="doXLAll()">📥 الكل</button>
+        <button class="btn2" style="background:rgba(255,100,200,.15);color:#ff64c8;border:1px solid #ff64c8" onclick="toggleAnalysis()">📈 تحليل</button>
       </div>
       <div class="tabs" id="dtabs"></div>
       <div class="stats" id="dstats"></div>
       <div style="overflow-x:auto">
         <table class="rt"><thead><tr>
           <th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ(/10)</th><th>توصيل(/2)</th><th>ترتيب(/2)</th><th>المجموع(/14)</th><th>%</th><th>التقدير</th><th>الزمن</th><th>إجراءات</th>
-         </thead><tbody id="dbody"></tbody>
-        </table>
+        </tr></thead><tbody id="dbody"></tbody></table>
       </div>
     </div>
 
-    <!-- التحليل المتقدم -->
     <div class="card hidden" id="analysis-card">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
         <h3 style="color:#e0c97f;margin:0">📈 التحليل المتقدم</h3>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96;font-size:11px" onclick="window.exportReport()">📥 تصدير التقرير</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96;font-size:11px" onclick="exportReport()">📥 تصدير</button>
       </div>
       <div class="an-filters" id="an-filters">
-        <button class="an-f act" onclick="window.setAnF('all')">الكل</button>
-        <button class="an-f" onclick="window.setAnF('1')">شعبة ١</button>
-        <button class="an-f" onclick="window.setAnF('2')">شعبة ٢</button>
-        <button class="an-f" onclick="window.setAnF('4')">شعبة ٤</button>
-        <button class="an-f" onclick="window.setAnF('5')">شعبة ٥</button>
+        <button class="an-f act" onclick="setAnF('all')">الكل</button>
+        <button class="an-f" onclick="setAnF('1')">شعبة ١</button>
+        <button class="an-f" onclick="setAnF('2')">شعبة ٢</button>
+        <button class="an-f" onclick="setAnF('4')">شعبة ٤</button>
+        <button class="an-f" onclick="setAnF('5')">شعبة ٥</button>
       </div>
       <div class="an-tabs" id="an-tabs">
-        <button class="an-tab act" onclick="window.showAnTab(0)">📊 عامة</button>
-        <button class="an-tab" onclick="window.showAnTab(1)">❓ الأسئلة</button>
-        <button class="an-tab" onclick="window.showAnTab(2)">⚠️ مواطن الضعف</button>
-        <button class="an-tab" onclick="window.showAnTab(3)">📋 خطة العلاج</button>
-        <button class="an-tab" onclick="window.showAnTab(4)">🏫 الشعب</button>
+        <button class="an-tab act" onclick="showAnTab(0)">📊 عامة</button>
+        <button class="an-tab" onclick="showAnTab(1)">❓ الأسئلة</button>
+        <button class="an-tab" onclick="showAnTab(2)">⚠️ مواطن الضعف</button>
+        <button class="an-tab" onclick="showAnTab(3)">📋 خطة العلاج</button>
+        <button class="an-tab" onclick="showAnTab(4)">🏫 الشعب</button>
       </div>
       <div id="an-content"></div>
     </div>
   </div>
 
-  <!-- تسجيل الطالب -->
   <div class="card hidden" id="pg-reg">
     <h3 style="color:#e0c97f;margin-bottom:5px;text-align:center">📝 بيانات الطالب</h3>
     <p style="text-align:center;font-size:12px;color:#a0c4ff;margin-bottom:14px">⏱ مدة الاختبار: <strong style="color:#e0c97f">35 دقيقة</strong></p>
@@ -291,7 +262,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
         <select id="rg"><option value="">اختر</option><option value="7">7</option></select>
       </div>
       <div class="fld"><label>الشعبة</label>
-        <select id="rs" onchange="window.loadNames()">
+        <select id="rs" onchange="loadNames()">
           <option value="">اختر</option><option>1</option><option>2</option><option>4</option><option>5</option>
         </select>
       </div>
@@ -303,11 +274,10 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
       <input type="password" id="rpin" placeholder="أدخل رمزك الخاص...">
     </div>
     <div class="err hidden" id="re"></div>
-    <button class="btn" onclick="window.doStart()">بدء الاختبار ←</button>
-    <button onclick="window.go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
+    <button class="btn" onclick="doStart()">بدء الاختبار ←</button>
+    <button onclick="go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
   </div>
 
-  <!-- سبق تسليمه -->
   <div class="card hidden" id="pg-done">
     <div style="text-align:center">
       <div style="font-size:54px;margin-bottom:10px">✅</div>
@@ -317,7 +287,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
   </div>
 
-  <!-- الاختبار -->
   <div class="hidden" id="pg-quiz">
     <div class="tmr">
       <div><div style="font-size:10px;color:#a0c4ff;margin-bottom:2px">⏱ الوقت المتبقي</div><div class="tc" id="tc">35:00</div></div>
@@ -333,16 +302,15 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
     <div class="qnav" id="qnav"></div>
     <div class="card" id="qbox"></div>
-    <div class="nav">
-      <button class="nb nx" id="nxt" onclick="window.goNext()">التالي ←</button>
-      <button class="nb pv hidden" id="prv" onclick="window.goPrev()">→ السابق</button>
-      <button class="nb sub hidden" id="subbtn" onclick="window.handleSubmit()">✅ تسليم الاختبار</button>
-      <button class="nb sub hidden" id="subbtn2" onclick="window.finish(false)" style="background:linear-gradient(135deg,#ff4444,#cc0000)">⚠️ تأكيد التسليم</button>
-      <button class="nb pv hidden" id="subbtn3" onclick="window.cancelSubmit()">إلغاء</button>
+    <div class="nav" id="quiz-nav">
+      <button class="nb nx" id="nxt" onclick="goNext()">التالي ←</button>
+      <button class="nb pv hidden" id="prv" onclick="goPrev()">→ السابق</button>
+      <button class="nb sub hidden" id="subbtn" onclick="showSubmitConfirm()">✅ تسليم الاختبار</button>
+      <button class="nb sub-confirm hidden" id="subbtn-confirm" onclick="doFinish()">⚠️ تأكيد التسليم</button>
+      <button class="nb pv hidden" id="subbtn-cancel" onclick="hideSubmitConfirm()">إلغاء</button>
     </div>
   </div>
 
-  <!-- النتيجة -->
   <div class="card hidden" id="pg-res" style="text-align:center">
     <div style="font-size:48px;margin-bottom:8px" id="res-icon">🎉</div>
     <div class="rcirc"><div class="rpct" id="rpct">-</div><div class="rsm" id="rsc">-</div></div>
@@ -355,687 +323,650 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
   </div>
 </div>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
 <script>
-// ==================== تكوين Firebase ====================
-const firebaseConfig = {
-  apiKey: "AIzaSyC-wED48TVgrvYo8pHDZ9UcBulKGkhXnlQ",
-  authDomain: "diagnostic-quiz-2026.firebaseapp.com",
-  databaseURL: "https://diagnostic-quiz-2026-default-rtdb.firebaseio.com",
-  projectId: "diagnostic-quiz-2026",
-  storageBucket: "diagnostic-quiz-2026.firebasestorage.app",
-  messagingSenderId: "919823498650",
-  appId: "1:919823498650:web:b3c5b948db3b87537ece23"
+// ══ Firebase ══
+const firebaseConfig={
+  apiKey:"AIzaSyC-wED48TVgrvYo8pHDZ9UcBulKGkhXnlQ",
+  authDomain:"diagnostic-quiz-2026.firebaseapp.com",
+  databaseURL:"https://diagnostic-quiz-2026-default-rtdb.firebaseio.com",
+  projectId:"diagnostic-quiz-2026",
+  storageBucket:"diagnostic-quiz-2026.firebasestorage.app",
+  messagingSenderId:"919823498650",
+  appId:"1:919823498650:web:b3c5b948db3b87537ece23"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db=firebase.database();
+const DB={results:'final/results',submissions:'final/submissions',locks:'final/locks',active:'final/active'};
+const TC='emad2026_final';
+const TOTAL_SEC=2100;
 
-const DB = { results: 'final/results', submissions: 'final/submissions', locks: 'final/locks', active: 'final/active' };
-const TC = 'emad2026_final';
-const TOTAL_SEC = 2100;
-
-// ==================== بيانات الطلاب ====================
-const STUDENTS = {
-  '1': ['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
-  '2': ['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
-  '4': ['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
-  '5': ['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
+// ══ بيانات الطلاب ══
+const STUDENTS={
+'1':['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
+'2':['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
+'4':['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
+'5':['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
-const PINS = {
-  'احمد مجيد سعيد سالم المرشدي':'S1-1001','جاسم محمد عبدالله الملا الريسي':'S1-1002','حارب محمد سهيل عبيد الحفيتي':'S1-1003','حسن محمد حسن محمد الحفيتي':'S1-1004','حمد محمد محبوب جمعة كياني':'S1-1005','حمدان حسين علي العبودي الطنيجي':'S1-1006','حمدان عبدالله أحمد محمد المزروعي':'S1-1007','حميد راشد عبيد الشميلي اليماحي':'S1-1008','حميد عبيد محمد حميد اليماحي':'S1-1009','خليفه مفتاح مال الله جمعه الكندي':'S1-1010','راشد سلطان علي خميس اليماحي':'S1-1011','راشد سيف مبارك سيف المزروعي':'S1-1012','راشد عبيد بلال عبيد المسماري':'S1-1013','زايد محمد الماس محمد الظنحاني':'S1-1014','سعيد احمد حسين الشمار الكندري':'S1-1015','سعيد محمد راشد عبيد الكعبي':'S1-1016','سيف راشد مبارك سيف المزروعي':'S1-1017','سيف عبدالله راشد محمد اليماحي':'S1-1018','عبدالعزيز علي حسن علي المسماري':'S1-1019','عبدالله احمد عيسى محمد فضل':'S1-1020','عبدالله راشد سهيل سعيد اليماحي':'S1-1021','علي ابراهيم عبدالله سعيد اليماحي':'S1-1022','علي راشد علي سالم المزروعي':'S1-1023','مايد احمد جمعه علي كياني':'S1-1024','منصور عبدالله محمد المسماري':'S1-1025','نايف ابراهيم عبيد حسن الشحي':'S1-1026',
-  'أحمد عيسى محمد راشد البكر':'S2-2001','حمدان أسد محمد نواز أحمد':'S2-2002','زايد عبدالله علي محمد البلوشي':'S2-2003','سيف يوسف عبدالله سالم الكندي':'S2-2004','عامر أحمد راشد علي السعدي':'S2-2005','عبدالرحمن علي محمد سعيد المحرزي':'S2-2006','عبدالله سالم سيف عبيد الحفيتي':'S2-2007','عبدالله سالم عبيد الشميلي اليماحي':'S2-2008','عبدالله سعيد علي الحاج الحفيتي':'S2-2009','عبيد سعيد محمد سعيد الذباحي':'S2-2010','عزام محمد حسين محمد شاكر':'S2-2011','علي عبيد غاصب عبيد المسماري':'S2-2012','عمار عبدالله خميس الخال السويدي':'S2-2013','عمر عبدالرزاق عبدالله عبدالرحمن البستكي':'S2-2014','غيث عبيد محمد خميس اليماحي':'S2-2015','مايد أحمد عيسى الملا العبدولي':'S2-2016','مبارك عيسى خاطر عبدالله السعدي':'S2-2017','محمد أحمد سيف أحمد المسماري':'S2-2018','محمد حميد عبدالله محمد الظنحاني':'S2-2019','محمد خلفان محمد عبدالله المطروشي':'S2-2020','محمد راشد أحمد خميس الكعبي':'S2-2021','محمد راشد محمد علي الكعبي':'S2-2022','محمد عبدالله علي بن صباح الزحمي':'S2-2023','محمد مانع سعيد عبيد الحفيتي':'S2-2024','موسى محمود محمد موسى حسين':'S2-2025','نهيان خالد راشد علي الكعبي':'S2-2026','نواف راشد عبدالله راشد قيوظي':'S2-2027','نواف صالح عثمان مبارك المسماري':'S2-2028',
-  'احمد سالم محمد راشد الكعبي':'S4-4001','احمد سعيد سلطان سليمان مطلعي اليماحي':'S4-4002','تركي طلال خميس سعيد المسماري':'S4-4003','حسين علي حسين علي رمضان':'S4-4004','حمدان راشد مبارك مفتاح المسماري':'S4-4005','حمدان سيف محمد عبيد المسماري':'S4-4006','خالد محمد علي عبيد الطنيجي':'S4-4007','خليفه بن احمد بن يعقوب بن يوسف البلوشي':'S4-4008','ذياب هلال ناصر مطر البلوشي':'S4-4009','راشد احمد سالم مرزوق الزحمي':'S4-4010','سعيد حمدان سعيد عبيد المسماري':'S4-4011','سلطان عادل سليمان علي الظنحاني':'S4-4012','سلطان علي عبيد حسن الشحي':'S4-4013','سيف بن ابراهيم بن درويش بن خميس الجابري':'S4-4014','سيف سالم محمد عبيد المسماري':'S4-4015','سيف عبدالله ربيع سالم السعيدي':'S4-4016','عبدالله بن قاسم بن درويش بن خميس الجابري':'S4-4017','محمد احمد خميس عامر النعيمي':'S4-4018','محمد حمد ابراهيم يوسف ال محمد':'S4-4019','محمد خلفان خميس سليمان مطلعي':'S4-4020','محمد راشد عبدالله راشد الشحي':'S4-4021','محمد علي سالم علي الكعبي':'S4-4022','محمد محمد عبيد خديم السماحي':'S4-4023','مشعل خالد عبدالرحيم محمد العوضي':'S4-4024','منصور عيسى محمد عبدالله الكعبي':'S4-4025','منصور فهد ناصر سعيد النعيمي':'S4-4026','منصور ياسر جمعه الزري المسماري':'S4-4027','ناصر خميس سالمين سعيد الزعابي':'S4-4028','يحيى صالح احمد حسين القيسي':'S4-4029',
-  'احمد راشد محمد عبدالله الحفيتي':'S5-5001','احمد سلطان احمد محمد الحفيتي':'S5-5002','احمد محمد خلفان راشد الكندي':'S5-5003','حارب وليد راشد احمد الحنطوبي':'S5-5004','حمد حمدان جلال حسين مختار':'S5-5005','حمد محمد سعيد نويله اليماحي':'S5-5006','خالد جاسم راشد عبدالرحمن الكندي':'S5-5007','خالد عبيد عبيد سليمان الحوسني':'S5-5008','خالد فايز عيسى داغر البلوشي':'S5-5009','خليفه احمد محمد احمد الظنحاني':'S5-5010','ذياب يوسف عبدالله الوطني آل علي':'S5-5011','راشد محمد خميس سليمان مطلعي':'S5-5012','زايد احمد على المطوع الكعبي':'S5-5013','زيد محمد عبدالله محمد المسماري':'S5-5014','سالم محمد سالم ثاني الجابري':'S5-5015','سعيد سيد سعيد التخلوفه اليماحي':'S5-5016','سعيد على سعيد محمد الحمودي':'S5-5017','سليمان محمد خميس سليمان مطلعي':'S5-5018','سليمان يونس سليمان عبدالله الحنطوبي':'S5-5019','سيف عثمان خميس الدرعي المسماري':'S5-5020','سيف نبيل خميس سالم هناوي':'S5-5021','فيصل صالح حسن بارون آل علي':'S5-5022','محمد حمد على دويب الحمودي':'S5-5023','محمد زايد على نصيب عريدي':'S5-5024','محمد سعيد محمد علي الحنطوبي':'S5-5025','محمد صالح محمد شاكر ال محمد':'S5-5026','محمد على عبدالله على الكندي':'S5-5027','محمد ناصر خميس محمد المطروشي':'S5-5028','نهيان محمد سليمان عبدالله الحنطوبي':'S5-5029'
-};
+const PINS={'احمد مجيد سعيد سالم المرشدي':'S1-1001','جاسم محمد عبدالله الملا الريسي':'S1-1002','حارب محمد سهيل عبيد الحفيتي':'S1-1003','حسن محمد حسن محمد الحفيتي':'S1-1004','حمد محمد محبوب جمعة كياني':'S1-1005','حمدان حسين علي العبودي الطنيجي':'S1-1006','حمدان عبدالله أحمد محمد المزروعي':'S1-1007','حميد راشد عبيد الشميلي اليماحي':'S1-1008','حميد عبيد محمد حميد اليماحي':'S1-1009','خليفه مفتاح مال الله جمعه الكندي':'S1-1010','راشد سلطان علي خميس اليماحي':'S1-1011','راشد سيف مبارك سيف المزروعي':'S1-1012','راشد عبيد بلال عبيد المسماري':'S1-1013','زايد محمد الماس محمد الظنحاني':'S1-1014','سعيد احمد حسين الشمار الكندري':'S1-1015','سعيد محمد راشد عبيد الكعبي':'S1-1016','سيف راشد مبارك سيف المزروعي':'S1-1017','سيف عبدالله راشد محمد اليماحي':'S1-1018','عبدالعزيز علي حسن علي المسماري':'S1-1019','عبدالله احمد عيسى محمد فضل':'S1-1020','عبدالله راشد سهيل سعيد اليماحي':'S1-1021','علي ابراهيم عبدالله سعيد اليماحي':'S1-1022','علي راشد علي سالم المزروعي':'S1-1023','مايد احمد جمعه علي كياني':'S1-1024','منصور عبدالله محمد المسماري':'S1-1025','نايف ابراهيم عبيد حسن الشحي':'S1-1026','أحمد عيسى محمد راشد البكر':'S2-2001','حمدان أسد محمد نواز أحمد':'S2-2002','زايد عبدالله علي محمد البلوشي':'S2-2003','سيف يوسف عبدالله سالم الكندي':'S2-2004','عامر أحمد راشد علي السعدي':'S2-2005','عبدالرحمن علي محمد سعيد المحرزي':'S2-2006','عبدالله سالم سيف عبيد الحفيتي':'S2-2007','عبدالله سالم عبيد الشميلي اليماحي':'S2-2008','عبدالله سعيد علي الحاج الحفيتي':'S2-2009','عبيد سعيد محمد سعيد الذباحي':'S2-2010','عزام محمد حسين محمد شاكر':'S2-2011','علي عبيد غاصب عبيد المسماري':'S2-2012','عمار عبدالله خميس الخال السويدي':'S2-2013','عمر عبدالرزاق عبدالله عبدالرحمن البستكي':'S2-2014','غيث عبيد محمد خميس اليماحي':'S2-2015','مايد أحمد عيسى الملا العبدولي':'S2-2016','مبارك عيسى خاطر عبدالله السعدي':'S2-2017','محمد أحمد سيف أحمد المسماري':'S2-2018','محمد حميد عبدالله محمد الظنحاني':'S2-2019','محمد خلفان محمد عبدالله المطروشي':'S2-2020','محمد راشد أحمد خميس الكعبي':'S2-2021','محمد راشد محمد علي الكعبي':'S2-2022','محمد عبدالله علي بن صباح الزحمي':'S2-2023','محمد مانع سعيد عبيد الحفيتي':'S2-2024','موسى محمود محمد موسى حسين':'S2-2025','نهيان خالد راشد علي الكعبي':'S2-2026','نواف راشد عبدالله راشد قيوظي':'S2-2027','نواف صالح عثمان مبارك المسماري':'S2-2028','احمد سالم محمد راشد الكعبي':'S4-4001','احمد سعيد سلطان سليمان مطلعي اليماحي':'S4-4002','تركي طلال خميس سعيد المسماري':'S4-4003','حسين علي حسين علي رمضان':'S4-4004','حمدان راشد مبارك مفتاح المسماري':'S4-4005','حمدان سيف محمد عبيد المسماري':'S4-4006','خالد محمد علي عبيد الطنيجي':'S4-4007','خليفه بن احمد بن يعقوب بن يوسف البلوشي':'S4-4008','ذياب هلال ناصر مطر البلوشي':'S4-4009','راشد احمد سالم مرزوق الزحمي':'S4-4010','سعيد حمدان سعيد عبيد المسماري':'S4-4011','سلطان عادل سليمان علي الظنحاني':'S4-4012','سلطان علي عبيد حسن الشحي':'S4-4013','سيف بن ابراهيم بن درويش بن خميس الجابري':'S4-4014','سيف سالم محمد عبيد المسماري':'S4-4015','سيف عبدالله ربيع سالم السعيدي':'S4-4016','عبدالله بن قاسم بن درويش بن خميس الجابري':'S4-4017','محمد احمد خميس عامر النعيمي':'S4-4018','محمد حمد ابراهيم يوسف ال محمد':'S4-4019','محمد خلفان خميس سليمان مطلعي':'S4-4020','محمد راشد عبدالله راشد الشحي':'S4-4021','محمد علي سالم علي الكعبي':'S4-4022','محمد محمد عبيد خديم السماحي':'S4-4023','مشعل خالد عبدالرحيم محمد العوضي':'S4-4024','منصور عيسى محمد عبدالله الكعبي':'S4-4025','منصور فهد ناصر سعيد النعيمي':'S4-4026','منصور ياسر جمعه الزري المسماري':'S4-4027','ناصر خميس سالمين سعيد الزعابي':'S4-4028','يحيى صالح احمد حسين القيسي':'S4-4029','احمد راشد محمد عبدالله الحفيتي':'S5-5001','احمد سلطان احمد محمد الحفيتي':'S5-5002','احمد محمد خلفان راشد الكندي':'S5-5003','حارب وليد راشد احمد الحنطوبي':'S5-5004','حمد حمدان جلال حسين مختار':'S5-5005','حمد محمد سعيد نويله اليماحي':'S5-5006','خالد جاسم راشد عبدالرحمن الكندي':'S5-5007','خالد عبيد عبيد سليمان الحوسني':'S5-5008','خالد فايز عيسى داغر البلوشي':'S5-5009','خليفه احمد محمد احمد الظنحاني':'S5-5010','ذياب يوسف عبدالله الوطني آل علي':'S5-5011','راشد محمد خميس سليمان مطلعي':'S5-5012','زايد احمد على المطوع الكعبي':'S5-5013','زيد محمد عبدالله محمد المسماري':'S5-5014','سالم محمد سالم ثاني الجابري':'S5-5015','سعيد سيد سعيد التخلوفه اليماحي':'S5-5016','سعيد على سعيد محمد الحمودي':'S5-5017','سليمان محمد خميس سليمان مطلعي':'S5-5018','سليمان يونس سليمان عبدالله الحنطوبي':'S5-5019','سيف عثمان خميس الدرعي المسماري':'S5-5020','سيف نبيل خميس سالم هناوي':'S5-5021','فيصل صالح حسن بارون آل علي':'S5-5022','محمد حمد على دويب الحمودي':'S5-5023','محمد زايد على نصيب عريدي':'S5-5024','محمد سعيد محمد علي الحنطوبي':'S5-5025','محمد صالح محمد شاكر ال محمد':'S5-5026','محمد على عبدالله على الكندي':'S5-5027','محمد ناصر خميس محمد المطروشي':'S5-5028','نهيان محمد سليمان عبدالله الحنطوبي':'S5-5029'};
 
-const ALL_STU = [];
-Object.entries(STUDENTS).forEach(([sec, names]) => names.forEach(name => ALL_STU.push({ name, sec, pin: PINS[name] || '' })));
+const ALL_STU=[];
+Object.entries(STUDENTS).forEach(([s,ns])=>ns.forEach(n=>ALL_STU.push({name:n,sec:s,pin:PINS[n]||''})));
 
-// ==================== دوال مساعدة عامة ====================
-function toast(msg, dur = 4000) {
-  const t = document.getElementById('tst');
-  t.innerHTML = msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), dur);
+function loadNames(){
+  const sec=document.getElementById('rs').value,sel=document.getElementById('rn');
+  sel.innerHTML='';
+  if(!sec||!STUDENTS[sec]){sel.innerHTML='<option value="">— اختر الشعبة أولاً —</option>';return;}
+  sel.innerHTML='<option value="">— اختر اسمك —</option>';
+  STUDENTS[sec].forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
 }
 
-function showConf(ic, tit, msg, onY) {
-  document.getElementById('cic').textContent = ic;
-  document.getElementById('ctit').textContent = tit;
-  document.getElementById('cmsg').textContent = msg;
-  document.getElementById('cyes').onclick = () => { window.closeConf(); onY(); };
-  document.getElementById('cov').style.display = 'flex';
-}
-window.closeConf = function() { document.getElementById('cov').style.display = 'none'; };
+// نجوم
+(function(){const se=document.getElementById('stars');for(let i=0;i<55;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*3+1;s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;se.appendChild(s);}})();
 
-// ==================== إدارة الصفحات ====================
-const PAGES = ['pg-land', 'pg-tl', 'pg-dash', 'pg-reg', 'pg-quiz', 'pg-res', 'pg-done'];
-window.go = function(id) {
-  PAGES.forEach(p => {
-    const el = document.getElementById(p);
-    if (el) el.classList.toggle('hidden', p !== id);
-  });
-};
+// ══ صفحات ══
+const PGS=['pg-land','pg-tl','pg-dash','pg-reg','pg-quiz','pg-res','pg-done'];
+function go(id){PGS.forEach(p=>{const e=document.getElementById(p);if(e)e.classList.toggle('hidden',p!==id);});}
+function toast(msg,dur=4000){const t=document.getElementById('tst');t.innerHTML=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);}
 
-// ==================== نجوم متحركة ====================
-const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 55; i++) {
-  const star = document.createElement('div');
-  star.className = 'star';
-  const size = Math.random() * 3 + 1;
-  star.style.cssText = `width:${size}px;height:${size}px;top:${Math.random() * 100}%;left:${Math.random() * 100}%;animation-delay:${Math.random() * 3}s;animation-duration:${2 + Math.random() * 3}s`;
-  starsContainer.appendChild(star);
-}
-
-// ==================== دوال تسجيل الطالب ====================
-window.loadNames = function() {
-  const sec = document.getElementById('rs').value;
-  const sel = document.getElementById('rn');
-  sel.innerHTML = '';
-  if (!sec || !STUDENTS[sec]) {
-    sel.innerHTML = '<option value="">— اختر الشعبة أولاً —</option>';
-    return;
-  }
-  sel.innerHTML = '<option value="">— اختر اسمك —</option>';
-  STUDENTS[sec].forEach(name => {
-    const opt = document.createElement('option');
-    opt.value = name;
-    opt.textContent = name;
-    sel.appendChild(opt);
-  });
-};
-
-// ==================== متغيرات الاختبار ====================
-let quizActive = false, visLocked = false, curPin = '', curName = '';
-let tInt = null, sLeft = TOTAL_SEC, sUsed = 0;
-let QS = [], cur = 0, ANS = [], sData = {}, lastRec = {};
-let mSel = null, dragId = null, activeDashTab = 'all', allResults = [];
-let presData = {}, subsData = {}, presFilter = 'all';
-let anFilter = 'all', anTab = 0, anVisible = false;
-const anCharts = {};
-
-const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
-
-// ==================== قفل الشاشة ====================
-function lockScr() {
-  visLocked = true;
-  document.getElementById('blk').style.display = 'flex';
-  document.getElementById('mc').style.filter = 'blur(12px)';
-  document.getElementById('blk-pin').textContent = curPin;
-  if (curPin) {
-    db.ref(DB.locks + '/' + curPin).set({ locked: true, name: curName, time: new Date().toLocaleString('ar-SA') });
-    db.ref(DB.active + '/' + curPin).update({ status: 'locked' });
+// ══ قفل الشاشة ══
+let quizActive=false,visLocked=false,curPin='',curName='';
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&quizActive&&!visLocked)lockScr();});
+window.addEventListener('blur',()=>{if(quizActive&&!visLocked)lockScr();});
+function lockScr(){
+  visLocked=true;
+  document.getElementById('blk').style.display='flex';
+  document.getElementById('mc').style.filter='blur(12px)';
+  document.getElementById('blk-pin').textContent=curPin;
+  if(curPin){
+    db.ref(DB.locks+'/'+curPin).set({locked:true,name:curName,time:new Date().toLocaleString('ar-SA')});
+    db.ref(DB.active+'/'+curPin).update({status:'locked'});
   }
 }
-function listenUnlock() {
-  if (!curPin) return;
-  db.ref(DB.locks + '/' + curPin).on('value', snap => {
-    const d = snap.val();
-    if (d && d.locked === false && visLocked) {
-      visLocked = false;
-      document.getElementById('blk').style.display = 'none';
-      document.getElementById('mc').style.filter = 'none';
-      db.ref(DB.active + '/' + curPin).update({ status: 'active' });
-      toast('✅ تم فتح الشاشة من المعلم!', 4000);
+function listenUnlock(){
+  if(!curPin)return;
+  db.ref(DB.locks+'/'+curPin).on('value',snap=>{
+    const d=snap.val();
+    if(d&&d.locked===false&&visLocked){
+      visLocked=false;
+      document.getElementById('blk').style.display='none';
+      document.getElementById('mc').style.filter='none';
+      db.ref(DB.active+'/'+curPin).update({status:'active'});
+      toast('✅ تم فتح الشاشة من المعلم!',4000);
     }
   });
 }
-document.addEventListener('visibilitychange', () => { if (document.hidden && quizActive && !visLocked) lockScr(); });
-window.addEventListener('blur', () => { if (quizActive && !visLocked) lockScr(); });
 
-// ==================== المؤقت ====================
-function startTimer() {
-  sLeft = TOTAL_SEC;
-  sUsed = 0;
-  tInt = setInterval(() => {
-    sLeft--; sUsed++;
-    const pct = Math.round((sLeft / TOTAL_SEC) * 100);
-    const tcEl = document.getElementById('tc');
-    const tfEl = document.getElementById('tf');
-    if (tcEl) tcEl.textContent = fmt(sLeft);
-    document.getElementById('tl2').textContent = 'المستغرق: ' + fmt(sUsed);
-    document.getElementById('tp2').textContent = pct + '% متبقٍ';
-    const bg = pct > 50 ? 'linear-gradient(90deg,#64ff96,#e0c97f)' : (pct > 20 ? 'linear-gradient(90deg,#e0c97f,#c9862a)' : 'linear-gradient(90deg,#ff4444,#ff8c00)');
-    if (tfEl) { tfEl.style.width = pct + '%'; tfEl.style.background = bg; }
-    if (tcEl) {
-      tcEl.className = 'tc';
-      if (sLeft <= 120) tcEl.classList.add('danger');
-      else if (sLeft <= 300) tcEl.classList.add('warn');
-    }
-    if (sLeft === 600) toast('⚠️ تبقّى 10 دقائق!', 6000);
-    if (sLeft === 300) toast('🔴 تبقّى 5 دقائق!', 7000);
-    if (sLeft === 120) toast('🚨 دقيقتان فقط!', 8000);
-    if (sLeft <= 0) { clearInterval(tInt); toast('⌛ انتهى الوقت!', 5000); setTimeout(() => window.finish(true), 1500); }
-  }, 1000);
+// ══ مؤقت ══
+let tInt=null,sLeft=TOTAL_SEC,sUsed=0;
+const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+function startTimer(){
+  sLeft=TOTAL_SEC;sUsed=0;
+  tInt=setInterval(()=>{
+    sLeft--;sUsed++;
+    const pct=Math.round(sLeft/TOTAL_SEC*100);
+    const c=document.getElementById('tc'),f=document.getElementById('tf');
+    if(c)c.textContent=fmt(sLeft);
+    const tl=document.getElementById('tl2'),tp=document.getElementById('tp2');
+    if(tl)tl.textContent='المستغرق: '+fmt(sUsed);
+    if(tp)tp.textContent=pct+'% متبقٍ';
+    const bg=pct>50?'linear-gradient(90deg,#64ff96,#e0c97f)':pct>20?'linear-gradient(90deg,#e0c97f,#c9862a)':'linear-gradient(90deg,#ff4444,#ff8c00)';
+    if(f){f.style.width=pct+'%';f.style.background=bg;}
+    if(c){c.className='tc';if(sLeft<=120)c.classList.add('danger');else if(sLeft<=300)c.classList.add('warn');}
+    if(sLeft===600)toast('⚠️ تبقّى 10 دقائق!',6000);
+    if(sLeft===300)toast('🔴 تبقّى 5 دقائق!',7000);
+    if(sLeft===120)toast('🚨 دقيقتان فقط!',8000);
+    if(sLeft<=0){clearInterval(tInt);toast('⌛ انتهى الوقت!',5000);setTimeout(()=>doFinish(true),1500);}
+  },1000);
 }
-function stopTimer() { clearInterval(tInt); }
+function stopTimer(){clearInterval(tInt);}
 
-// ==================== الأسئلة ====================
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-const BASE_QS = [
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'البناء الضوئي', q: 'أيٌّ من العضيات الخلوية التالية تعتبر الموقع الرئيسي لحدوث عملية البناء الضوئي في الخلية النباتية؟', opts: ['البلاستيدات الخضراء', 'الميتوكوندريا', 'الفجوة المركزية', 'جدار الخلية'], ans: 0, exp: 'البلاستيدات الخضراء (الكلوروبلاست) هي موقع البناء الضوئي وصنع الغذاء في الخلية النباتية.' },
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'النباتات اللاوعائية', q: 'ما الوظيفة الأساسية التي تؤديها أشباه الجذور في النباتات اللاوعائية مثل الحزازيات؟', opts: ['تثبيت النبات في السطح', 'نقل الماء لمسافات طويلة', 'إنتاج الأبواغ للتكاثر', 'تصنيع الغذاء بالبناء الضوئي'], ans: 0, exp: 'أشباه الجذور في الحزازيات وظيفتها الأساسية تثبيت النبات في السطح وليس نقل الماء.' },
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'دورة حياة النبات', q: 'يُطلق على الفترة التي تمر بها البذرة حيث يتوقف فيها النمو لحين تحسن الظروف البيئية اسم:', opts: ['السبات (الكمون)', 'التلقيح', 'الإنبات', 'الإخصاب'], ans: 0, exp: 'السبات أو الكمون هو توقف نمو البذرة مؤقتاً ريثما تتحسن الظروف البيئية المناسبة للإنبات.' },
-  { t: 'mcq', lv: 'u', lb: 'الفهم', tp: 'استجابات النبات', q: 'عندما تلتف سيقان نبات اللبلاب حول عمود مجاور، فإن هذا السلوك يمثل استجابة نباتية تسمى:', opts: ['الانتحاء اللمسي', 'الانتحاء الضوئي', 'الانتحاء الأرضي', 'الانتحاء المائي'], ans: 0, exp: 'الانتحاء اللمسي هو استجابة النبات للمس أو الاحتكاك الميكانيكي كالتفاف اللبلاب حول الأعمدة.' },
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'استكشاف الفضاء', q: 'ما أول قمر صناعي أطلقه الإنسان إلى الفضاء؟', opts: ['سبوتنيك 1', 'أبولو 11', 'هابل', 'المستكشف 1'], ans: 0, exp: 'سبوتنيك 1 هو أول قمر صناعي أطلقه الإنسان عام 1957 من قِبَل الاتحاد السوفيتي.' },
-  { t: 'mcq', lv: 'u', lb: 'الفهم', tp: 'التلسكوبات الفضائية', q: 'ما الميزة الأساسية التي تجعل التلسكوبات الفضائية ترصد الصور بدقة أعلى من الأرضية؟', opts: ['تواجدها فوق الغلاف الجوي مما يمنع تشويه الضوء', 'قربها الشديد من النجوم', 'حجمها الأكبر دائماً', 'عدم حاجتها للطاقة الكهربائية'], ans: 0, exp: 'التلسكوبات الفضائية فوق الغلاف الجوي لا تتأثر بتشويه الهواء وامتصاصه للضوء.' },
-  { t: 'mcq', lv: 'u', lb: 'الفهم', tp: 'تكتونية الصفائح', q: 'وفقاً لنظرية تكتونية الصفائح، ما الذي يتسبب في حركة الصفائح الصخرية فوق الوشاح؟', opts: ['تيارات الحمل الحراري في الوشاح', 'الجاذبية المغناطيسية للقطبين', 'قوة الرياح والمياه', 'دوران الأرض السريع'], ans: 0, exp: 'تيارات الحمل الحراري الناتجة عن الحرارة الداخلية للأرض هي المحرك الرئيسي للصفائح.' },
-  { t: 'mcq', lv: 'a', lb: 'التطبيق', tp: 'الحدود التكتونية', q: 'أيٌّ من المظاهر الجيولوجية يتشكل عند حدود الصفائح التقاربية بين صفيحتين قاريتين؟', opts: ['سلاسل الجبال الضخمة', 'حفر الانهدام والأودية', 'قيعان بحار جديدة', 'الجزر المرجانية'], ans: 0, exp: 'عند تصادم صفيحتين قاريتين تتشكل سلاسل جبال ضخمة كجبال الهيمالايا.' },
-  { t: 'mcq', lv: 'a', lb: 'التطبيق', tp: 'التجوية', q: 'نمو جذور الأشجار داخل شقوق الصخور وتفتيتها دون تغيير تركيبها الكيميائي يُصنَّف على أنه:', opts: ['تجوية ميكانيكية (فيزيائية)', 'تجوية كيميائية', 'تعرية برية', 'ترسيب فُتاتي'], ans: 0, exp: 'التجوية الميكانيكية تُفتت الصخور فيزيائياً دون تغيير في تركيبها الكيميائي.' },
-  { t: 'mcq', lv: 'an', lb: 'التحليل', tp: 'التعرية والترسيب', q: 'ما الفرق الأساسي بين عمليتي التعرية والترسيب من حيث التأثير على سطح الأرض؟', opts: ['التعرية نقل الفتات، والترسيب استقراره في مكان جديد', 'التعرية تفتيت الصخور، والترسيب نقلها', 'التعرية تبني معالم، والترسيب يهدمها', 'التعرية بالمياه فقط، والترسيب بالرياح فقط'], ans: 0, exp: 'التعرية = انتزاع ونقل المواد. الترسيب = استقرار المواد في موقع جديد.' },
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'طبقات الغلاف الجوي', q: 'تتميز طبقة التروبوسفير بأنها الطبقة التي:', opts: ['تحدث فيها جميع ظواهر الطقس وتحتوي معظم بخار الماء', 'تحتوي على طبقة الأوزون', 'ترتفع فيها الحرارة بشكل هائل', 'تكون خالية من الغازات'], ans: 0, exp: 'التروبوسفير هي أقرب طبقة للأرض وفيها تحدث كل ظواهر الطقس لاحتوائها بخار الماء.' },
-  { t: 'mcq', lv: 'r', lb: 'التذكر', tp: 'قياسات الطقس', q: 'ما الجهاز الذي يستخدمه خبراء الأرصاد الجوية لقياس الضغط الجوي؟', opts: ['الباروميتر', 'الأنيموميتر', 'الهيدروميتر', 'الثيرموميتر'], ans: 0, exp: 'الباروميتر هو الجهاز المخصص لقياس الضغط الجوي في محطات الرصد.' },
-  { t: 'mcq', lv: 'u', lb: 'الفهم', tp: 'أنواع السحب', q: 'السحب الركامية الضخمة التي تصاحبها أمطار غزيرة وبرق ورعد تعرف بـ:', opts: ['المزن الركامية (Cumulonimbus)', 'السحب الريشية (Cirrus)', 'السحب الطبقية (Stratus)', 'السحب الركامية المنخفضة'], ans: 0, exp: 'المزن الركامية Cumulonimbus هي سحب الطقس القاسي الضخمة التي ترتبط بالعواصف الرعدية.' },
-  { t: 'mcq', lv: 'a', lb: 'التطبيق', tp: 'الأعاصير', q: 'ما العامل الفيزيائي الرئيسي الذي يحدد شدة الإعصار القمعي (Tornado)؟', opts: ['سرعة الرياح الدائرية داخله', 'كمية الأمطار الهاطلة منه', 'درجة حرارة الهواء المحيط', 'نسبة الرطوبة في مركز القمع'], ans: 0, exp: 'سرعة الرياح الدائرية هي المعيار الرئيسي لتحديد قوة الإعصار القمعي وتدميره.' },
-  { t: 'matching', lv: 'a', lb: 'التطبيق - توصيل', tp: 'استجابات النبات', q: 'وصّل كل مصطلح بتعريفه الصحيح:', left: ['الانتحاء الضوئي', 'الانتحاء الأرضي', 'السبات'], right: ['توقف نمو البذرة مؤقتاً', 'استجابة النبات لاتجاه الضوء', 'استجابة النمو نحو الجاذبية الأرضية'], correct: { 0: 1, 1: 2, 2: 0 }, exp: 'الانتحاء الضوئي=الضوء | الانتحاء الأرضي=الجاذبية | السبات=توقف النمو.' },
-  { t: 'ordering', lv: 'an', lb: 'التحليل - ترتيب', tp: 'دورة الطقس', q: 'رتّب مراحل تكوّن المطر من الأولى إلى الأخيرة:', items: [{ id: 'a', text: 'تتجمع قطرات الماء وتثقل السحابة فتهطل أمطاراً' }, { id: 'b', text: 'يتبخر الماء من المسطحات المائية بفعل الحرارة' }, { id: 'c', text: 'تتكاثف أبخرة الماء في الجو مكوّنةً السحب' }, { id: 'd', text: 'يرتفع بخار الماء إلى طبقات الجو الباردة' }], correct: ['b', 'd', 'c', 'a'], exp: 'تبخر ← ارتفاع البخار ← تكاثف (سحب) ← هطول أمطار.' }
+// ══ أسئلة ══
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const BASE_QS=[
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'البناء الضوئي',q:'أيٌّ من العضيات الخلوية التالية تعتبر الموقع الرئيسي لحدوث عملية البناء الضوئي في الخلية النباتية؟',opts:['البلاستيدات الخضراء','الميتوكوندريا','الفجوة المركزية','جدار الخلية'],ans:0,exp:'البلاستيدات الخضراء (الكلوروبلاست) هي موقع البناء الضوئي وصنع الغذاء في الخلية النباتية.'},
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'النباتات اللاوعائية',q:'ما الوظيفة الأساسية التي تؤديها أشباه الجذور في النباتات اللاوعائية مثل الحزازيات؟',opts:['تثبيت النبات في السطح','نقل الماء لمسافات طويلة','إنتاج الأبواغ للتكاثر','تصنيع الغذاء بالبناء الضوئي'],ans:0,exp:'أشباه الجذور في الحزازيات وظيفتها الأساسية تثبيت النبات في السطح وليس نقل الماء.'},
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'دورة حياة النبات',q:'يُطلق على الفترة التي تمر بها البذرة حيث يتوقف فيها النمو لحين تحسن الظروف البيئية اسم:',opts:['السبات (الكمون)','التلقيح','الإنبات','الإخصاب'],ans:0,exp:'السبات أو الكمون هو توقف نمو البذرة مؤقتاً ريثما تتحسن الظروف البيئية المناسبة للإنبات.'},
+  {t:'mcq',lv:'u',lb:'الفهم',tp:'استجابات النبات',q:'عندما تلتف سيقان نبات اللبلاب حول عمود مجاور، فإن هذا السلوك يمثل استجابة نباتية تسمى:',opts:['الانتحاء اللمسي','الانتحاء الضوئي','الانتحاء الأرضي','الانتحاء المائي'],ans:0,exp:'الانتحاء اللمسي هو استجابة النبات للمس أو الاحتكاك الميكانيكي كالتفاف اللبلاب حول الأعمدة.'},
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'استكشاف الفضاء',q:'ما أول قمر صناعي أطلقه الإنسان إلى الفضاء؟',opts:['سبوتنيك 1','أبولو 11','هابل','المستكشف 1'],ans:0,exp:'سبوتنيك 1 هو أول قمر صناعي أطلقه الإنسان عام 1957 من قِبَل الاتحاد السوفيتي.'},
+  {t:'mcq',lv:'u',lb:'الفهم',tp:'التلسكوبات الفضائية',q:'ما الميزة الأساسية التي تجعل التلسكوبات الفضائية ترصد الصور بدقة أعلى من الأرضية؟',opts:['تواجدها فوق الغلاف الجوي مما يمنع تشويه الضوء','قربها الشديد من النجوم','حجمها الأكبر دائماً','عدم حاجتها للطاقة الكهربائية'],ans:0,exp:'التلسكوبات الفضائية فوق الغلاف الجوي لا تتأثر بتشويه الهواء وامتصاصه للضوء.'},
+  {t:'mcq',lv:'u',lb:'الفهم',tp:'تكتونية الصفائح',q:'وفقاً لنظرية تكتونية الصفائح، ما الذي يتسبب في حركة الصفائح الصخرية فوق الوشاح؟',opts:['تيارات الحمل الحراري في الوشاح','الجاذبية المغناطيسية للقطبين','قوة الرياح والمياه','دوران الأرض السريع'],ans:0,exp:'تيارات الحمل الحراري الناتجة عن الحرارة الداخلية للأرض هي المحرك الرئيسي للصفائح.'},
+  {t:'mcq',lv:'a',lb:'التطبيق',tp:'الحدود التكتونية',q:'أيٌّ من المظاهر الجيولوجية يتشكل عند حدود الصفائح التقاربية بين صفيحتين قاريتين؟',opts:['سلاسل الجبال الضخمة','حفر الانهدام والأودية','قيعان بحار جديدة','الجزر المرجانية'],ans:0,exp:'عند تصادم صفيحتين قاريتين تتشكل سلاسل جبال ضخمة كجبال الهيمالايا.'},
+  {t:'mcq',lv:'a',lb:'التطبيق',tp:'التجوية',q:'نمو جذور الأشجار داخل شقوق الصخور وتفتيتها دون تغيير تركيبها الكيميائي يُصنَّف على أنه:',opts:['تجوية ميكانيكية (فيزيائية)','تجوية كيميائية','تعرية برية','ترسيب فُتاتي'],ans:0,exp:'التجوية الميكانيكية تُفتت الصخور فيزيائياً دون تغيير في تركيبها الكيميائي.'},
+  {t:'mcq',lv:'an',lb:'التحليل',tp:'التعرية والترسيب',q:'ما الفرق الأساسي بين عمليتي التعرية والترسيب من حيث التأثير على سطح الأرض؟',opts:['التعرية نقل الفتات، والترسيب استقراره في مكان جديد','التعرية تفتيت الصخور، والترسيب نقلها','التعرية تبني معالم، والترسيب يهدمها','التعرية بالمياه فقط، والترسيب بالرياح فقط'],ans:0,exp:'التعرية = انتزاع ونقل المواد. الترسيب = استقرار المواد في موقع جديد.'},
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'طبقات الغلاف الجوي',q:'تتميز طبقة التروبوسفير بأنها الطبقة التي:',opts:['تحدث فيها جميع ظواهر الطقس وتحتوي معظم بخار الماء','تحتوي على طبقة الأوزون','ترتفع فيها الحرارة بشكل هائل','تكون خالية من الغازات'],ans:0,exp:'التروبوسفير هي أقرب طبقة للأرض وفيها تحدث كل ظواهر الطقس لاحتوائها بخار الماء.'},
+  {t:'mcq',lv:'r',lb:'التذكر',tp:'قياسات الطقس',q:'ما الجهاز الذي يستخدمه خبراء الأرصاد الجوية لقياس الضغط الجوي؟',opts:['الباروميتر','الأنيموميتر','الهيدروميتر','الثيرموميتر'],ans:0,exp:'الباروميتر هو الجهاز المخصص لقياس الضغط الجوي في محطات الرصد.'},
+  {t:'mcq',lv:'u',lb:'الفهم',tp:'أنواع السحب',q:'السحب الركامية الضخمة التي تصاحبها أمطار غزيرة وبرق ورعد تعرف بـ:',opts:['المزن الركامية (Cumulonimbus)','السحب الريشية (Cirrus)','السحب الطبقية (Stratus)','السحب الركامية المنخفضة'],ans:0,exp:'المزن الركامية Cumulonimbus هي سحب الطقس القاسي الضخمة التي ترتبط بالعواصف الرعدية.'},
+  {t:'mcq',lv:'a',lb:'التطبيق',tp:'الأعاصير',q:'ما العامل الفيزيائي الرئيسي الذي يحدد شدة الإعصار القمعي (Tornado)؟',opts:['سرعة الرياح الدائرية داخله','كمية الأمطار الهاطلة منه','درجة حرارة الهواء المحيط','نسبة الرطوبة في مركز القمع'],ans:0,exp:'سرعة الرياح الدائرية هي المعيار الرئيسي لتحديد قوة الإعصار القمعي وتدميره.'},
+  {t:'matching',lv:'a',lb:'التطبيق - توصيل',tp:'استجابات النبات',q:'وصّل كل مصطلح بتعريفه الصحيح:',left:['الانتحاء الضوئي','الانتحاء الأرضي','السبات'],right:['توقف نمو البذرة مؤقتاً','استجابة النبات لاتجاه الضوء','استجابة النمو نحو الجاذبية الأرضية'],correct:{0:1,1:2,2:0},exp:'الانتحاء الضوئي=الضوء | الانتحاء الأرضي=الجاذبية | السبات=توقف النمو.'},
+  {t:'ordering',lv:'an',lb:'التحليل - ترتيب',tp:'دورة الطقس',q:'رتّب مراحل تكوّن المطر من الأولى إلى الأخيرة:',items:[{id:'a',text:'تتجمع قطرات الماء وتثقل السحابة فتهطل أمطاراً'},{id:'b',text:'يتبخر الماء من المسطحات المائية بفعل الحرارة'},{id:'c',text:'تتكاثف أبخرة الماء في الجو مكوّنةً السحب'},{id:'d',text:'يرتفع بخار الماء إلى طبقات الجو الباردة'}],correct:['b','d','c','a'],exp:'تبخر ← ارتفاع البخار ← تكاثف (سحب) ← هطول أمطار.'}
 ];
 
-function prepareQs() {
-  return BASE_QS.map(q => {
-    if (q.t !== 'mcq') return { ...q };
-    const shuffledIndices = shuffle([0, 1, 2, 3]);
-    return { ...q, opts: shuffledIndices.map(i => q.opts[i]), ans: shuffledIndices.indexOf(q.ans) };
+function prepareQs(){
+  return BASE_QS.map(q=>{
+    if(q.t!=='mcq')return JSON.parse(JSON.stringify(q));
+    const sh=shuffle([0,1,2,3]);
+    const nq=JSON.parse(JSON.stringify(q));
+    nq.opts=sh.map(i=>q.opts[i]);
+    nq.ans=sh.indexOf(q.ans);
+    return nq;
   });
 }
 
-// ==================== بدء الاختبار ====================
-window.doStart = async function() {
-  const name = document.getElementById('rn').value.trim();
-  const grade = document.getElementById('rg').value;
-  const sec = document.getElementById('rs').value;
-  const pin = document.getElementById('rpin').value.trim();
-  const errDiv = document.getElementById('re');
-  errDiv.classList.add('hidden');
-  if (!grade) { errDiv.textContent = 'يرجى اختيار الصف.'; errDiv.classList.remove('hidden'); return; }
-  if (!sec) { errDiv.textContent = 'يرجى اختيار الشعبة.'; errDiv.classList.remove('hidden'); return; }
-  if (!name) { errDiv.textContent = 'يرجى اختيار اسمك.'; errDiv.classList.remove('hidden'); return; }
-  if (!pin) { errDiv.textContent = 'يرجى إدخال رمز الدخول.'; errDiv.classList.remove('hidden'); return; }
-  if (PINS[name] !== pin) { errDiv.textContent = '❌ رمز الدخول غير صحيح.'; errDiv.classList.remove('hidden'); return; }
-  try {
-    const snap = await db.ref(DB.submissions + '/' + pin).once('value');
-    const sub = snap.val();
-    if (sub && sub.submitted && !sub.retryAllowed) {
-      document.getElementById('done-info').innerHTML = `الاسم: <strong style="color:#e0c97f">${sub.name}</strong><br> الدرجة: <strong style="color:#64ff96">${sub.score}/${sub.maxScore}</strong> (${sub.pct}%)<br> التقدير: <strong>${sub.gradeLabel}</strong><br> وقت التسليم: ${sub.time}`;
-      window.go('pg-done');
-      return;
+let QS=[],cur=0,ANS=[],sData={};
+let mSel=null,dragId=null;
+let activeDashTab='all',allResults=[];
+let presData={},subsData={},presFilter='all';
+const TOTAL_QS=BASE_QS.length;
+const lvC={r:'lr',u:'lu',a:'la',an:'lan'};
+
+// ══ بدء الاختبار ══
+async function doStart(){
+  const name=(document.getElementById('rn').value||'').trim();
+  const grade=document.getElementById('rg').value;
+  const sec=document.getElementById('rs').value;
+  const pin=(document.getElementById('rpin').value||'').trim();
+  const err=document.getElementById('re');
+  err.classList.add('hidden');
+  if(!grade){err.textContent='يرجى اختيار الصف.';err.classList.remove('hidden');return;}
+  if(!sec){err.textContent='يرجى اختيار الشعبة.';err.classList.remove('hidden');return;}
+  if(!name){err.textContent='يرجى اختيار اسمك.';err.classList.remove('hidden');return;}
+  if(!pin){err.textContent='يرجى إدخال رمز الدخول.';err.classList.remove('hidden');return;}
+  if(PINS[name]!==pin){err.textContent='❌ رمز الدخول غير صحيح.';err.classList.remove('hidden');return;}
+  try{
+    const snap=await db.ref(DB.submissions+'/'+pin).once('value');
+    const sub=snap.val();
+    if(sub&&sub.submitted===true&&!sub.retryAllowed){
+      document.getElementById('done-info').innerHTML=
+        `الاسم: <strong style="color:#e0c97f">${sub.name}</strong><br>
+         الدرجة: <strong style="color:#64ff96">${sub.score}/${sub.maxScore}</strong> (${sub.pct}%)<br>
+         التقدير: <strong>${sub.gradeLabel}</strong><br>
+         وقت التسليم: ${sub.time}`;
+      go('pg-done');return;
     }
-    if (sub && sub.retryAllowed) await db.ref(DB.submissions + '/' + pin + '/retryAllowed').set(false);
-  } catch (e) { console.error(e); }
-  sData = { name, grade, sec, pin };
-  curPin = pin; curName = name;
-  await db.ref(DB.active + '/' + pin).set({ name, sec, status: 'active', enteredAt: new Date().toLocaleString('ar-SA') });
+    if(sub&&sub.retryAllowed)await db.ref(DB.submissions+'/'+pin+'/retryAllowed').set(false);
+  }catch(e){console.warn('check submission:',e);}
+  sData={name,grade,sec,pin};
+  curPin=pin;curName=name;
+  try{await db.ref(DB.active+'/'+pin).set({name,sec,status:'active',t:Date.now()});}catch(e){}
   beginQuiz();
-};
+}
 
-function beginQuiz() {
-  QS = prepareQs();
-  window.go('pg-quiz');
-  quizActive = true;
+function beginQuiz(){
+  QS=prepareQs();
+  go('pg-quiz');
+  quizActive=true;
   startTimer();
-  ANS = new Array(TOTAL_QS).fill(null);
-  cur = 0;
-  mSel = null;
+  ANS=new Array(TOTAL_QS).fill(null);
+  cur=0;mSel=null;
   listenUnlock();
-  renderNav();
-  renderQ();
-  window.addEventListener('beforeunload', () => { if (curPin) db.ref(DB.active + '/' + curPin).remove(); });
+  renderNav();renderQ();
 }
 
-function renderNav() {
-  const navDiv = document.getElementById('qnav');
-  navDiv.innerHTML = QS.map((_, i) => `<div class="qdot${i === cur ? ' cur' : (ANS[i] !== null ? ' ans' : '')}" onclick="window.jumpTo(${i})">${i + 1}</div>`).join('');
-  const last = cur === TOTAL_QS - 1;
-  document.getElementById('subbtn').classList.toggle('hidden', !last);
-  document.getElementById('subbtn2').classList.add('hidden');
-  document.getElementById('subbtn3').classList.add('hidden');
-  document.getElementById('nxt').classList.toggle('hidden', last);
-  document.getElementById('prv').classList.toggle('hidden', cur === 0);
-}
-window.jumpTo = function(i) { cur = i; mSel = null; renderNav(); renderQ(); };
-
-function renderQ() {
-  const q = QS[cur];
-  const pct = Math.round((cur / TOTAL_QS) * 100);
-  document.getElementById('plbl').textContent = `السؤال ${cur + 1} من ${TOTAL_QS}`;
-  document.getElementById('ppct').textContent = pct + '%';
-  document.getElementById('pf').style.width = pct + '%';
-  let html = `<span class="qbg">السؤال ${cur + 1}</span><span class="lvbg ${lvC[q.lv] || 'lr'}">${q.lb}</span><div class="qtxt">${q.q}</div>`;
-  if (q.t === 'mcq') html += renderMCQ(q);
-  else if (q.t === 'matching') html += renderMatch(q);
-  else if (q.t === 'ordering') html += renderOrder(q);
-  document.getElementById('qbox').innerHTML = html;
-}
-const lvC = { r: 'lr', u: 'lu', a: 'la', an: 'lan' };
-
-function renderMCQ(q) {
-  const letters = ['أ', 'ب', 'ج', 'د'];
-  return '<div class="opts">' + q.opts.map((o, i) => `<div class="opt${ANS[cur] === i ? ' sel' : ''}" onclick="window.pickOpt(${i})"><div class="oltr">${letters[i]}</div>${o}</div>`).join('') + '</div>';
-}
-window.pickOpt = function(i) { ANS[cur] = i; renderNav(); renderQ(); };
-
-function renderMatch(q) {
-  const ua = ANS[cur] || {};
-  let html = '<div class="mg"><div><div class="mc">🔵 المصطلح</div>';
-  q.left.forEach((item, i) => {
-    const done = ua[i] !== undefined;
-    const sel = mSel === i;
-    html += `<div class="mi${done ? ' mdone' : (sel ? ' msel' : '')}" onclick="${done ? '' : `window.pLeft(${i})`}">${item}${done ? ' ✓' : ''}</div>`;
-  });
-  html += '</div><div><div class="mc">🟡 التعريف</div>';
-  const usedR = Object.values(ua);
-  q.right.forEach((item, j) => {
-    const used = usedR.includes(j);
-    html += `<div class="mi mr${used ? ' mdone' : ''}" onclick="${used ? '' : `window.pRight(${j})`}">${item}${used ? ' ✓' : ''}</div>`;
-  });
-  html += '</div></div>';
-  if (Object.keys(ua).length > 0) {
-    html += '<div class="conn">';
-    Object.entries(ua).forEach(([k, v]) => {
-      html += `<div class="cr"><div class="cl">${q.left[k]}</div><span>→</span><div class="cv">${q.right[v]}</div></div>`;
-    });
-    html += '</div>';
-  }
-  if (mSel === null && Object.keys(ua).length < q.left.length) html += `<div style="margin-top:9px;font-size:12px;color:#a0c4ff;text-align:center">اضغط مصطلحاً من اليسار ثم تعريفه من اليمين</div>`;
-  return html;
-}
-window.pLeft = function(i) { if (ANS[cur] && ANS[cur][i] !== undefined) return; mSel = i; renderQ(); };
-window.pRight = function(j) {
-  if (mSel === null) { toast('⚠️ اضغط على المصطلح أولاً', 2500); return; }
-  if (Object.values(ANS[cur] || {}).includes(j)) return;
-  if (!ANS[cur]) ANS[cur] = {};
-  ANS[cur][mSel] = j;
-  mSel = null;
-  renderNav();
-  renderQ();
-};
-
-function renderOrder(q) {
-  if (!ANS[cur]) {
-    let shuffled = [...q.items].map(x => x.id);
-    do { shuffled = shuffled.sort(() => Math.random() - 0.5); } while (shuffled.every((id, idx) => id === q.correct[idx]));
-    ANS[cur] = shuffled;
-  }
-  return '<div class="ol">' + ANS[cur].map((id, idx) => {
-    const item = q.items.find(x => x.id === id);
-    return `<div class="oi" id="oi-${id}" draggable="true" ondragstart="window.ds(event,'${id}')" ondragover="window.dov(event)" ondrop="window.dp(event,'${id}')" ondragenter="window.de(event)" ondragleave="window.dl(event)"><div class="onum">${idx + 1}</div><div style="flex:1;font-size:13px">${item ? item.text : ''}</div><span style="color:#a0c4ff">⠿</span></div>`;
-  }).join('') + '</div><div style="font-size:11px;color:#a0c4ff;text-align:center;margin-top:4px">اسحب وأفلت لإعادة الترتيب</div>';
-}
-window.ds = function(e, id) { dragId = id; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => { const el = document.getElementById('oi-' + id); if (el) el.classList.add('drg'); }, 0); };
-window.dov = function(e) { e.preventDefault(); };
-window.de = function(e) { e.currentTarget.classList.add('dov'); };
-window.dl = function(e) { e.currentTarget.classList.remove('dov'); };
-window.dp = function(e, tid) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('dov');
-  if (!dragId || dragId === tid) return;
-  const arr = [...ANS[cur]];
-  const fromIdx = arr.indexOf(dragId);
-  const toIdx = arr.indexOf(tid);
-  arr.splice(fromIdx, 1);
-  arr.splice(toIdx, 0, dragId);
-  ANS[cur] = arr;
-  dragId = null;
-  renderNav();
-  renderQ();
-};
-
-window.goNext = function() { if (cur < TOTAL_QS - 1) { cur++; mSel = null; renderNav(); renderQ(); } };
-window.goPrev = function() { if (cur > 0) { cur--; mSel = null; renderNav(); renderQ(); } };
-window.handleSubmit = function() {
-  const unanswered = ANS.filter(a => a === null).length;
+// ══ تسليم الاختبار ══
+function showSubmitConfirm(){
+  const u=ANS.filter(a=>a===null).length;
+  if(u>0)toast('⚠️ لديك '+u+' سؤال غير مجاب',4000);
   document.getElementById('subbtn').classList.add('hidden');
-  document.getElementById('subbtn2').classList.remove('hidden');
-  document.getElementById('subbtn3').classList.remove('hidden');
-  if (unanswered > 0) toast('⚠️ لديك ' + unanswered + ' سؤال غير مجاب — اضغط تأكيد للتسليم أو إلغاء للرجوع', 5000);
-};
-window.cancelSubmit = function() {
+  document.getElementById('subbtn-confirm').classList.remove('hidden');
+  document.getElementById('subbtn-cancel').classList.remove('hidden');
+}
+function hideSubmitConfirm(){
   document.getElementById('subbtn').classList.remove('hidden');
-  document.getElementById('subbtn2').classList.add('hidden');
-  document.getElementById('subbtn3').classList.add('hidden');
-};
-
-// ==================== إنهاء الاختبار وحفظ النتيجة ====================
-window.finish = async function(timed) {
-  stopTimer();
-  quizActive = false;
-  const studentData = { ...sData };
-  // حساب MCQ (14 سؤالاً ثم تحويلها إلى 10)
-  let mcqCorrect = 0;
-  let mcqTotal = 0;
-  const mcqDetails = [];
-  QS.forEach((q, i) => {
-    if (q.t === 'mcq') {
-      mcqTotal++;
-      const ok = (ANS[i] === q.ans);
-      if (ok) mcqCorrect++;
-      mcqDetails.push({
-        qNum: i + 1, topic: q.tp, correct: ok, level: q.lb,
-        chosen: ANS[i], rightAns: q.ans, opts: q.opts, exp: q.exp, q: q.q
-      });
-    }
+  document.getElementById('subbtn-confirm').classList.add('hidden');
+  document.getElementById('subbtn-cancel').classList.add('hidden');
+}
+function doFinish(timed){
+  timed=timed===true;
+  stopTimer();quizActive=false;
+  go('pg-res');
+  // حساب الدرجات
+  let mcqSc=0,mcqD=[];
+  QS.forEach((q,i)=>{
+    if(q.t!=='mcq')return;
+    const ok=(ANS[i]===q.ans);
+    if(ok)mcqSc++;
+    mcqD.push({qNum:i+1,topic:q.tp,correct:ok,level:q.lb,
+      chosen:ANS[i]===null?-1:ANS[i],
+      rightAns:q.ans,exp:q.exp||'',q:q.q||'',opts:q.opts||[]});
   });
-  const mcqScore = (mcqCorrect / mcqTotal) * 10;
-  const finalMcq = Math.round(mcqScore * 10) / 10;
-  // درجة التوصيل
-  let matchScore = 0;
-  const matchIdx = QS.findIndex(q => q.t === 'matching');
-  if (matchIdx >= 0) {
-    const mQ = QS[matchIdx];
-    const mA = ANS[matchIdx] || {};
-    let correctMatches = 0;
-    Object.entries(mQ.correct).forEach(([k, v]) => { if (mA[k] === v) correctMatches++; });
-    matchScore = (correctMatches / Object.keys(mQ.correct).length) * 2;
-    matchScore = Math.round(matchScore * 10) / 10;
+  let mSc=0;
+  const mIdx=QS.findIndex(q=>q.t==='matching');
+  if(mIdx>=0){
+    const mQ=QS[mIdx],mA=ANS[mIdx]||{};
+    Object.entries(mQ.correct||{}).forEach(([k,v])=>{if(mA[k]!==undefined&&mA[k]===v)mSc+=2/3;});
+    mSc=Math.min(2,parseFloat(mSc.toFixed(2)));
   }
-  // درجة الترتيب
-  let orderScore = 0;
-  const orderIdx = QS.findIndex(q => q.t === 'ordering');
-  if (orderIdx >= 0) {
-    const oQ = QS[orderIdx];
-    const oA = ANS[orderIdx] || oQ.items.map(x => x.id);
-    let correctOrder = 0;
-    oQ.correct.forEach((id, idx) => { if (oA[idx] === id) correctOrder++; });
-    orderScore = (correctOrder / oQ.correct.length) * 2;
-    orderScore = Math.round(orderScore * 10) / 10;
+  let oSc=0;
+  const oIdx=QS.findIndex(q=>q.t==='ordering');
+  if(oIdx>=0){
+    const oQ=QS[oIdx];
+    const oA=ANS[oIdx]||(oQ.items||[]).map(x=>x.id);
+    (oQ.correct||[]).forEach((id,i)=>{if(oA[i]===id)oSc+=0.5;});
+    oSc=parseFloat(oSc.toFixed(2));
   }
-  const total = finalMcq + matchScore + orderScore;
-  const maxScore = 14;
-  const pct = Math.round((total / maxScore) * 100);
-  const gi = gradeInfo(pct);
-  const ts = new Date().toLocaleString('ar-SA', { dateStyle: 'short', timeStyle: 'short' });
-  const rec = {
-    name: studentData.name,
-    section: studentData.sec,
-    grade: studentData.grade,
-    pin: studentData.pin,
-    score: total,
-    mcqScore: finalMcq,
-    matchScore: matchScore,
-    orderScore: orderScore,
-    pct: pct,
-    gradeLabel: gi.lbl,
-    elapsed: fmt(sUsed),
-    timedOut: timed,
-    time: ts,
-    maxScore: maxScore,
-    qDetails: mcqDetails.map(d => ({ qNum: d.qNum, topic: d.topic, level: d.level, correct: d.correct ? 1 : 0 }))
-  };
-  lastRec = rec;
-  showResult(pct, total, gi, timed, mcqDetails, matchScore, orderScore, maxScore);
-  saveResult(rec, studentData.pin, studentData.name, studentData.sec, total, maxScore, pct, gi.lbl, ts);
-};
-
-function gradeInfo(pct) {
-  if (pct >= 90) return { lbl: 'ممتاز', cls: 'gex', icon: '🏆' };
-  if (pct >= 80) return { lbl: 'جيد جداً', cls: 'gvg', icon: '🥇' };
-  if (pct >= 60) return { lbl: 'جيد', cls: 'gg', icon: '👍' };
-  if (pct >= 50) return { lbl: 'مقبول', cls: 'gg', icon: '📚' };
-  return { lbl: 'راسب', cls: 'gbad', icon: '💡' };
+  const maxScore=14;
+  const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
+  const pct=Math.round(total/maxScore*100);
+  const gi=gradeInfo(pct);
+  const ts=new Date().toLocaleString('ar-SA');
+  // عرض النتيجة
+  document.getElementById('res-icon').textContent=gi.icon;
+  document.getElementById('rpct').textContent=pct+'%';
+  document.getElementById('rsc').textContent=total+' / '+maxScore;
+  document.getElementById('rmsg').textContent=timed?'⌛ انتهى الوقت':pct>=90?'ممتاز جداً! 🌟':pct>=80?'جيد جداً! 🏅':pct>=60?'جيد 👍':pct>=50?'مقبول 📚':'لم تجتز الاختبار 💡';
+  document.getElementById('rsub').innerHTML=`<span style="color:#a0c4ff">${sData.name} | شعبة ${sData.sec}</span><br>
+    <span style="font-size:11px;color:#64c8ff">MCQ: ${mcqSc}/${mcqD.length} | توصيل: ${mSc.toFixed(1)}/2 | ترتيب: ${oSc.toFixed(1)}/2 | الزمن: ${fmt(sUsed)}</span>`;
+  // مراجعة تفصيلية
+  const L=['أ','ب','ج','د'];
+  let rev=`<div style="text-align:right;margin-top:14px"><h3 style="color:#e0c97f;margin-bottom:14px;font-size:15px;border-bottom:1px solid rgba(224,201,127,.3);padding-bottom:8px">📋 مراجعة تفصيلية</h3>`;
+  mcqD.forEach(d=>{
+    rev+=`<div class="rev-item ${d.correct?'rok':'rng'}"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span>${d.correct?'✅':'❌'}</span><span style="font-size:13px;font-weight:700;color:${d.correct?'#64ff96':'#ff6464'}">س${d.qNum} — ${d.topic}</span></div><div style="font-size:13px;color:#e0e0ff;margin-bottom:8px">${d.q}</div><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">`;
+    d.opts.forEach((o,i)=>{const isC=i===d.rightAns,isCh=d.chosen===i;
+      rev+=`<div style="padding:7px 12px;border-radius:8px;border:1px solid ${isC?'#64ff96':isCh?'#ff6464':'rgba(255,255,255,.1)'};background:${isC?'rgba(100,255,150,.15)':isCh?'rgba(255,100,100,.15)':'rgba(255,255,255,.04)'};color:${isC?'#64ff96':isCh?'#ff8080':'#bbb'};font-size:12px">${isC?'✓ ':isCh?'✗ ':'  '}${L[i]}. ${o}${isC?' ← صحيح':''}${isCh&&!isC?' ← إجابتك':''}</div>`;});
+    rev+=`</div><div style="background:rgba(224,201,127,.08);border-right:3px solid #e0c97f;padding:8px 10px;border-radius:6px;font-size:12px;color:#e0c97f">💡 ${d.exp}</div></div>`;
+  });
+  document.getElementById('rev-area').innerHTML=rev+'</div>';
+  // حفظ Firebase
+  const pin=sData.pin,name=sData.name,sec=sData.sec;
+  const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,correct:d.correct?1:0}));
+  const rec={name,section:sec,pin,score:total,mcqScore:mcqSc,
+    matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,
+    elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails};
+  db.ref(DB.results).push(rec)
+    .then(()=>{
+      toast('✅ تم إرسال نتيجتك للمعلم!',4000);
+      db.ref(DB.submissions+'/'+pin).set({submitted:true,name,section:sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false}).catch(()=>{});
+      db.ref(DB.active+'/'+pin).remove().catch(()=>{});
+      db.ref(DB.locks+'/'+pin).remove().catch(()=>{});
+    })
+    .catch(e=>toast('⚠️ لم يُرسل للمعلم: '+e.message,8000));
 }
 
-async function saveResult(rec, pin, name, sec, total, maxScore, pct, gradeLabel, ts, attempt = 1) {
-  try {
-    const clean = JSON.parse(JSON.stringify(rec));
-    await db.ref(DB.results).push(clean);
-    await db.ref(DB.submissions + '/' + pin).set({
-      submitted: true, name, section: sec,
-      score: total, maxScore, pct, gradeLabel,
-      time: ts, retryAllowed: false
-    });
-    db.ref(DB.locks + '/' + pin).remove().catch(() => {});
-    db.ref(DB.active + '/' + pin).remove().catch(() => {});
-    toast('✅ تم إرسال نتيجتك للمعلم!', 4000);
-  } catch (e) {
-    console.error('محاولة الحفظ ' + attempt + ' فشلت:', e.message || e);
-    if (attempt < 4) {
-      setTimeout(() => saveResult(rec, pin, name, sec, total, maxScore, pct, gradeLabel, ts, attempt + 1), attempt * 2000);
-      if (attempt === 1) toast('⚠️ جاري إعادة الإرسال...', 3000);
-    } else toast('❌ تعذّر الإرسال — تحقق من الاتصال.', 6000);
+function gradeInfo(pct){
+  if(pct>=90)return{lbl:'ممتاز',cls:'gex',icon:'🏆'};
+  if(pct>=80)return{lbl:'جيد جداً',cls:'gvg',icon:'🥇'};
+  if(pct>=60)return{lbl:'جيد',cls:'gg',icon:'👍'};
+  if(pct>=50)return{lbl:'مقبول',cls:'gg',icon:'📚'};
+  return{lbl:'راسب',cls:'gbad',icon:'💡'};
+}
+
+// ══ تنقل الأسئلة ══
+function renderNav(){
+  document.getElementById('qnav').innerHTML=QS.map((_,i)=>
+    `<div class="qdot${i===cur?' cur':ANS[i]!==null?' ans':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
+  const last=cur===TOTAL_QS-1;
+  document.getElementById('nxt').classList.toggle('hidden',last);
+  document.getElementById('prv').classList.toggle('hidden',cur===0);
+  document.getElementById('subbtn').classList.toggle('hidden',!last);
+  document.getElementById('subbtn-confirm').classList.add('hidden');
+  document.getElementById('subbtn-cancel').classList.add('hidden');
+}
+function jumpTo(i){cur=i;mSel=null;renderNav();renderQ();}
+function goNext(){if(cur<TOTAL_QS-1){cur++;mSel=null;renderNav();renderQ();}}
+function goPrev(){if(cur>0){cur--;mSel=null;renderNav();renderQ();}}
+
+function renderQ(){
+  const q=QS[cur],pct=Math.round(cur/TOTAL_QS*100);
+  document.getElementById('plbl').textContent=`السؤال ${cur+1} من ${TOTAL_QS}`;
+  document.getElementById('ppct').textContent=pct+'%';
+  document.getElementById('pf').style.width=pct+'%';
+  let h=`<span class="qbg">السؤال ${cur+1}</span><span class="lvbg ${lvC[q.lv]||'lr'}">${q.lb}</span><div class="qtxt">${q.q}</div>`;
+  if(q.t==='mcq')h+=renderMCQ(q);
+  else if(q.t==='matching')h+=renderMatch(q);
+  else if(q.t==='ordering')h+=renderOrder(q);
+  document.getElementById('qbox').innerHTML=h;
+}
+function renderMCQ(q){
+  const L=['أ','ب','ج','د'];
+  return'<div class="opts">'+q.opts.map((o,i)=>
+    `<div class="opt${ANS[cur]===i?' sel':''}" onclick="pickOpt(${i})"><div class="oltr">${L[i]}</div>${o}</div>`).join('')+'</div>';
+}
+function pickOpt(i){ANS[cur]=i;renderNav();renderQ();}
+function renderMatch(q){
+  const ua=ANS[cur]||{};
+  let h='<div class="mg"><div><div class="mc">🔵 المصطلح</div>';
+  q.left.forEach((item,i)=>{const done=ua[i]!==undefined,sel=mSel===i;
+    h+=`<div class="mi${done?' mdone':sel?' msel':''}" onclick="${done?'':'pLeft('+i+')'}">${item}${done?' ✓':''}</div>`;});
+  h+='</div><div><div class="mc">🟡 التعريف</div>';
+  const usedR=Object.values(ua);
+  q.right.forEach((item,j)=>{const used=usedR.includes(j);
+    h+=`<div class="mi mr${used?' mdone':''}" onclick="${used?'':'pRight('+j+')'}">${item}${used?' ✓':''}</div>`;});
+  h+='</div></div>';
+  if(Object.keys(ua).length>0){h+='<div class="conn">';
+    Object.entries(ua).forEach(([k,v])=>{h+=`<div class="cr"><div class="cl">${q.left[k]}</div><span>→</span><div class="cv">${q.right[v]}</div></div>`;});h+='</div>';}
+  if(mSel===null&&Object.keys(ua).length<q.left.length)
+    h+=`<div style="margin-top:9px;font-size:12px;color:#a0c4ff;text-align:center">اضغط مصطلحاً من اليسار ثم تعريفه من اليمين</div>`;
+  return h;
+}
+function pLeft(i){if(ANS[cur]&&ANS[cur][i]!==undefined)return;mSel=i;renderQ();}
+function pRight(j){
+  if(mSel===null){toast('⚠️ اضغط على المصطلح أولاً',2500);return;}
+  if(Object.values(ANS[cur]||{}).includes(j))return;
+  if(!ANS[cur])ANS[cur]={};
+  ANS[cur][mSel]=j;mSel=null;renderNav();renderQ();
+}
+function renderOrder(q){
+  if(!ANS[cur]){
+    let sh=[...q.items].map(x=>x.id);
+    do{sh=sh.sort(()=>Math.random()-.5);}while(sh.every((id,i)=>id===q.correct[i]));
+    ANS[cur]=sh;
   }
+  return'<div class="ol">'+ANS[cur].map((id,idx)=>{
+    const item=q.items.find(x=>x.id===id);
+    return`<div class="oi" id="oi-${id}" draggable="true" ondragstart="ds(event,'${id}')" ondragover="dov(event)" ondrop="dp(event,'${id}')" ondragenter="de(event)" ondragleave="dl(event)">
+      <div class="onum">${idx+1}</div><div style="flex:1;font-size:13px">${item?item.text:''}</div><span style="color:#a0c4ff">⠿</span></div>`;
+  }).join('')+'</div><div style="font-size:11px;color:#a0c4ff;text-align:center;margin-top:4px">اسحب وأفلت لإعادة الترتيب</div>';
 }
+function ds(e,id){dragId=id;e.dataTransfer.effectAllowed='move';setTimeout(()=>{const el=document.getElementById('oi-'+id);if(el)el.classList.add('drg');},0);}
+function dov(e){e.preventDefault();}
+function de(e){e.currentTarget.classList.add('dov');}
+function dl(e){e.currentTarget.classList.remove('dov');}
+function dp(e,tid){e.preventDefault();e.currentTarget.classList.remove('dov');if(!dragId||dragId===tid)return;
+  const a=[...ANS[cur]],fi=a.indexOf(dragId),ti=a.indexOf(tid);a.splice(fi,1);a.splice(ti,0,dragId);ANS[cur]=a;dragId=null;renderNav();renderQ();}
 
-function showResult(pct, total, gi, timed, mcqDetails, matchScore, orderScore, maxScore) {
-  window.go('pg-res');
-  document.getElementById('res-icon').textContent = gi.icon;
-  document.getElementById('rpct').textContent = pct + '%';
-  document.getElementById('rsc').textContent = total + ' / ' + maxScore;
-  document.getElementById('rmsg').textContent = timed ? '⌛ انتهى الوقت' : (pct >= 90 ? 'ممتاز جداً! 🌟' : (pct >= 80 ? 'جيد جداً! 🏅' : (pct >= 60 ? 'جيد 👍' : (pct >= 50 ? 'مقبول 📚' : 'لم تجتز الاختبار 💡'))));
-  document.getElementById('rsub').innerHTML = `<span style="color:#a0c4ff">${lastRec.name} | شعبة ${lastRec.section}</span><br>
-    <span style="font-size:11px;color:#64c8ff">MCQ: ${lastRec.mcqScore}/10 | توصيل: ${matchScore.toFixed(1)}/2 | ترتيب: ${orderScore.toFixed(1)}/2 | الزمن: ${lastRec.elapsed}</span>`;
-  const letters = ['أ', 'ب', 'ج', 'د'];
-  let revHtml = `<div style="text-align:right;margin-top:14px"><h3 style="color:#e0c97f;margin-bottom:14px;font-size:15px;border-bottom:1px solid rgba(224,201,127,.3);padding-bottom:8px">📋 مراجعة تفصيلية</h3>`;
-  mcqDetails.forEach(d => {
-    revHtml += `<div class="rev-item ${d.correct ? 'rok' : 'rng'}"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span>${d.correct ? '✅' : '❌'}</span><span style="font-size:13px;font-weight:700;color:${d.correct ? '#64ff96' : '#ff6464'}">س${d.qNum} — ${d.topic}</span></div><div style="font-size:13px;color:#e0e0ff;margin-bottom:8px">${d.q}</div><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">`;
-    d.opts.forEach((o, i) => {
-      const isCorrect = i === d.rightAns;
-      const isChosen = d.chosen === i;
-      revHtml += `<div style="padding:7px 12px;border-radius:8px;border:1px solid ${isCorrect ? '#64ff96' : (isChosen ? '#ff6464' : 'rgba(255,255,255,.1)')};background:${isCorrect ? 'rgba(100,255,150,.15)' : (isChosen ? 'rgba(255,100,100,.15)' : 'rgba(255,255,255,.04)')};color:${isCorrect ? '#64ff96' : (isChosen ? '#ff8080' : '#bbb')};font-size:12px">${isCorrect ? '✓ ' : (isChosen ? '✗ ' : '  ')}${letters[i]}. ${o}${isCorrect ? ' ← صحيح' : ''}${isChosen && !isCorrect ? ' ← إجابتك' : ''}</div>`;
-    });
-    revHtml += `</div><div style="background:rgba(224,201,127,.08);border-right:3px solid #e0c97f;padding:8px 10px;border-radius:6px;font-size:12px;color:#e0c97f">💡 ${d.exp}</div></div>`;
-  });
-  document.getElementById('rev-area').innerHTML = revHtml + '</div>';
+// ══ لوحة المعلم ══
+function doTL(){
+  const v=(document.getElementById('tl-i').value||'').trim();
+  if(v===TC){document.getElementById('tl-e').classList.add('hidden');document.getElementById('tl-i').value='';go('pg-dash');startDash();}
+  else document.getElementById('tl-e').classList.remove('hidden');
 }
-
-// ==================== لوحة المعلم ====================
-window.doTL = function() {
-  const val = document.getElementById('tl-i').value.trim();
-  if (val === TC) {
-    document.getElementById('tl-e').classList.add('hidden');
-    document.getElementById('tl-i').value = '';
-    window.go('pg-dash');
-    startDash();
-  } else {
-    document.getElementById('tl-e').classList.remove('hidden');
-  }
-};
-
-function startDash() {
-  db.ref(DB.results).on('value', snap => {
-    allResults = [];
-    snap.forEach(c => allResults.push({ id: c.key, ...c.val() }));
-    renderDash(activeDashTab);
-    if (anVisible) buildAnalysis();
+function startDash(){
+  db.ref(DB.results).on('value',snap=>{
+    allResults=[];snap.forEach(c=>allResults.push({id:c.key,...c.val()}));
+    renderDash(activeDashTab);if(anVisible)buildAnalysis();
   });
-  db.ref(DB.submissions).on('value', snap => {
-    subsData = {};
-    snap.forEach(c => { subsData[c.key] = c.val(); });
-    renderPres();
+  db.ref(DB.submissions).on('value',snap=>{
+    subsData={};snap.forEach(c=>{subsData[c.key]=c.val();});renderPres();
   });
-  db.ref(DB.active).on('value', snap => {
-    presData = {};
-    snap.forEach(c => { presData[c.key] = c.val(); });
-    renderPres();
+  db.ref(DB.active).on('value',snap=>{
+    presData={};snap.forEach(c=>{presData[c.key]=c.val();});renderPres();
   });
-  db.ref(DB.locks).on('value', snap => {
-    snap.forEach(c => {
-      const lock = c.val();
-      if (lock && lock.locked === true) {
-        if (!presData[c.key]) presData[c.key] = {};
-        presData[c.key].status = 'locked';
-      } else if (presData[c.key] && presData[c.key].status === 'locked') {
-        presData[c.key].status = 'active';
-      }
-    });
-    renderPres();
+  db.ref(DB.locks).on('value',snap=>{
+    snap.forEach(c=>{const l=c.val();if(l&&l.locked===true){if(!presData[c.key])presData[c.key]={};presData[c.key].status='locked';}
+      else if(presData[c.key]&&presData[c.key].status==='locked'){presData[c.key].status='active';}});renderPres();
   });
 }
-
-window.setPresFilter = function(f) { presFilter = f; renderPres(); };
-function stuStatus(pin) {
-  if (!pin) return 'absent';
-  const sub = subsData[pin];
-  if (sub && sub.submitted === true && !sub.retryAllowed) return 'submitted';
-  const act = presData[pin];
-  if (act && act.status === 'locked') return 'locked';
-  if (act && act.status === 'active') return 'active';
-  return 'absent';
+function setPresFilter(f){presFilter=f;renderPres();}
+function stuStatus(pin){
+  if(!pin)return'absent';
+  const sub=subsData[pin];
+  if(sub&&sub.submitted===true&&!sub.retryAllowed)return'submitted';
+  const act=presData[pin];
+  if(act&&act.status==='locked')return'locked';
+  if(act&&act.status==='active')return'active';
+  return'absent';
 }
-function renderPres() {
-  const stus = presFilter === 'all' ? ALL_STU : ALL_STU.filter(s => s.sec === presFilter);
-  let activeCount = 0, subCount = 0, lockedCount = 0, absentCount = 0;
-  stus.forEach(s => {
-    const st = stuStatus(s.pin);
-    if (st === 'active') activeCount++;
-    else if (st === 'submitted') subCount++;
-    else if (st === 'locked') lockedCount++;
-    else absentCount++;
-  });
-  document.getElementById('pres-stats').innerHTML = `
-    <span style="font-size:11px;background:rgba(100,255,150,.12);border:1px solid #64ff96;color:#64ff96;padding:3px 10px;border-radius:16px">🟢 داخل: ${activeCount}</span>
-    <span style="font-size:11px;background:rgba(100,200,255,.12);border:1px solid #64c8ff;color:#64c8ff;padding:3px 10px;border-radius:16px">🔵 سلّم: ${subCount}</span>
-    <span style="font-size:11px;background:rgba(255,100,100,.12);border:1px solid #ff6464;color:#ff6464;padding:3px 10px;border-radius:16px">🔴 خرج: ${lockedCount}</span>
-    <span style="font-size:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#aaa;padding:3px 10px;border-radius:16px">⚪ لم يدخل: ${absentCount}</span>`;
-  const stMap = { active: 'active', submitted: 'submitted', locked: 'locked', absent: '' };
-  const dotMap = { active: 'pdot-active', submitted: 'pdot-submitted', locked: 'pdot-locked', absent: 'pdot-absent' };
-  const txtMap = { active: '🟢 داخل الاختبار', submitted: '✅ سلّم', locked: '🔴 خرج من الصفحة', absent: '⚪ لم يدخل بعد' };
-  document.getElementById('pres-grid').innerHTML = stus.map(s => {
-    const st = stuStatus(s.pin);
-    return `<div class="pcard ${stMap[st]}">
+function renderPres(){
+  const stus=presFilter==='all'?ALL_STU:ALL_STU.filter(s=>s.sec===presFilter);
+  let cA=0,cS=0,cL=0,cAb=0;
+  stus.forEach(s=>{const st=stuStatus(s.pin);if(st==='active')cA++;else if(st==='submitted')cS++;else if(st==='locked')cL++;else cAb++;});
+  document.getElementById('pres-stats').innerHTML=`
+    <span style="font-size:11px;background:rgba(100,255,150,.12);border:1px solid #64ff96;color:#64ff96;padding:3px 10px;border-radius:16px">🟢 داخل: ${cA}</span>
+    <span style="font-size:11px;background:rgba(100,200,255,.12);border:1px solid #64c8ff;color:#64c8ff;padding:3px 10px;border-radius:16px">🔵 سلّم: ${cS}</span>
+    <span style="font-size:11px;background:rgba(255,100,100,.12);border:1px solid #ff6464;color:#ff6464;padding:3px 10px;border-radius:16px">🔴 خرج: ${cL}</span>
+    <span style="font-size:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#aaa;padding:3px 10px;border-radius:16px">⚪ لم يدخل: ${cAb}</span>`;
+  const dotMap={active:'pdot-active',submitted:'pdot-submitted',locked:'pdot-locked',absent:'pdot-absent'};
+  const txtMap={active:'🟢 داخل الاختبار',submitted:'✅ سلّم',locked:'🔴 خرج من الصفحة',absent:'⚪ لم يدخل بعد'};
+  const cardMap={active:'active',submitted:'submitted',locked:'locked',absent:''};
+  document.getElementById('pres-grid').innerHTML=stus.map(s=>{
+    const st=stuStatus(s.pin);
+    return`<div class="pcard ${cardMap[st]}">
       <div class="pcard-top"><div class="pdot ${dotMap[st]}"></div><div class="pcard-name">${s.name}</div><span style="font-size:10px;color:#a0c4ff">ش${s.sec}</span></div>
       <div class="pcard-status">${txtMap[st]}</div>
       <div class="pcard-actions">
-        <button class="abtn abtn-unlock" data-pin="${s.pin}" data-name="${s.name}" onclick="window.unlockStu(this.dataset.pin, this.dataset.name)">🔓 تعيين</button>
-        <button class="abtn abtn-retry" data-pin="${s.pin}" data-name="${s.name}" onclick="window.allowRetry(this.dataset.pin, this.dataset.name)">🔄 إعادة</button>
+        <button class="abtn abtn-unlock" data-pin="${s.pin}" data-name="${s.name}" onclick="unlockStu(this.dataset.pin,this.dataset.name)">🔓 تعيين</button>
+        <button class="abtn abtn-retry" data-pin="${s.pin}" data-name="${s.name}" onclick="allowRetry(this.dataset.pin,this.dataset.name)">🔄 إعادة</button>
       </div>
     </div>`;
   }).join('');
 }
-
-window.allowRetry = async function(pin, name) {
-  if (!pin || pin === 'undefined') { toast('❌ لا يوجد رمز', 3000); return; }
-  showConf('🔄', 'السماح بإعادة الاختبار', `هل تريد السماح للطالب:\n${name}\nبإعادة الاختبار؟`, async () => {
-    await db.ref(DB.submissions + '/' + pin).update({ retryAllowed: true, submitted: false });
-    toast(`✅ تم السماح لـ ${name} بإعادة الاختبار`, 4000);
-  });
-};
-window.unlockStu = async function(pin, name) {
-  if (!pin || pin === 'undefined') { toast('❌ لا يوجد رمز', 3000); return; }
-  showConf('🔓', 'إعادة تعيين الشاشة', `هل تريد فتح شاشة الطالب:\n${name}؟`, async () => {
-    await db.ref(DB.locks + '/' + pin).set({ locked: false, name, time: new Date().toLocaleString('ar-SA') });
-    toast(`✅ تم فتح شاشة ${name}`, 3000);
-  });
-};
-window.doClear = function() {
-  showConf('🗑', 'مسح جميع البيانات', 'هل أنت متأكد؟ لا يمكن التراجع.', async () => {
-    await db.ref('final').remove();
-    toast('✅ تم مسح جميع البيانات.', 3000);
-  });
-};
-
-function renderDash(sec) {
-  activeDashTab = sec;
-  const filtered = sec === 'all' ? allResults : allResults.filter(r => r.section === sec);
-  const sections = ['all', '1', '2', '4', '5'];
-  document.getElementById('dtabs').innerHTML = sections.map(s => {
-    const cnt = s === 'all' ? allResults.length : allResults.filter(r => r.section === s).length;
-    return `<button class="tab${s === sec ? ' act' : ''}" onclick="window.renderDash('${s}')">${s === 'all' ? `الكل(${cnt})` : `ش${s}(${cnt})`}</button>`;
+function renderDash(sec){
+  activeDashTab=sec;
+  const fil=sec==='all'?allResults:allResults.filter(r=>r.section===sec);
+  const secs=['all','1','2','4','5'];
+  document.getElementById('dtabs').innerHTML=secs.map(s=>{
+    const cnt=s==='all'?allResults.length:allResults.filter(r=>r.section===s).length;
+    return`<button class="tab${s===sec?' act':''}" onclick="renderDash('${s}')">${s==='all'?`الكل(${cnt})`:`ش${s}(${cnt})`}</button>`;
   }).join('');
-  const avg = filtered.length ? Math.round(filtered.reduce((a, r) => a + r.pct, 0) / filtered.length) : 0;
-  const pass = filtered.filter(r => r.pct >= 50).length;
-  document.getElementById('dstats').innerHTML = `
-    <div class="sc"><div class="sv">${filtered.length}</div><div class="sl">سلّموا</div></div>
+  const avg=fil.length?Math.round(fil.reduce((a,r)=>a+r.pct,0)/fil.length):0;
+  const pass=fil.filter(r=>r.pct>=50).length;
+  document.getElementById('dstats').innerHTML=`
+    <div class="sc"><div class="sv">${fil.length}</div><div class="sl">سلّموا</div></div>
     <div class="sc"><div class="sv">${avg}%</div><div class="sl">المتوسط</div></div>
-    <div class="sc"><div class="sv">${filtered.length ? Math.max(...filtered.map(r => r.pct)) : 0}%</div><div class="sl">أعلى</div></div>
-    <div class="sc"><div class="sv">${filtered.length ? Math.min(...filtered.map(r => r.pct)) : 0}%</div><div class="sl">أدنى</div></div>
+    <div class="sc"><div class="sv">${fil.length?Math.max(...fil.map(r=>r.pct)):0}%</div><div class="sl">أعلى</div></div>
+    <div class="sc"><div class="sv">${fil.length?Math.min(...fil.map(r=>r.pct)):0}%</div><div class="sl">أدنى</div></div>
     <div class="sc"><div class="sv" style="color:#64ff96">${pass}</div><div class="sl">ناجح</div></div>
-    <div class="sc"><div class="sv" style="color:#ff6464">${filtered.length - pass}</div><div class="sl">راسب</div></div>
-    <div class="sc"><div class="sv" style="color:#ffd700">${filtered.filter(r => r.pct >= 90).length}🏆</div><div class="sl">امتياز</div></div>`;
-  if (!filtered.length) {
-    document.getElementById('dbody').innerHTML = `<tr><td colspan="12" style="text-align:center;padding:28px;color:rgba(255,255,255,.4)">في انتظار نتائج الطلاب...</td></tr>`;
-    return;
-  }
-  const sorted = [...filtered].sort((a, b) => b.pct - a.pct);
-  document.getElementById('dbody').innerHTML = sorted.map((r, idx) => {
-    const gi = gradeInfo(r.pct);
-    const ms = r.maxScore || 14;
-    return `<tr>
-      <td>${idx + 1}</td>
-      <td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct >= 90 ? '🏆' : (r.pct >= 80 ? '🥇' : '')}${r.timedOut ? '⌛' : ''}</td>
-      <td>${r.section}</td>
-      <td><span class="pin-badge">${r.pin || '—'}</span></td>
-      <td>${(r.mcqScore || 0).toFixed(1)}/10</td>
-      <td>${(+r.matchScore || 0).toFixed(1)}/2</td>
-      <td>${(+r.orderScore || 0).toFixed(1)}/2</td>
-      <td><strong>${r.score}/${ms}</strong></td>
-      <td>${r.pct}%</td>
-      <td><span class="gp ${gi.cls}">${gi.lbl}</span></td>
-      <td style="color:#e0c97f;font-size:10px">${r.elapsed || '--'}</td>
+    <div class="sc"><div class="sv" style="color:#ff6464">${fil.length-pass}</div><div class="sl">راسب</div></div>
+    <div class="sc"><div class="sv" style="color:#ffd700">${fil.filter(r=>r.pct>=90).length}🏆</div><div class="sl">امتياز</div></div>`;
+  if(!fil.length){document.getElementById('dbody').innerHTML=`<tr><td colspan="12" style="text-align:center;padding:28px;color:rgba(255,255,255,.4)">في انتظار نتائج الطلاب...</td></tr>`;return;}
+  document.getElementById('dbody').innerHTML=[...fil].sort((a,b)=>b.pct-a.pct).map((r,i)=>{
+    const gi=gradeInfo(r.pct),ms=r.maxScore||14;
+    return`<tr><td>${i+1}</td><td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td>
+      <td>${r.section}</td><td><span class="pin-badge">${r.pin||'—'}</span></td>
+      <td>${r.mcqScore||0}/${ms-4}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td>
+      <td>${(+r.orderScore||0).toFixed(1)}/2</td><td><strong>${r.score}/${ms}</strong></td>
+      <td>${r.pct}%</td><td><span class="gp ${gi.cls}">${gi.lbl}</span></td>
+      <td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td>
       <td>
-        <button class="abtn abtn-retry" data-pin="${r.pin}" data-name="${r.name}" onclick="window.allowRetry(this.dataset.pin, this.dataset.name)">🔄</button>
-        <button class="abtn abtn-unlock" data-pin="${r.pin}" data-name="${r.name}" onclick="window.unlockStu(this.dataset.pin, this.dataset.name)">🔓</button>
-      </td>
-    </tr>`;
+        <button class="abtn abtn-retry" data-pin="${r.pin}" data-name="${r.name}" onclick="allowRetry(this.dataset.pin,this.dataset.name)">🔄</button>
+        <button class="abtn abtn-unlock" data-pin="${r.pin}" data-name="${r.name}" onclick="unlockStu(this.dataset.pin,this.dataset.name)">🔓</button>
+      </td></tr>`;
   }).join('');
 }
-window.renderDash = renderDash;
+async function allowRetry(pin,name){
+  if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
+  if(!confirm('السماح للطالب '+name+' بإعادة الاختبار؟'))return;
+  await db.ref(DB.submissions+'/'+pin).update({retryAllowed:true,submitted:false});
+  toast('✅ تم السماح لـ '+name,4000);
+}
+async function unlockStu(pin,name){
+  if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
+  if(!confirm('فتح شاشة الطالب '+name+'؟'))return;
+  await db.ref(DB.locks+'/'+pin).set({locked:false,name,time:new Date().toLocaleString('ar-SA')});
+  toast('✅ تم فتح شاشة '+name,3000);
+}
+function doClear(){
+  if(!confirm('مسح جميع البيانات؟ لا يمكن التراجع.'))return;
+  db.ref('final').remove();toast('✅ تم المسح',3000);
+}
+function buildXL(data){
+  const s=[...data].sort((a,b)=>b.pct-a.pct),ms=14;
+  let h=`<html><head><meta charset="UTF-8"></head><body><table border="1" style="font-family:Arial;direction:rtl">
+  <thead><tr style="background:#1b3a6b;color:#fff"><th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ/10</th><th>توصيل/2</th><th>ترتيب/2</th><th>المجموع/14</th><th>%</th><th>التقدير</th><th>الزمن</th><th>وقت التسليم</th></tr></thead><tbody>`;
+  s.forEach((r,i)=>{const gi=gradeInfo(r.pct),bg=i%2===0?'#f5f5f5':'#fff',sc=r.pct>=90?'#006400':r.pct>=80?'#00008B':r.pct>=50?'#8B6914':'#8B0000';
+    h+=`<tr style="background:${bg}"><td>${i+1}</td><td>${r.name}</td><td>${r.section}</td><td>${r.pin||'—'}</td><td>${r.mcqScore||0}</td><td>${(+r.matchScore||0).toFixed(1)}</td><td>${(+r.orderScore||0).toFixed(1)}</td><td style="color:${sc};font-weight:bold">${r.score}</td><td style="color:${sc}">${r.pct}%</td><td style="color:${sc};font-weight:bold">${gi.lbl}</td><td>${r.elapsed||'--'}</td><td>${r.time||'--'}</td></tr>`;});
+  return h+'</tbody></table></body></html>';
+}
+function dlXL(html,name){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);toast('✅ '+name,3000);}
+function doXL(sec){const d=allResults.filter(r=>r.section===sec);if(!d.length){toast('❌ لا توجد نتائج',3000);return;}dlXL(buildXL(d),'نتائج_ش'+sec+'.xls');}
+function doXLAll(){if(!allResults.length){toast('❌ لا توجد بيانات',3000);return;}dlXL(buildXL(allResults),'نتائج_جميع_الشعب.xls');}
 
-// ==================== تحليل متقدم (اختصاراً – تم الاحتفاظ بالدوال الأساسية) ====================
-window.toggleAnalysis = function() {
-  const card = document.getElementById('analysis-card');
-  anVisible = !anVisible;
-  card.classList.toggle('hidden', !anVisible);
-  if (anVisible) buildAnalysis();
-};
-window.setAnF = function(f) { anFilter = f; buildAnalysis(); };
-window.showAnTab = function(i) { anTab = i; buildAnalysis(); };
-window.exportReport = function() { /* تم حذف التفاصيل للاختصار، لكن يمكن إضافتها */ toast('سيتم إنشاء التقرير قريباً', 2000); };
+// ══ التحليل ══
+const QI=[{n:1,tp:'البناء الضوئي',lv:'التذكر',bl:'r'},{n:2,tp:'النباتات اللاوعائية',lv:'التذكر',bl:'r'},{n:3,tp:'دورة حياة النبات',lv:'التذكر',bl:'r'},{n:4,tp:'استجابات النبات',lv:'الفهم',bl:'u'},{n:5,tp:'استكشاف الفضاء',lv:'التذكر',bl:'r'},{n:6,tp:'التلسكوبات الفضائية',lv:'الفهم',bl:'u'},{n:7,tp:'تكتونية الصفائح',lv:'الفهم',bl:'u'},{n:8,tp:'الحدود التكتونية',lv:'التطبيق',bl:'a'},{n:9,tp:'التجوية',lv:'التطبيق',bl:'a'},{n:10,tp:'التعرية والترسيب',lv:'التحليل',bl:'an'},{n:11,tp:'طبقات الغلاف الجوي',lv:'التذكر',bl:'r'},{n:12,tp:'قياسات الطقس',lv:'التذكر',bl:'r'},{n:13,tp:'أنواع السحب',lv:'الفهم',bl:'u'},{n:14,tp:'الأعاصير',lv:'التطبيق',bl:'a'},{n:15,tp:'استجابات النبات - توصيل',lv:'التطبيق',bl:'a'},{n:16,tp:'دورة الطقس - ترتيب',lv:'التحليل',bl:'an'}];
+const OUTCOMES={'البناء الضوئي':'يتعرف على موقع البناء الضوئي في الخلية النباتية','النباتات اللاوعائية':'يميّز وظائف أعضاء النباتات اللاوعائية','دورة حياة النبات':'يشرح مراحل دورة حياة النبات بما فيها السبات','استجابات النبات':'يصنّف أنواع الانتحاء واستجابات النبات','استكشاف الفضاء':'يتعرف على محطات تاريخ استكشاف الفضاء','التلسكوبات الفضائية':'يحلّل مميزات التلسكوبات الفضائية','تكتونية الصفائح':'يفسّر آلية حركة الصفائح التكتونية','الحدود التكتونية':'يربط نوع الحد التكتوني بالظواهر الجيولوجية','التجوية':'يميّز أنواع التجوية ويطبّق التصنيف','التعرية والترسيب':'يحلّل الفرق بين التعرية والترسيب','طبقات الغلاف الجوي':'يتعرف على طبقات الغلاف الجوي','قياسات الطقس':'يتعرف على أجهزة قياس عناصر الطقس','أنواع السحب':'يصنّف أنواع السحب ويربطها بالطقس','الأعاصير':'يحدّد العوامل المؤثرة في شدة الأعاصير','استجابات النبات - توصيل':'يوصّل المصطلح العلمي بتعريفه','دورة الطقس - ترتيب':'يرتّب مراحل دورة الماء بالتسلسل الصحيح'};
+const REMEDIAL={'البناء الضوئي':['فيديو عن الكلوروبلاست','رسم الخلية النباتية','مطابقة العضيات بوظائفها'],'النباتات اللاوعائية':['مقارنة مصورة','قراءة عن الحزازيات','رسم أشباه الجذور'],'دورة حياة النبات':['بطاقات ترتيب','تجربة زراعة بذرة','ورقة عمل السبات'],'استجابات النبات':['فيديو استجابات النبات','تمارين تصنيف الانتحاء','خريطة مفاهيمية'],'استكشاف الفضاء':['خط زمني مصور','مطابقة الأقمار بسنتها','قراءة عن سبوتنيك'],'التلسكوبات الفضائية':['مقارنة جدولية','ورقة تفكير ناقد'],'تكتونية الصفائح':['نموذج بالطين','فيديو تيارات الحمل','رسم طبقات الأرض'],'الحدود التكتونية':['بطاقات مطابقة','خريطة جيولوجية','ورقة عمل'],'التجوية':['أمثلة محلية','تجربة تأثير الماء','تصنيف صور'],'التعرية والترسيب':['رسوم متحركة','ورقة مقارنة','نصوص تحليلية'],'طبقات الغلاف الجوي':['مجسم ورقي','جدول مقارنة','لعبة ترتيب'],'قياسات الطقس':['بطاقات مطابقة','لعبة بالصور','باروميتر بسيط'],'أنواع السحب':['ألبوم صور','جدول مقارنة','ملاحظة السماء'],'الأعاصير':['فيديو الإعصار','مقياس فوجيتا','مقارنة أعاصير'],'استجابات النبات - توصيل':['بطاقات مراجعة','تمارين مطابقة','ورقة ملخص'],'دورة الطقس - ترتيب':['رسم دورة المياه','ترتيب بطاقات','تمرين المطر']};
 
-function buildAnalysis() { /* اختصار – يمكن إضافة كامل التحليل لاحقاً */ }
-function getAnData() { return anFilter === 'all' ? allResults : allResults.filter(r => r.section === anFilter); }
-function qStats() { return []; } // مؤقت
+let anFilter='all',anTab=0,anVisible=false;
+const anCharts={};
 
-// ==================== تصدير Excel ====================
-function buildXL(data) {
-  const sorted = [...data].sort((a, b) => b.pct - a.pct);
-  const ms = sorted[0]?.maxScore || 14;
-  let html = `<html><head><meta charset="UTF-8"></head><body><table border="1" style="font-family:Arial;direction:rtl"><thead><tr style="background:#1b3a6b;color:#fff"><th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ/10</th><th>توصيل/2</th><th>ترتيب/2</th><th>المجموع/${ms}</th><th>%</th><th>التقدير</th><th>الزمن</th><th>انتهى</th><th>وقت التسليم</th></tr></thead><tbody>`;
-  sorted.forEach((r, i) => {
-    const gi = gradeInfo(r.pct);
-    const bg = i % 2 === 0 ? '#f5f5f5' : '#fff';
-    const sc = r.pct >= 90 ? '#006400' : (r.pct >= 80 ? '#00008B' : (r.pct >= 50 ? '#8B6914' : '#8B0000'));
-    html += `<tr style="background:${bg}"><td>${i + 1}</td><td>${r.name}</td><td>${r.section}</td><td>${r.pin || '—'}</td><td>${(r.mcqScore || 0).toFixed(1)}</td><td>${(+r.matchScore || 0).toFixed(1)}</td><td>${(+r.orderScore || 0).toFixed(1)}</td><td style="color:${sc};font-weight:bold">${r.score}</td><td style="color:${sc}">${r.pct}%</td><td style="color:${sc};font-weight:bold">${gi.lbl}</td><td>${r.elapsed || '--'}</td><td>${r.timedOut ? 'نعم' : 'لا'}</td><td>${r.time || '--'}</td></tr>`;
+function toggleAnalysis(){
+  anVisible=!anVisible;
+  document.getElementById('analysis-card').classList.toggle('hidden',!anVisible);
+  if(anVisible)buildAnalysis();
+}
+function setAnF(f){
+  anFilter=f;
+  document.querySelectorAll('#an-filters .an-f').forEach(b=>b.classList.toggle('act',(f==='all'&&b.textContent==='الكل')||(f!=='all'&&b.textContent.includes(f))));
+  buildAnalysis();
+}
+function showAnTab(i){
+  anTab=i;
+  document.querySelectorAll('#an-tabs .an-tab').forEach((b,j)=>b.classList.toggle('act',j===i));
+  buildAnalysis();
+}
+function getAnData(){return anFilter==='all'?allResults:allResults.filter(r=>r.section===anFilter);}
+function qStats(data){
+  return QI.map(q=>{
+    let cor=0,tot=0;
+    data.forEach(r=>{
+      if(q.n<=14&&r.qDetails){const d=r.qDetails.find(x=>x.qNum===q.n);if(d){tot++;if(d.correct)cor++;}}
+      else if(q.n===15&&r.matchScore!=null){tot++;cor+=(r.matchScore>=2?1:r.matchScore>0?0.5:0);}
+      else if(q.n===16&&r.orderScore!=null){tot++;cor+=(r.orderScore>=2?1:r.orderScore>0?0.5:0);}
+    });
+    return{...q,cor,tot,pct:tot>0?Math.round(cor/tot*100):null};
   });
-  return html + '</tbody></table></body></html>';
 }
-function dlXL(html, name) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' }));
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  toast('✅ ' + name, 3000);
-}
-window.doXL = function(sec) {
-  const d = allResults.filter(r => r.section === sec);
-  if (!d.length) { toast('❌ لا توجد نتائج', 3000); return; }
-  dlXL(buildXL(d), `نتائج_ش${sec}.xls`);
-};
-window.doXLAll = function() {
-  if (!allResults.length) { toast('❌ لا توجد بيانات', 3000); return; }
-  dlXL(buildXL(allResults), 'نتائج_جميع_الشعب.xls');
-};
+function kc(id){if(anCharts[id]){try{anCharts[id].destroy();}catch(e){}delete anCharts[id];}}
+function mkC(id,h){return`<div style="position:relative;width:100%;height:${h}px"><canvas id="${id}"></canvas></div>`;}
 
-// تأكيد تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-  // ربط الأزرار يدوياً للتأكد
-  const landDiv = document.getElementById('pg-land');
-  if (landDiv) {
-    const btns = landDiv.querySelectorAll('.btn');
-    if (btns[0]) btns[0].onclick = () => window.go('pg-reg');
-    if (btns[1]) btns[1].onclick = () => window.go('pg-tl');
-  }
-  console.log('تم تحميل الصفحة وجميع الدوال جاهزة');
-});
+function buildAnalysis(){
+  const data=getAnData(),el=document.getElementById('an-content');
+  if(!el)return;
+  if(!data.length){el.innerHTML='<p style="color:#a0c4ff;font-size:13px;padding:12px">لا توجد نتائج بعد.</p>';return;}
+  const qs=qStats(data);
+  if(anTab===0)buildAnOverview(data,qs,el);
+  else if(anTab===1)buildAnQ(qs,el);
+  else if(anTab===2)buildAnWeak(data,qs,el);
+  else if(anTab===3)buildAnPlan(qs,el);
+  else if(anTab===4)buildAnSecs(el);
+}
+function buildAnOverview(data,qs,el){
+  const avg=Math.round(data.reduce((a,r)=>a+r.pct,0)/data.length);
+  const pass=data.filter(r=>r.pct>=50).length;
+  const bins=[0,0,0,0,0];
+  data.forEach(r=>{if(r.pct>=90)bins[4]++;else if(r.pct>=80)bins[3]++;else if(r.pct>=60)bins[2]++;else if(r.pct>=50)bins[1]++;else bins[0]++;});
+  const bL=['التذكر','الفهم','التطبيق','التحليل'];
+  const bm={r:'التذكر',u:'الفهم',a:'التطبيق',an:'التحليل'};
+  const bs={};bL.forEach(l=>bs[l]={c:0,t:0});
+  qs.forEach(q=>{const l=bm[q.bl];if(q.tot>0){bs[l].c+=q.cor;bs[l].t+=q.tot;}});
+  el.innerHTML=`<div class="an-stats">
+    <div class="an-sc"><div class="an-sv">${data.length}</div><div class="an-sl">الطلاب</div></div>
+    <div class="an-sc"><div class="an-sv">${avg}%</div><div class="an-sl">المتوسط</div></div>
+    <div class="an-sc"><div class="an-sv">${Math.max(...data.map(r=>r.pct))}%</div><div class="an-sl">أعلى</div></div>
+    <div class="an-sc"><div class="an-sv">${Math.min(...data.map(r=>r.pct))}%</div><div class="an-sl">أدنى</div></div>
+    <div class="an-sc"><div class="an-sv" style="color:#64ff96">${pass}</div><div class="an-sl">ناجح</div></div>
+    <div class="an-sc"><div class="an-sv" style="color:#ff6464">${data.length-pass}</div><div class="an-sl">راسب</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+    <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px">${mkC('an-dist',180)}</div>
+    <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px">${mkC('an-grade',180)}</div>
+  </div>
+  <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px">${mkC('an-bloom',160)}</div>`;
+  setTimeout(()=>{
+    kc('an-dist');const cD=document.getElementById('an-dist');
+    if(cD)anCharts['an-dist']=new Chart(cD,{type:'bar',data:{labels:['<50','50-59','60-79','80-89','≥90'],datasets:[{data:bins,backgroundColor:['#ff6464','#ffc864','#e0c97f','#64c8ff','#64ff96'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'توزيع الدرجات',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},beginAtZero:true}}}});
+    kc('an-grade');const cG=document.getElementById('an-grade');
+    if(cG)anCharts['an-grade']=new Chart(cG,{type:'doughnut',data:{labels:['ممتاز','جيد جداً','جيد','مقبول','راسب'],datasets:[{data:[bins[4],bins[3],bins[2],bins[1],bins[0]],backgroundColor:['#64ff96','#64c8ff','#e0c97f','#ffc864','#ff6464']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#cde',font:{size:10}}},title:{display:true,text:'التقديرات',color:'#e0c97f',font:{size:11}}}}});
+    kc('an-bloom');const cB=document.getElementById('an-bloom');
+    if(cB)anCharts['an-bloom']=new Chart(cB,{type:'bar',data:{labels:bL,datasets:[{data:bL.map(l=>bs[l].t>0?Math.round(bs[l].c/bs[l].t*100):0),backgroundColor:['#64c8ff','#64ff96','#e0c97f','#ff64c8'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},title:{display:true,text:'الأداء حسب مستوى بلوم',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde'},max:100,min:0},y:{ticks:{color:'#cde',font:{size:10}}}}}});
+  },80);
+}
+function buildAnQ(qs,el){
+  const v=qs.filter(q=>q.tot>0);
+  el.innerHTML=`<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px;margin-bottom:10px">${mkC('an-qc',250)}</div>
+  <div style="overflow-x:auto"><table class="an-tbl"><thead><tr><th>س</th><th>الموضوع</th><th>المستوى</th><th>صح</th><th>خطأ</th><th>%</th><th>الحالة</th></tr></thead><tbody>
+  ${v.map(q=>{const c=q.pct>=70?'#64ff96':q.pct>=50?'#e0c97f':'#ff6464';
+    const badge=q.pct>=70?`<span class="an-badge" style="background:rgba(100,255,150,.15);color:#64ff96;border:1px solid #64ff96">جيد</span>`:q.pct>=50?`<span class="an-badge" style="background:rgba(255,200,100,.15);color:#ffc864;border:1px solid #ffc864">متوسط</span>`:`<span class="an-badge" style="background:rgba(255,100,100,.15);color:#ff6464;border:1px solid #ff6464">ضعيف</span>`;
+    return`<tr><td style="color:#e0c97f;font-weight:700">س${q.n}</td><td style="text-align:right;font-size:11px">${q.tp}</td><td style="font-size:10px">${q.lv}</td><td style="color:#64ff96">${Math.round(q.cor)}</td><td style="color:#ff6464">${q.tot-Math.round(q.cor)}</td><td><div style="display:flex;align-items:center;gap:5px"><div class="an-bar" style="width:60px"><div class="an-bar-f" style="width:${q.pct}%;background:${c}"></div></div><span style="color:${c};font-weight:700;font-size:11px">${q.pct}%</span></div></td><td>${badge}</td></tr>`;}).join('')}
+  </tbody></table></div>`;
+  setTimeout(()=>{kc('an-qc');const cQ=document.getElementById('an-qc');
+    if(cQ)anCharts['an-qc']=new Chart(cQ,{type:'bar',data:{labels:v.map(q=>`س${q.n}`),datasets:[{data:v.map(q=>q.pct),backgroundColor:v.map(q=>q.pct>=70?'rgba(100,255,150,.75)':q.pct>=50?'rgba(224,201,127,.75)':'rgba(255,100,100,.75)'),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'نسبة الإجابة الصحيحة لكل سؤال',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},max:100,min:0}}}});},80);
+}
+function buildAnWeak(data,qs,el){
+  const weak=qs.filter(q=>q.tot>0&&q.pct<60).sort((a,b)=>a.pct-b.pct);
+  const bm={r:'التذكر',u:'الفهم',a:'التطبيق',an:'التحليل'};
+  const bc={r:'#64c8ff',u:'#64ff96',a:'#e0c97f',an:'#ff64c8'};
+  const bs={};qs.filter(q=>q.tot>0).forEach(q=>{const l=bm[q.bl];if(!bs[l])bs[l]={pcts:[],bl:q.bl};bs[l].pcts.push(q.pct);});
+  const need=[...data].sort((a,b)=>a.pct-b.pct).slice(0,10);
+  el.innerHTML=`<h3 style="color:#ff6464;font-size:12px;margin-bottom:8px">⚠️ موضوعات بأداء أقل من 60%</h3>
+  ${weak.length?weak.map(q=>`<div style="margin-bottom:8px;padding:10px;border-radius:9px;background:rgba(255,100,100,.07);border:1px solid rgba(255,100,100,.22)">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:700;color:#ff6464">س${q.n} — ${q.tp}</span><span style="font-size:12px;font-weight:700;color:#ff6464">${q.pct}%</span></div>
+    <div class="an-bar"><div class="an-bar-f" style="width:${q.pct}%;background:#ff6464"></div></div>
+    <div style="font-size:10px;color:#a0c4ff;margin-top:4px">${OUTCOMES[q.tp]||'—'}</div>
+  </div>`).join(''):'<p style="color:#64ff96;font-size:12px;padding:6px">✅ لا توجد موضوعات ضعيفة.</p>'}
+  <h3 style="color:#a0c4ff;font-size:12px;margin:12px 0 8px">🔍 مستويات بلوم</h3>
+  ${Object.entries(bs).map(([l,b])=>{const avg=Math.round(b.pcts.reduce((a,x)=>a+x,0)/b.pcts.length);const c=bc[b.bl]||'#ccc';
+    return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;padding:8px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)">
+      <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:${c};flex-shrink:0">${avg}%</div>
+      <div style="flex:1"><div style="font-size:11px;font-weight:600;color:${c}">${l} — ${avg>=70?'جيد ✅':avg>=50?'متوسط ⚠️':'ضعيف ❌'}</div>
+      <div class="an-bar" style="margin-top:4px"><div class="an-bar-f" style="width:${avg}%;background:${c}"></div></div></div></div>`;}).join('')}
+  <h3 style="color:#a0c4ff;font-size:12px;margin:12px 0 8px">👥 طلاب يحتاجون دعماً</h3>
+  <div style="overflow-x:auto"><table class="an-tbl"><thead><tr><th>#</th><th>الاسم</th><th>ش</th><th>الدرجة</th><th>%</th><th>أسئلة خاطئة</th></tr></thead><tbody>
+  ${need.map((r,i)=>{const c=r.pct<50?'#ff6464':r.pct<60?'#ffc864':'#e0c97f';const wq=r.qDetails?r.qDetails.filter(d=>!d.correct).map(d=>`س${d.qNum}`).join('، '):'—';
+    return`<tr><td>${i+1}</td><td style="text-align:right;font-size:11px;font-weight:600">${r.name}</td><td>${r.section}</td><td style="color:${c};font-weight:700">${r.score}/${r.maxScore||14}</td><td style="color:${c};font-weight:700">${r.pct}%</td><td style="font-size:10px;color:#a0c4ff">${wq}</td></tr>`;}).join('')}
+  </tbody></table></div>`;
+}
+function buildAnPlan(qs,el){
+  const v=qs.filter(q=>q.tot>0);
+  const crit=v.filter(q=>q.pct<50).sort((a,b)=>a.pct-b.pct);
+  const warn=v.filter(q=>q.pct>=50&&q.pct<70).sort((a,b)=>a.pct-b.pct);
+  const ok=v.filter(q=>q.pct>=70);
+  let h='';
+  if(crit.length){h+=`<div style="font-size:11px;font-weight:700;color:#ff6464;margin-bottom:7px">🔴 أولوية قصوى</div>`;
+    crit.forEach(q=>{h+=`<div class="plan-row plan-crit"><div style="font-size:12px;font-weight:700;color:#ff6464;margin-bottom:4px">س${q.n}: ${q.tp} (${q.pct}%)</div><div style="font-size:11px;color:#a0c4ff;line-height:1.8"><strong style="color:#ffb3b3">ناتج التعلم:</strong> ${OUTCOMES[q.tp]||'—'}<br><strong style="color:#ffb3b3">أنشطة:</strong> ${(REMEDIAL[q.tp]||[]).map((a,i)=>`${i+1}. ${a}`).join(' | ')}</div></div>`;});}
+  if(warn.length){h+=`<div style="font-size:11px;font-weight:700;color:#ffc864;margin:10px 0 7px">🟡 تعزيز</div>`;
+    warn.forEach(q=>{h+=`<div class="plan-row plan-warn"><div style="font-size:12px;font-weight:700;color:#ffc864;margin-bottom:4px">س${q.n}: ${q.tp} (${q.pct}%)</div><div style="font-size:11px;color:#a0c4ff;line-height:1.8"><strong style="color:#ffe0a0">ناتج التعلم:</strong> ${OUTCOMES[q.tp]||'—'}<br><strong style="color:#ffe0a0">أنشطة:</strong> ${(REMEDIAL[q.tp]||[]).slice(0,2).map((a,i)=>`${i+1}. ${a}`).join(' | ')}</div></div>`;});}
+  if(ok.length){h+=`<div style="font-size:11px;font-weight:700;color:#64ff96;margin:10px 0 7px">🟢 أداء جيد</div><div class="plan-row plan-ok"><div style="font-size:11px;color:#a0c4ff">${ok.map(q=>`${q.tp} (${q.pct}%)`).join(' • ')}</div></div>`;}
+  h+=`<h3 style="color:#a0c4ff;font-size:12px;margin:14px 0 9px">📌 نواتج التعلم التي تحتاج تدخلاً</h3>`;
+  const need=[...crit,...warn];
+  h+=need.length?need.map((q,i)=>{const c=q.pct<50?'#ff6464':q.pct<60?'#ffc864':'#e0c97f';
+    return`<div style="display:flex;gap:8px;padding:8px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${c}">${i+1}</div>
+      <div><div style="font-size:11px;font-weight:700;color:${c};margin-bottom:2px">${q.tp} — إتقان: ${q.pct}%</div>
+      <div style="font-size:11px;color:#cde;line-height:1.6">${OUTCOMES[q.tp]||'—'}</div>
+      <span style="font-size:10px;padding:1px 7px;border-radius:8px;color:${c};border:1px solid ${c};margin-top:3px;display:inline-block">${q.pct<50?'أولوية فورية':'أولوية متوسطة'}</span></div>
+    </div>`;}).join(''):'<p style="color:#64ff96;font-size:12px;padding:6px">✅ جميع نواتج التعلم جيدة.</p>';
+  el.innerHTML=h;
+}
+function buildAnSecs(el){
+  const secs=['1','2','4','5'];
+  const sd=secs.map(s=>({sec:s,data:allResults.filter(r=>r.section===s)}));
+  const avgs=sd.map(s=>s.data.length?Math.round(s.data.reduce((a,r)=>a+r.pct,0)/s.data.length):0);
+  el.innerHTML=`<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px;margin-bottom:10px">${mkC('an-sb',180)}</div>
+  <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px;margin-bottom:10px">${mkC('an-sl2',220)}</div>
+  <div style="overflow-x:auto"><table class="an-tbl" id="an-st"></table></div>`;
+  setTimeout(()=>{
+    kc('an-sb');const cB=document.getElementById('an-sb');
+    if(cB)anCharts['an-sb']=new Chart(cB,{type:'bar',data:{labels:secs.map(s=>'شعبة '+s),datasets:[{data:avgs,backgroundColor:['rgba(100,255,150,.7)','rgba(100,200,255,.7)','rgba(224,201,127,.7)','rgba(255,100,200,.7)'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'متوسط كل شعبة',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde'}},y:{ticks:{color:'#cde'},max:100,min:0}}}});
+    const q14=QI.filter(q=>q.n<=14);const colors=['rgba(100,255,150,.9)','rgba(100,200,255,.9)','rgba(224,201,127,.9)','rgba(255,100,200,.9)'];
+    kc('an-sl2');const cL=document.getElementById('an-sl2');
+    if(cL)anCharts['an-sl2']=new Chart(cL,{type:'line',data:{labels:q14.map(q=>`س${q.n}`),datasets:sd.map((s,i)=>({label:'ش'+s.sec,data:q14.map(q=>{let c=0,t=0;s.data.forEach(r=>{if(r.qDetails){const d=r.qDetails.find(x=>x.qNum===q.n);if(d){t++;if(d.correct)c++;}}});return t>0?Math.round(c/t*100):0;}),borderColor:colors[i],backgroundColor:'transparent',borderWidth:1.5,tension:.3,pointRadius:3,pointBackgroundColor:colors[i]}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#cde',font:{size:10}}},title:{display:true,text:'أداء الشعب في كل سؤال',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},max:100,min:0}}}});
+    const tbl=document.getElementById('an-st');
+    if(tbl){let th=`<thead><tr><th>الشعبة</th><th>العدد</th><th>المتوسط</th><th>أعلى</th><th>أدنى</th><th>ناجح</th><th>راسب</th><th>امتياز</th></tr></thead><tbody>`;
+      sd.forEach((s,i)=>{if(!s.data.length)return;const avg=avgs[i],top=Math.max(...s.data.map(r=>r.pct)),low=Math.min(...s.data.map(r=>r.pct)),pass=s.data.filter(r=>r.pct>=50).length,ex=s.data.filter(r=>r.pct>=90).length,c=avg>=70?'#64ff96':avg>=50?'#e0c97f':'#ff6464';
+        th+=`<tr><td style="font-weight:700;color:#e0c97f">ش${s.sec}</td><td>${s.data.length}</td><td style="font-weight:700;color:${c}">${avg}%</td><td style="color:#64ff96">${top}%</td><td style="color:#ff6464">${low}%</td><td style="color:#64ff96">${pass}</td><td style="color:#ff6464">${s.data.length-pass}</td><td style="color:#ffd700">${ex}</td></tr>`;});
+      tbl.innerHTML=th+'</tbody>';}
+  },80);
+}
+function exportReport(){
+  const data=getAnData(),qs=qStats(data).filter(q=>q.tot>0);
+  const avg=data.length?Math.round(data.reduce((a,r)=>a+r.pct,0)/data.length):0;
+  const crit=qs.filter(q=>q.pct<50),warn=qs.filter(q=>q.pct>=50&&q.pct<70);
+  let h=`<html><head><meta charset="UTF-8"><style>body{font-family:Arial;direction:rtl;padding:20px}h1{color:#1b3a6b;font-size:16px}h2{color:#415a77;font-size:13px;margin-top:14px}table{width:100%;border-collapse:collapse;margin:6px 0;font-size:11px}th{background:#1b3a6b;color:#fff;padding:6px}td{padding:5px;border:1px solid #ccc;text-align:center}.crit{background:#fff0f0}.warn{background:#fffbf0}.ok{background:#f0fff4}</style></head><body>
+  <h1>تقرير الاختبار النهائي — عملية الدعم والتمكين 2026</h1>
+  <p style="font-size:11px;color:#555">${new Date().toLocaleDateString('ar-SA')} | أ. عماد أبو حجيلة | ${anFilter==='all'?'جميع الشعب':'شعبة '+anFilter}</p>
+  <h2>ملخص الأداء</h2>
+  <table><tr><th>العدد</th><th>المتوسط</th><th>أعلى</th><th>أدنى</th><th>ناجح</th><th>راسب</th></tr>
+  <tr><td>${data.length}</td><td>${avg}%</td><td>${data.length?Math.max(...data.map(r=>r.pct)):0}%</td><td>${data.length?Math.min(...data.map(r=>r.pct)):0}%</td><td>${data.filter(r=>r.pct>=50).length}</td><td>${data.filter(r=>r.pct<50).length}</td></tr></table>
+  <h2>أداء الأسئلة</h2>
+  <table><tr><th>السؤال</th><th>الموضوع</th><th>%</th><th>الحالة</th></tr>
+  ${qs.map(q=>`<tr class="${q.pct<50?'crit':q.pct<70?'warn':'ok'}"><td>س${q.n}</td><td>${q.tp}</td><td>${q.pct}%</td><td>${q.pct<50?'ضعيف':q.pct<70?'متوسط':'جيد'}</td></tr>`).join('')}</table>
+  <h2>نواتج التعلم التي تحتاج تدخلاً</h2>
+  <table><tr><th>#</th><th>الموضوع</th><th>الإتقان</th><th>ناتج التعلم</th><th>الأولوية</th></tr>
+  ${[...crit,...warn].map((q,i)=>`<tr class="${q.pct<50?'crit':'warn'}"><td>${i+1}</td><td>${q.tp}</td><td>${q.pct}%</td><td style="text-align:right">${OUTCOMES[q.tp]||'—'}</td><td>${q.pct<50?'فورية':'متوسطة'}</td></tr>`).join('')}</table>
+  </body></html>`;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));
+  a.download='تقرير_التحليل.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  toast('✅ تم التصدير',3000);
+}
 </script>
 </body>
 </html>
