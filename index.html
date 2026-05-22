@@ -596,60 +596,8 @@ function confirmSubmit(){const u=ANS.filter(a=>a===null).length;showConf('📝',
 
 // ══ إنهاء الاختبار ══
 async function finish(timed){
-  stopTimer();
-  quizActive=false;
-  const studentData={...sData};
-
-  // حساب درجة MCQ
-  let mcqSc=0, mcqD=[];
-  QS.forEach((q,i)=>{
-    if(q.t!=='mcq') return;
-    const ok=(ANS[i]===q.ans);
-    if(ok) mcqSc++;
-    mcqD.push({qNum:i+1,topic:q.tp,correct:ok,level:q.lb,
-      chosen:ANS[i],rightAns:q.ans,opts:q.opts,exp:q.exp,q:q.q});
-  });
-
-  // حساب درجة التوصيل
-  let mSc=0;
-  const mIdx=QS.findIndex(q=>q.t==='matching');
-  if(mIdx>=0){
-    const mQ=QS[mIdx], mA=ANS[mIdx]||{};
-    Object.entries(mQ.correct).forEach(([k,v])=>{ if(mA[k]===v) mSc+=2/3; });
-    mSc=Math.min(2, parseFloat(mSc.toFixed(2)));
-  }
-
-  // حساب درجة الترتيب
-  let oSc=0;
-  const oIdx=QS.findIndex(q=>q.t==='ordering');
-  if(oIdx>=0){
-    const oQ=QS[oIdx], oA=ANS[oIdx]||oQ.items.map(x=>x.id);
-    oQ.correct.forEach((id,i)=>{ if(oA[i]===id) oSc+=0.5; });
-    oSc=parseFloat(oSc.toFixed(2));
-  }
-
-  const maxScore=14;
-  const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
-  const pct=Math.round(total/maxScore*100);
-  const gi=gradeInfo(pct);
-  const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
-  const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,level:d.level,correct:d.correct?1:0}));
-
-  lastRec={
-    name:studentData.name, section:studentData.sec,
-    grade:studentData.grade, pin:studentData.pin,
-    score:total, mcqScore:mcqSc, matchScore:mSc, orderScore:oSc,
-    pct, gradeLabel:gi.lbl, elapsed:fmt(sUsed),
-    timedOut:timed, time:ts, maxScore, qDetails
-  };
-
-  // عرض النتيجة فوراً
-  showResult(pct, total, gi, timed, mcqD, mSc, oSc, maxScore);
-
-  // حفظ Firebase في الخلفية
-  saveResult(lastRec, studentData.pin, studentData.name,
-    studentData.sec, total, maxScore, pct, gi.lbl, ts);
-}بيانات الطالب الحالي فوراً
+  stopTimer();quizActive=false;
+  // نحفظ نسخة ثابتة من بيانات الطالب الحالي فوراً
   const studentData={...sData};
   let mcqSc=0,mcqD=[];
   QS.forEach((q,i)=>{
@@ -689,30 +637,25 @@ async function finish(timed){
 
 async function saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt=1){
   try{
-    // فصل qDetails عن السجل الرئيسي لتجنب مشاكل الحجم
-    const {qDetails,...mainRec}=rec;
-    // تنظيف القيم undefined
-    const clean=JSON.parse(JSON.stringify(mainRec));
-    // حفظ السجل الرئيسي
-    const ref=await db.ref(DB.results).push(clean);
-    // حفظ qDetails منفصلاً باستخدام نفس الـ key
-    if(qDetails&&qDetails.length>0){
-      await db.ref(DB.results+'/'+ref.key+'/qDetails').set(qDetails);
-    }
+    // تنظيف البيانات من undefined بـ JSON round-trip
+    const clean=JSON.parse(JSON.stringify(rec));
+    // حفظ النتيجة كاملة دفعة واحدة
+    await db.ref(DB.results).push(clean);
     // تسجيل التسليم
     await db.ref(DB.submissions+'/'+pin).set({
-      submitted:true,name,section:sec,
-      score:total,maxScore,pct,gradeLabel,
-      time:ts,retryAllowed:false
+      submitted:true, name, section:sec,
+      score:total, maxScore, pct, gradeLabel,
+      time:ts, retryAllowed:false
     });
+    // تنظيف القفل والنشاط
     db.ref(DB.locks+'/'+pin).remove().catch(()=>{});
     db.ref(DB.active+'/'+pin).remove().catch(()=>{});
     toast('✅ تم إرسال نتيجتك للمعلم!',4000);
   }catch(e){
-    console.error('محاولة '+attempt+' فشلت:',e);
+    console.error('محاولة الحفظ '+attempt+' فشلت:',e.message||e);
     if(attempt<4){
       setTimeout(()=>saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt+1),attempt*2000);
-      if(attempt===1)toast('⚠️ جاري إعادة الإرسال...',3000);
+      if(attempt===1) toast('⚠️ جاري إعادة الإرسال...',3000);
     }else{
       toast('❌ تعذّر الإرسال — تحقق من الاتصال.',6000);
     }
