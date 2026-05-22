@@ -355,11 +355,9 @@ async function lockScr() {
   visLocked=true;
   document.getElementById('blk').style.display='flex';
   document.getElementById('mc').style.filter='blur(12px)';
+  // Mark as locked in Firebase
   if(currentStudentCode) {
-    try {
-      await db.ref('locked/'+currentStudentCode).set(true);
-      await db.ref('inprogress/'+currentStudentCode).remove();
-    } catch(e){}
+    try { await db.ref('locked/'+currentStudentCode).set(true); } catch(e){}
   }
 }
 
@@ -393,14 +391,8 @@ async function doStudentLogin() {
   err.classList.add('hidden');
   if(!CODE_MAP[code]) { err.classList.remove('hidden'); return; }
   const {name, section} = CODE_MAP[code];
+  // Check if already submitted
   try {
-    // Check if locked
-    const lockedSnap = await db.ref('locked/'+code).get();
-    if(lockedSnap.exists()) {
-      err.textContent = '🔒 اختبارك موقوف. تواصل مع المعلم لإعادة التعيين.';
-      err.classList.remove('hidden'); return;
-    }
-    // Check if already submitted
     const snap = await db.ref('submitted/'+code).get();
     if(snap.exists()) {
       const d = snap.val();
@@ -412,8 +404,7 @@ async function doStudentLogin() {
       go('pg-done'); return;
     }
   } catch(e) { console.error(e); }
-  // Mark as in progress
-  try { await db.ref('inprogress/'+code).set(true); } catch(e){}
+  // Begin quiz
   currentStudentCode = code;
   sData = {name, section, code};
   beginQuiz();
@@ -573,8 +564,8 @@ async function finish(timed) {
   lastRec={name:sData.name,section:sData.section,code:sData.code,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,topicDetail};
   try {
     await db.ref('results').push(lastRec);
+    // Mark as submitted to prevent re-entry
     await db.ref('submitted/'+sData.code).set({score:total,pct,gradeLabel:gi.lbl,time:ts,maxScore});
-    await db.ref('inprogress/'+sData.code).remove();
     toast('✅ تم إرسال نتيجتك للمعلم!',4000);
   } catch(e) { toast('⚠️ تعذّر الإرسال',4000); console.error(e); }
   showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore);
@@ -625,7 +616,7 @@ function previewStudent() {
 }
 
 // ===================== TEACHER DASHBOARD =====================
-let allSubmitted={}, allLocked={}, allInProgress={}, activeStudentTab='all';
+let allSubmitted={}, allLocked={}, activeStudentTab='all';
 
 function startLiveDash() {
   db.ref('results').on('value', snap => {
@@ -640,10 +631,6 @@ function startLiveDash() {
   });
   db.ref('locked').on('value', snap => {
     allLocked = snap.val()||{};
-    renderStudentList(activeStudentTab);
-  });
-  db.ref('inprogress').on('value', snap => {
-    allInProgress = snap.val()||{};
     renderStudentList(activeStudentTab);
   });
 }
@@ -669,18 +656,23 @@ function renderStudentList(sec) {
     const code = NAME_CODE[st.name]||'';
     const submitted = allSubmitted[code];
     const locked = allLocked[code];
-    const inprogress = allInProgress[code];
-    let statusHtml;
+    // find result record
+    const rec = allResults.find(r=>r.code===code||r.name===st.name);
+    let statusHtml, statusSort;
     if(submitted) {
       statusHtml=`<span style="color:#64ff96;font-weight:700">✅ أنهى الاختبار</span><br><span style="font-size:10px;color:#a0ffa0">${submitted.pct}% — ${submitted.gradeLabel}</span>`;
+      statusSort=3;
     } else if(locked) {
       statusHtml=`<span style="color:#ff6464;font-weight:700">🔒 موقوف (خرج من الصفحة)</span>`;
-    } else if(inprogress) {
+      statusSort=1;
+    } else if(rec) {
       statusHtml=`<span style="color:#ffd700;font-weight:700">⏳ في الاختبار الآن</span>`;
+      statusSort=2;
     } else {
       statusHtml=`<span style="color:#aaa">⬜ لم يدخل بعد</span>`;
+      statusSort=0;
     }
-    const rec = allResults.find(r=>r.code===code||r.name===st.name);
+    rows+=`<tr>
       <td>${i+1}</td>
       <td style="text-align:right;font-weight:600">${st.name}</td>
       <td>${st.section}</td>
@@ -719,7 +711,6 @@ function renderDash(sec) {
   let rows='';
   sorted.forEach((r,i)=>{
     const gi=gradeInfo(r.pct), ms=r.maxScore||16;
-    const rec = allResults.find(r=>r.code===code||r.name===st.name);
     rows+=`<tr>
       <td>${i+1}</td>
       <td style="text-align:right;font-weight:600">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td>
@@ -766,7 +757,6 @@ function doClear() {
     db.ref('results').remove();
     db.ref('submitted').remove();
     db.ref('locked').remove();
-    db.ref('inprogress').remove();
     toast('✅ تم مسح جميع النتائج.',3000);
   });
 }
