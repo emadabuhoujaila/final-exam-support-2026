@@ -90,7 +90,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .cbtns{display:flex;gap:9px;justify-content:center;margin-top:18px}
 .cyes{padding:9px 24px;background:linear-gradient(135deg,#ff4444,#cc0000);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
 .cno{padding:9px 24px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit}
-.tst{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:999;background:linear-gradient(135deg,#1a6e1a,#2da82d);color:#fff;padding:11px 22px;border-radius:13px;font-size:13px;font-weight:700;transition:transform .32s ease;text-align:center;pointer-events:none;max-width:88vw}
+.tst{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:9999;background:linear-gradient(135deg,#1a6e1a,#2da82d);color:#fff;padding:11px 22px;border-radius:13px;font-size:13px;font-weight:700;transition:transform .32s ease;text-align:center;pointer-events:none;max-width:88vw}
 .tst.show{transform:translateX(-50%) translateY(0)}
 .rcirc{width:110px;height:110px;border-radius:50%;margin:0 auto 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid #e0c97f;background:rgba(224,201,127,.1)}
 .rpct{font-size:28px;font-weight:700;color:#e0c97f}
@@ -115,57 +115,59 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .hidden{display:none!important}
 .xl-btns{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
-.chart-area{background:rgba(255,255,255,.05);border-radius:12px;padding:14px}
-.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-@media(max-width:600px){.chart-grid{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
 .pin-badge{display:inline-block;background:rgba(224,201,127,.2);border:1px solid #e0c97f;color:#e0c97f;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:700}
 .abtn{padding:4px 9px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border:none;margin:2px;white-space:nowrap}
 .abtn-unlock{background:rgba(255,200,100,.2);color:#ffc864;border:1px solid #ffc864}
 .abtn-retry{background:rgba(100,200,255,.2);color:#64c8ff;border:1px solid #64c8ff}
-/* ── تحليل متقدم ── */
-.atab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-family:inherit}
-.atab.act{background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b;border-color:transparent}
-.an-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px;margin-bottom:4px}
-.an-sc{background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.1)}
-.an-sv{font-size:17px;font-weight:700;color:#e0c97f}
-.an-sl{font-size:10px;color:#a0c4ff;margin-top:2px}
-.an-table{width:100%;border-collapse:collapse;font-size:11px}
-.an-table th{background:rgba(224,201,127,.15);padding:7px 5px;border:1px solid rgba(255,255,255,.1);color:#e0c97f;white-space:nowrap}
-.an-table td{padding:6px 5px;border:1px solid rgba(255,255,255,.08);text-align:center;vertical-align:middle}
-.an-table tr:nth-child(even) td{background:rgba(255,255,255,.03)}
-.an-bar{width:100%;background:rgba(255,255,255,.1);border-radius:20px;height:12px;overflow:hidden}
-.an-bar-fill{height:100%;border-radius:20px}
-.an-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
-.an-plan-item{border-right:3px solid;padding:11px 13px;border-radius:0 9px 9px 0;margin-bottom:9px}
-.an-plan-crit{border-color:#ff6464;background:rgba(255,100,100,.07)}
-.an-plan-warn{border-color:#ffc864;background:rgba(255,200,100,.07)}
-.an-plan-ok{border-color:#64ff96;background:rgba(100,255,150,.07)}
-
-/* ── شبكة الحضور ── */
-.presence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
-.pcard{border-radius:11px;padding:10px 13px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:6px;transition:border-color .3s}
+/* presence */
+.presence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-top:10px}
+.pcard{border-radius:11px;padding:10px 12px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);display:flex;flex-direction:column;gap:5px}
 .pcard.active{border-color:#64ff96;background:rgba(100,255,150,.07)}
 .pcard.submitted{border-color:#64c8ff;background:rgba(100,200,255,.07)}
 .pcard.locked{border-color:#ff6464;background:rgba(255,100,100,.07)}
-.pcard.absent{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
 .pcard-top{display:flex;align-items:center;gap:7px}
-.pcard-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.dot-active{background:#64ff96;box-shadow:0 0 6px #64ff96;animation:pulse 1.2s infinite}
-.dot-submitted{background:#64c8ff}
-.dot-locked{background:#ff6464;animation:pulse .6s infinite}
-.dot-absent{background:rgba(255,255,255,.25)}
-.pcard-name{font-size:12px;font-weight:600;flex:1;text-align:right;line-height:1.4}
+.pdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.pdot-active{background:#64ff96;animation:pulse 1.2s infinite}
+.pdot-submitted{background:#64c8ff}
+.pdot-locked{background:#ff6464;animation:pulse .6s infinite}
+.pdot-absent{background:rgba(255,255,255,.25)}
+.pcard-name{font-size:11px;font-weight:600;flex:1;line-height:1.4}
 .pcard-status{font-size:10px;color:#a0c4ff}
-.pcard-actions{display:flex;gap:5px;flex-wrap:wrap}
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;font-size:11px}
-.leg-item{display:flex;align-items:center;gap:5px}
-.leg-dot{width:10px;height:10px;border-radius:50%}
+.pcard-actions{display:flex;gap:4px;flex-wrap:wrap}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;font-size:11px}
+.leg{display:flex;align-items:center;gap:4px}
+.ldot{width:9px;height:9px;border-radius:50%}
+/* تحليل */
+.an-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.an-tab{padding:6px 14px;border-radius:18px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-family:inherit}
+.an-tab.act{background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b;border-color:transparent}
+.an-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.an-f{padding:5px 12px;border-radius:14px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-family:inherit}
+.an-f.act{background:rgba(224,201,127,.2);border-color:#e0c97f;color:#e0c97f}
+.an-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;margin-bottom:12px}
+.an-sc{background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.an-sv{font-size:17px;font-weight:700;color:#e0c97f}
+.an-sl{font-size:10px;color:#a0c4ff;margin-top:2px}
+.an-tbl{width:100%;border-collapse:collapse;font-size:11px}
+.an-tbl th{background:rgba(224,201,127,.15);padding:7px 5px;border:1px solid rgba(255,255,255,.1);color:#e0c97f;white-space:nowrap}
+.an-tbl td{padding:6px 5px;border:1px solid rgba(255,255,255,.08);text-align:center;vertical-align:middle}
+.an-tbl tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.an-bar{width:100%;background:rgba(255,255,255,.1);border-radius:20px;height:11px;overflow:hidden}
+.an-bar-f{height:100%;border-radius:20px}
+.an-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.plan-row{border-right:3px solid;padding:10px 12px;border-radius:0 9px 9px 0;margin-bottom:8px}
+.plan-crit{border-color:#ff6464;background:rgba(255,100,100,.07)}
+.plan-warn{border-color:#ffc864;background:rgba(255,200,100,.07)}
+.plan-ok{border-color:#64ff96;background:rgba(100,255,150,.07)}
+.chart-wrap{position:relative;width:100%}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="stars" id="stars"></div>
 <div class="tst" id="tst"></div>
 
+<!-- قفل الشاشة -->
 <div class="blk" id="blk">
   <div style="font-size:65px;margin-bottom:14px">🔒</div>
   <h2>تم إيقاف الاختبار</h2>
@@ -173,6 +175,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
   <p style="font-size:12px;color:#ffaaaa;margin-top:8px">رمزك: <strong id="blk-pin" style="color:#e0c97f"></strong></p>
 </div>
 
+<!-- تأكيد -->
 <div class="cov" id="cov">
   <div class="cbox">
     <div style="font-size:36px;margin-bottom:9px" id="cic">⚠️</div>
@@ -190,7 +193,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <p style="font-size:10px;opacity:.55;margin-top:3px">إعداد: الأستاذ عماد أبو حجيلة</p>
   </div>
 
-  <!-- Landing -->
+  <!-- الصفحة الرئيسية -->
   <div class="card" id="pg-land" style="text-align:center">
     <p style="color:#a0c4ff;margin-bottom:18px;font-size:14px">اختر دورك للمتابعة</p>
     <div style="display:flex;gap:11px;justify-content:center;flex-wrap:wrap">
@@ -199,7 +202,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
   </div>
 
-  <!-- Teacher login -->
+  <!-- دخول معلم -->
   <div class="card hidden" id="pg-tl">
     <h3 style="color:#e0c97f;margin-bottom:14px">🔐 دخول المعلم</h3>
     <div class="fld"><label>رمز المعلم</label><input type="password" id="tl-i" placeholder="الرمز السري..."></div>
@@ -208,137 +211,81 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <button onclick="go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
   </div>
 
-  <!-- Dashboard -->
+  <!-- لوحة المعلم -->
   <div class="hidden" id="pg-dash">
-
-    <!-- Presence monitor -->
+    <!-- مراقبة الحضور -->
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin-bottom:10px">
-        <h3 style="color:#e0c97f;font-size:14px">
-          👁️ مراقبة الطلاب المباشرة
-          <span class="live-dot"></span>
-        </h3>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn2" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="renderPresence('all-s')">الكل</button>
-          <button class="btn2" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="renderPresence('1')">ش١</button>
-          <button class="btn2" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="renderPresence('2')">ش٢</button>
-          <button class="btn2" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="renderPresence('4')">ش٤</button>
-          <button class="btn2" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="renderPresence('5')">ش٥</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+        <h3 style="color:#e0c97f;font-size:14px;margin:0">👁️ مراقبة مباشرة <span class="live-dot"></span></h3>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('all')">الكل</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('1')">ش١</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('2')">ش٢</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('4')">ش٤</button>
+          <button class="btn2" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:11px" onclick="setPresFilter('5')">ش٥</button>
         </div>
       </div>
       <div class="legend">
-        <div class="leg-item"><div class="leg-dot" style="background:#64ff96"></div><span>داخل الاختبار</span></div>
-        <div class="leg-item"><div class="leg-dot" style="background:#64c8ff"></div><span>سلّم</span></div>
-        <div class="leg-item"><div class="leg-dot" style="background:#ff6464"></div><span>خرج من الصفحة</span></div>
-        <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.25)"></div><span>لم يدخل بعد</span></div>
+        <div class="leg"><div class="ldot" style="background:#64ff96"></div><span>داخل الاختبار</span></div>
+        <div class="leg"><div class="ldot" style="background:#64c8ff"></div><span>سلّم</span></div>
+        <div class="leg"><div class="ldot" style="background:#ff6464"></div><span>خرج من الصفحة</span></div>
+        <div class="leg"><div class="ldot" style="background:rgba(255,255,255,.25)"></div><span>لم يدخل</span></div>
       </div>
-      <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap" id="presence-stats"></div>
-      <div class="presence-grid" id="presence-grid"></div>
+      <div id="pres-stats" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"></div>
+      <div class="presence-grid" id="pres-grid"></div>
     </div>
 
-    <!-- Results -->
+    <!-- النتائج -->
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin-bottom:14px">
-        <h3 style="color:#e0c97f;font-size:14px">
-          📊 نتائج المسلّمين
-          <span class="live-dot"></span>
-        </h3>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin-bottom:12px">
+        <h3 style="color:#e0c97f;font-size:14px;margin:0">📊 النتائج <span class="live-dot"></span></h3>
         <button class="btn2" style="background:rgba(255,100,100,.14);color:#ff6464;border:1px solid #ff6464" onclick="doClear()">🗑 مسح الكل</button>
       </div>
       <div class="xl-btns">
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('1')">📥 Excel ش١</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('2')">📥 Excel ش٢</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('4')">📥 Excel ش٤</button>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('5')">📥 Excel ش٥</button>
-        <button class="btn2" style="background:rgba(224,201,127,.15);color:#e0c97f;border:1px solid #e0c97f" onclick="doXLAll()">📥 Excel الكل</button>
-        <button class="btn2" style="background:rgba(255,100,200,.12);color:#ff64c8;border:1px solid #ff64c8" onclick="toggleAnalysis()">📈 تحليل متقدم</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('1')">📥 ش١</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('2')">📥 ش٢</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('4')">📥 ش٤</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('5')">📥 ش٥</button>
+        <button class="btn2" style="background:rgba(224,201,127,.15);color:#e0c97f;border:1px solid #e0c97f" onclick="doXLAll()">📥 الكل</button>
+        <button class="btn2" style="background:rgba(255,100,200,.15);color:#ff64c8;border:1px solid #ff64c8" onclick="toggleAnalysis()">📈 تحليل متقدم</button>
       </div>
       <div class="tabs" id="dtabs"></div>
       <div class="stats" id="dstats"></div>
-      <div style="overflow-x:auto"><table class="rt"><thead><tr>
-        <th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ(/10)</th><th>توصيل(/2)</th><th>ترتيب(/2)</th><th>المجموع(/14)</th><th>%</th><th>التقدير</th><th>الزمن</th><th>إجراءات</th>
-      </tr></thead><tbody id="dbody"></tbody></table></div>
+      <div style="overflow-x:auto">
+        <table class="rt"><thead><tr>
+          <th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ(/10)</th><th>توصيل(/2)</th><th>ترتيب(/2)</th><th>المجموع(/14)</th><th>%</th><th>التقدير</th><th>الزمن</th><th>إجراءات</th>
+        </tr></thead><tbody id="dbody"></tbody></table>
+      </div>
     </div>
 
-    <!-- Analysis -->
+    <!-- التحليل المتقدم -->
     <div class="card hidden" id="analysis-card">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
         <h3 style="color:#e0c97f;margin:0">📈 التحليل المتقدم</h3>
-        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="exportReport()">📥 تصدير التقرير</button>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96;font-size:11px" onclick="exportReport()">📥 تصدير التقرير</button>
       </div>
-      <!-- فلتر الشعبة -->
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="an-filters">
-        <button class="atab act" onclick="setAnFilter('all')">الكل</button>
-        <button class="atab" onclick="setAnFilter('1')">شعبة ١</button>
-        <button class="atab" onclick="setAnFilter('2')">شعبة ٢</button>
-        <button class="atab" onclick="setAnFilter('4')">شعبة ٤</button>
-        <button class="atab" onclick="setAnFilter('5')">شعبة ٥</button>
+      <!-- فلتر شعبة التحليل -->
+      <div class="an-filters" id="an-filters">
+        <button class="an-f act" onclick="setAnF('all')">الكل</button>
+        <button class="an-f" onclick="setAnF('1')">شعبة ١</button>
+        <button class="an-f" onclick="setAnF('2')">شعبة ٢</button>
+        <button class="an-f" onclick="setAnF('4')">شعبة ٤</button>
+        <button class="an-f" onclick="setAnF('5')">شعبة ٥</button>
       </div>
       <!-- تبويبات التحليل -->
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="an-tabs">
-        <button class="atab act" onclick="showAnTab('an-overview')">📊 عامة</button>
-        <button class="atab" onclick="showAnTab('an-questions')">❓ الأسئلة</button>
-        <button class="atab" onclick="showAnTab('an-weakness')">⚠️ مواطن الضعف</button>
-        <button class="atab" onclick="showAnTab('an-plan')">📋 خطة العلاج</button>
-        <button class="atab" onclick="showAnTab('an-sections')">🏫 مقارنة الشعب</button>
+      <div class="an-tabs" id="an-tabs">
+        <button class="an-tab act" onclick="showAnTab(0)">📊 عامة</button>
+        <button class="an-tab" onclick="showAnTab(1)">❓ الأسئلة</button>
+        <button class="an-tab" onclick="showAnTab(2)">⚠️ مواطن الضعف</button>
+        <button class="an-tab" onclick="showAnTab(3)">📋 خطة العلاج</button>
+        <button class="an-tab" onclick="showAnTab(4)">🏫 الشعب</button>
       </div>
-
-      <!-- نظرة عامة -->
-      <div id="an-overview">
-        <div class="an-stats" id="an-stats-grid"></div>
-        <div class="chart-grid" style="margin-top:12px">
-          <div class="chart-area"><canvas id="ch-dist" role="img" aria-label="توزيع الدرجات"></canvas></div>
-          <div class="chart-area"><canvas id="ch-grade" role="img" aria-label="التقديرات"></canvas></div>
-        </div>
-        <div class="chart-area" style="margin-top:12px"><canvas id="ch-bloom" role="img" aria-label="مستويات بلوم"></canvas></div>
-      </div>
-
-      <!-- تحليل الأسئلة -->
-      <div id="an-questions" class="hidden">
-        <div class="chart-area" style="margin-bottom:12px">
-          <div style="position:relative;height:280px"><canvas id="ch-questions" role="img" aria-label="أداء الأسئلة"></canvas></div>
-        </div>
-        <div style="overflow-x:auto">
-          <table class="an-table"><thead><tr>
-            <th>س</th><th>الموضوع</th><th>المستوى</th><th>صح</th><th>خطأ</th><th>النسبة</th><th>الحالة</th>
-          </tr></thead><tbody id="an-q-body"></tbody></table>
-        </div>
-      </div>
-
-      <!-- مواطن الضعف -->
-      <div id="an-weakness" class="hidden">
-        <h3 style="color:#ff6464;margin-bottom:10px">⚠️ الموضوعات الأضعف (أقل من 60%)</h3>
-        <div id="an-weak-list"></div>
-        <h3 style="color:#a0c4ff;margin:14px 0 10px">🔍 تحليل مستويات بلوم</h3>
-        <div id="an-bloom-list"></div>
-        <h3 style="color:#a0c4ff;margin:14px 0 10px">👥 طلاب يحتاجون دعماً</h3>
-        <div style="overflow-x:auto">
-          <table class="an-table"><thead><tr><th>#</th><th>الاسم</th><th>ش</th><th>الدرجة</th><th>%</th><th>الأسئلة الخاطئة</th></tr></thead>
-          <tbody id="an-weak-students"></tbody></table>
-        </div>
-      </div>
-
-      <!-- خطة العلاج -->
-      <div id="an-plan" class="hidden">
-        <div id="an-plan-list"></div>
-        <h3 style="color:#a0c4ff;margin:14px 0 10px">📌 نواتج التعلم التي تحتاج تدخلاً</h3>
-        <div id="an-outcomes-list"></div>
-      </div>
-
-      <!-- مقارنة الشعب -->
-      <div id="an-sections" class="hidden">
-        <div class="chart-area" style="margin-bottom:12px">
-          <div style="position:relative;height:220px"><canvas id="ch-sec" role="img" aria-label="متوسط الشعب"></canvas></div>
-        </div>
-        <div class="chart-area" style="margin-bottom:12px">
-          <div style="position:relative;height:260px"><canvas id="ch-sec-q" role="img" aria-label="أداء الشعب في الأسئلة"></canvas></div>
-        </div>
-        <div style="overflow-x:auto"><table class="an-table" id="an-sec-table"></table></div>
-      </div>
+      <!-- محتوى التحليل -->
+      <div id="an-content"></div>
     </div>
   </div>
 
-  <!-- Registration -->
+  <!-- تسجيل الطالب -->
   <div class="card hidden" id="pg-reg">
     <h3 style="color:#e0c97f;margin-bottom:5px;text-align:center">📝 بيانات الطالب</h3>
     <p style="text-align:center;font-size:12px;color:#a0c4ff;margin-bottom:14px">⏱ مدة الاختبار: <strong style="color:#e0c97f">35 دقيقة</strong></p>
@@ -355,7 +302,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <div class="fld"><label>اسم الطالب *</label>
       <select id="rn"><option value="">— اختر الشعبة أولاً —</option></select>
     </div>
-    <div class="fld"><label>🔑 رمز الدخول الخاص بك *</label>
+    <div class="fld"><label>🔑 رمز الدخول *</label>
       <input type="password" id="rpin" placeholder="أدخل رمزك الخاص...">
     </div>
     <div class="err hidden" id="re"></div>
@@ -363,7 +310,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <button onclick="go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
   </div>
 
-  <!-- Already submitted -->
+  <!-- سبق تسليمه -->
   <div class="card hidden" id="pg-done">
     <div style="text-align:center">
       <div style="font-size:54px;margin-bottom:10px">✅</div>
@@ -373,7 +320,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
   </div>
 
-  <!-- Quiz -->
+  <!-- الاختبار -->
   <div class="hidden" id="pg-quiz">
     <div class="tmr">
       <div><div style="font-size:10px;color:#a0c4ff;margin-bottom:2px">⏱ الوقت المتبقي</div><div class="tc" id="tc">35:00</div></div>
@@ -396,7 +343,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
   </div>
 
-  <!-- Result -->
+  <!-- النتيجة -->
   <div class="card hidden" id="pg-res" style="text-align:center">
     <div style="font-size:48px;margin-bottom:8px" id="res-icon">🎉</div>
     <div class="rcirc"><div class="rpct" id="rpct">-</div><div class="rsm" id="rsc">-</div></div>
@@ -410,51 +357,38 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 </div>
 
 <script>
-// ══════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  FIREBASE
-// ══════════════════════════════════════════
-const firebaseConfig = {
-  apiKey: "AIzaSyC-wED48TVgrvYo8pHDZ9UcBulKGkhXnlQ",
-  authDomain: "diagnostic-quiz-2026.firebaseapp.com",
-  databaseURL: "https://diagnostic-quiz-2026-default-rtdb.firebaseio.com",
-  projectId: "diagnostic-quiz-2026",
-  storageBucket: "diagnostic-quiz-2026.firebasestorage.app",
-  messagingSenderId: "919823498650",
-  appId: "1:919823498650:web:b3c5b948db3b87537ece23"
+// ══════════════════════════════════════════════════════
+const firebaseConfig={
+  apiKey:"AIzaSyC-wED48TVgrvYo8pHDZ9UcBulKGkhXnlQ",
+  authDomain:"diagnostic-quiz-2026.firebaseapp.com",
+  databaseURL:"https://diagnostic-quiz-2026-default-rtdb.firebaseio.com",
+  projectId:"diagnostic-quiz-2026",
+  storageBucket:"diagnostic-quiz-2026.firebasestorage.app",
+  messagingSenderId:"919823498650",
+  appId:"1:919823498650:web:b3c5b948db3b87537ece23"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db=firebase.database();
 
-const DB = {
-  results:     'final/results',
-  submissions: 'final/submissions',
-  locks:       'final/locks',
-  active:      'final/active'   // ← طلاب داخل الاختبار حالياً
-};
+const DB={results:'final/results',submissions:'final/submissions',locks:'final/locks',active:'final/active'};
+const TC='emad2026_final';
+const TOTAL_SEC=2100;
 
-const TC = 'emad2026_final';
-const TOTAL_SEC = 2100;
-
-// ══════════════════════════════════════════
-//  بيانات الطلاب والرموز
-// ══════════════════════════════════════════
-const STUDENTS = {
+// ══════════════════════════════════════════════════════
+//  بيانات الطلاب
+// ══════════════════════════════════════════════════════
+const STUDENTS={
 '1':['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
 '2':['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
 '4':['احمد سالم محمد راشد الكعبي','احمد سعيد سلطان سليمان مطلعي اليماحي','تركي طلال خميس سعيد المسماري','حسين علي حسين علي رمضان','حمدان راشد مبارك مفتاح المسماري','حمدان سيف محمد عبيد المسماري','خالد محمد علي عبيد الطنيجي','خليفه بن احمد بن يعقوب بن يوسف البلوشي','ذياب هلال ناصر مطر البلوشي','راشد احمد سالم مرزوق الزحمي','سعيد حمدان سعيد عبيد المسماري','سلطان عادل سليمان علي الظنحاني','سلطان علي عبيد حسن الشحي','سيف بن ابراهيم بن درويش بن خميس الجابري','سيف سالم محمد عبيد المسماري','سيف عبدالله ربيع سالم السعيدي','عبدالله بن قاسم بن درويش بن خميس الجابري','محمد احمد خميس عامر النعيمي','محمد حمد ابراهيم يوسف ال محمد','محمد خلفان خميس سليمان مطلعي','محمد راشد عبدالله راشد الشحي','محمد علي سالم علي الكعبي','محمد محمد عبيد خديم السماحي','مشعل خالد عبدالرحيم محمد العوضي','منصور عيسى محمد عبدالله الكعبي','منصور فهد ناصر سعيد النعيمي','منصور ياسر جمعه الزري المسماري','ناصر خميس سالمين سعيد الزعابي','يحيى صالح احمد حسين القيسي'],
 '5':['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
+const PINS={'احمد مجيد سعيد سالم المرشدي':'S1-1001','جاسم محمد عبدالله الملا الريسي':'S1-1002','حارب محمد سهيل عبيد الحفيتي':'S1-1003','حسن محمد حسن محمد الحفيتي':'S1-1004','حمد محمد محبوب جمعة كياني':'S1-1005','حمدان حسين علي العبودي الطنيجي':'S1-1006','حمدان عبدالله أحمد محمد المزروعي':'S1-1007','حميد راشد عبيد الشميلي اليماحي':'S1-1008','حميد عبيد محمد حميد اليماحي':'S1-1009','خليفه مفتاح مال الله جمعه الكندي':'S1-1010','راشد سلطان علي خميس اليماحي':'S1-1011','راشد سيف مبارك سيف المزروعي':'S1-1012','راشد عبيد بلال عبيد المسماري':'S1-1013','زايد محمد الماس محمد الظنحاني':'S1-1014','سعيد احمد حسين الشمار الكندري':'S1-1015','سعيد محمد راشد عبيد الكعبي':'S1-1016','سيف راشد مبارك سيف المزروعي':'S1-1017','سيف عبدالله راشد محمد اليماحي':'S1-1018','عبدالعزيز علي حسن علي المسماري':'S1-1019','عبدالله احمد عيسى محمد فضل':'S1-1020','عبدالله راشد سهيل سعيد اليماحي':'S1-1021','علي ابراهيم عبدالله سعيد اليماحي':'S1-1022','علي راشد علي سالم المزروعي':'S1-1023','مايد احمد جمعه علي كياني':'S1-1024','منصور عبدالله محمد المسماري':'S1-1025','نايف ابراهيم عبيد حسن الشحي':'S1-1026','أحمد عيسى محمد راشد البكر':'S2-2001','حمدان أسد محمد نواز أحمد':'S2-2002','زايد عبدالله علي محمد البلوشي':'S2-2003','سيف يوسف عبدالله سالم الكندي':'S2-2004','عامر أحمد راشد علي السعدي':'S2-2005','عبدالرحمن علي محمد سعيد المحرزي':'S2-2006','عبدالله سالم سيف عبيد الحفيتي':'S2-2007','عبدالله سالم عبيد الشميلي اليماحي':'S2-2008','عبدالله سعيد علي الحاج الحفيتي':'S2-2009','عبيد سعيد محمد سعيد الذباحي':'S2-2010','عزام محمد حسين محمد شاكر':'S2-2011','علي عبيد غاصب عبيد المسماري':'S2-2012','عمار عبدالله خميس الخال السويدي':'S2-2013','عمر عبدالرزاق عبدالله عبدالرحمن البستكي':'S2-2014','غيث عبيد محمد خميس اليماحي':'S2-2015','مايد أحمد عيسى الملا العبدولي':'S2-2016','مبارك عيسى خاطر عبدالله السعدي':'S2-2017','محمد أحمد سيف أحمد المسماري':'S2-2018','محمد حميد عبدالله محمد الظنحاني':'S2-2019','محمد خلفان محمد عبدالله المطروشي':'S2-2020','محمد راشد أحمد خميس الكعبي':'S2-2021','محمد راشد محمد علي الكعبي':'S2-2022','محمد عبدالله علي بن صباح الزحمي':'S2-2023','محمد مانع سعيد عبيد الحفيتي':'S2-2024','موسى محمود محمد موسى حسين':'S2-2025','نهيان خالد راشد علي الكعبي':'S2-2026','نواف راشد عبدالله راشد قيوظي':'S2-2027','نواف صالح عثمان مبارك المسماري':'S2-2028','احمد سالم محمد راشد الكعبي':'S4-4001','احمد سعيد سلطان سليمان مطلعي اليماحي':'S4-4002','تركي طلال خميس سعيد المسماري':'S4-4003','حسين علي حسين علي رمضان':'S4-4004','حمدان راشد مبارك مفتاح المسماري':'S4-4005','حمدان سيف محمد عبيد المسماري':'S4-4006','خالد محمد علي عبيد الطنيجي':'S4-4007','خليفه بن احمد بن يعقوب بن يوسف البلوشي':'S4-4008','ذياب هلال ناصر مطر البلوشي':'S4-4009','راشد احمد سالم مرزوق الزحمي':'S4-4010','سعيد حمدان سعيد عبيد المسماري':'S4-4011','سلطان عادل سليمان علي الظنحاني':'S4-4012','سلطان علي عبيد حسن الشحي':'S4-4013','سيف بن ابراهيم بن درويش بن خميس الجابري':'S4-4014','سيف سالم محمد عبيد المسماري':'S4-4015','سيف عبدالله ربيع سالم السعيدي':'S4-4016','عبدالله بن قاسم بن درويش بن خميس الجابري':'S4-4017','محمد احمد خميس عامر النعيمي':'S4-4018','محمد حمد ابراهيم يوسف ال محمد':'S4-4019','محمد خلفان خميس سليمان مطلعي':'S4-4020','محمد راشد عبدالله راشد الشحي':'S4-4021','محمد علي سالم علي الكعبي':'S4-4022','محمد محمد عبيد خديم السماحي':'S4-4023','مشعل خالد عبدالرحيم محمد العوضي':'S4-4024','منصور عيسى محمد عبدالله الكعبي':'S4-4025','منصور فهد ناصر سعيد النعيمي':'S4-4026','منصور ياسر جمعه الزري المسماري':'S4-4027','ناصر خميس سالمين سعيد الزعابي':'S4-4028','يحيى صالح احمد حسين القيسي':'S4-4029','احمد راشد محمد عبدالله الحفيتي':'S5-5001','احمد سلطان احمد محمد الحفيتي':'S5-5002','احمد محمد خلفان راشد الكندي':'S5-5003','حارب وليد راشد احمد الحنطوبي':'S5-5004','حمد حمدان جلال حسين مختار':'S5-5005','حمد محمد سعيد نويله اليماحي':'S5-5006','خالد جاسم راشد عبدالرحمن الكندي':'S5-5007','خالد عبيد عبيد سليمان الحوسني':'S5-5008','خالد فايز عيسى داغر البلوشي':'S5-5009','خليفه احمد محمد احمد الظنحاني':'S5-5010','ذياب يوسف عبدالله الوطني آل علي':'S5-5011','راشد محمد خميس سليمان مطلعي':'S5-5012','زايد احمد على المطوع الكعبي':'S5-5013','زيد محمد عبدالله محمد المسماري':'S5-5014','سالم محمد سالم ثاني الجابري':'S5-5015','سعيد سيد سعيد التخلوفه اليماحي':'S5-5016','سعيد على سعيد محمد الحمودي':'S5-5017','سليمان محمد خميس سليمان مطلعي':'S5-5018','سليمان يونس سليمان عبدالله الحنطوبي':'S5-5019','سيف عثمان خميس الدرعي المسماري':'S5-5020','سيف نبيل خميس سالم هناوي':'S5-5021','فيصل صالح حسن بارون آل علي':'S5-5022','محمد حمد على دويب الحمودي':'S5-5023','محمد زايد على نصيب عريدي':'S5-5024','محمد سعيد محمد علي الحنطوبي':'S5-5025','محمد صالح محمد شاكر ال محمد':'S5-5026','محمد على عبدالله على الكندي':'S5-5027','محمد ناصر خميس محمد المطروشي':'S5-5028','نهيان محمد سليمان عبدالله الحنطوبي':'S5-5029'};
 
-const PINS = {
-'احمد مجيد سعيد سالم المرشدي':'S1-1001','جاسم محمد عبدالله الملا الريسي':'S1-1002','حارب محمد سهيل عبيد الحفيتي':'S1-1003','حسن محمد حسن محمد الحفيتي':'S1-1004','حمد محمد محبوب جمعة كياني':'S1-1005','حمدان حسين علي العبودي الطنيجي':'S1-1006','حمدان عبدالله أحمد محمد المزروعي':'S1-1007','حميد راشد عبيد الشميلي اليماحي':'S1-1008','حميد عبيد محمد حميد اليماحي':'S1-1009','خليفه مفتاح مال الله جمعه الكندي':'S1-1010','راشد سلطان علي خميس اليماحي':'S1-1011','راشد سيف مبارك سيف المزروعي':'S1-1012','راشد عبيد بلال عبيد المسماري':'S1-1013','زايد محمد الماس محمد الظنحاني':'S1-1014','سعيد احمد حسين الشمار الكندري':'S1-1015','سعيد محمد راشد عبيد الكعبي':'S1-1016','سيف راشد مبارك سيف المزروعي':'S1-1017','سيف عبدالله راشد محمد اليماحي':'S1-1018','عبدالعزيز علي حسن علي المسماري':'S1-1019','عبدالله احمد عيسى محمد فضل':'S1-1020','عبدالله راشد سهيل سعيد اليماحي':'S1-1021','علي ابراهيم عبدالله سعيد اليماحي':'S1-1022','علي راشد علي سالم المزروعي':'S1-1023','مايد احمد جمعه علي كياني':'S1-1024','منصور عبدالله محمد المسماري':'S1-1025','نايف ابراهيم عبيد حسن الشحي':'S1-1026',
-'أحمد عيسى محمد راشد البكر':'S2-2001','حمدان أسد محمد نواز أحمد':'S2-2002','زايد عبدالله علي محمد البلوشي':'S2-2003','سيف يوسف عبدالله سالم الكندي':'S2-2004','عامر أحمد راشد علي السعدي':'S2-2005','عبدالرحمن علي محمد سعيد المحرزي':'S2-2006','عبدالله سالم سيف عبيد الحفيتي':'S2-2007','عبدالله سالم عبيد الشميلي اليماحي':'S2-2008','عبدالله سعيد علي الحاج الحفيتي':'S2-2009','عبيد سعيد محمد سعيد الذباحي':'S2-2010','عزام محمد حسين محمد شاكر':'S2-2011','علي عبيد غاصب عبيد المسماري':'S2-2012','عمار عبدالله خميس الخال السويدي':'S2-2013','عمر عبدالرزاق عبدالله عبدالرحمن البستكي':'S2-2014','غيث عبيد محمد خميس اليماحي':'S2-2015','مايد أحمد عيسى الملا العبدولي':'S2-2016','مبارك عيسى خاطر عبدالله السعدي':'S2-2017','محمد أحمد سيف أحمد المسماري':'S2-2018','محمد حميد عبدالله محمد الظنحاني':'S2-2019','محمد خلفان محمد عبدالله المطروشي':'S2-2020','محمد راشد أحمد خميس الكعبي':'S2-2021','محمد راشد محمد علي الكعبي':'S2-2022','محمد عبدالله علي بن صباح الزحمي':'S2-2023','محمد مانع سعيد عبيد الحفيتي':'S2-2024','موسى محمود محمد موسى حسين':'S2-2025','نهيان خالد راشد علي الكعبي':'S2-2026','نواف راشد عبدالله راشد قيوظي':'S2-2027','نواف صالح عثمان مبارك المسماري':'S2-2028',
-'احمد سالم محمد راشد الكعبي':'S4-4001','احمد سعيد سلطان سليمان مطلعي اليماحي':'S4-4002','تركي طلال خميس سعيد المسماري':'S4-4003','حسين علي حسين علي رمضان':'S4-4004','حمدان راشد مبارك مفتاح المسماري':'S4-4005','حمدان سيف محمد عبيد المسماري':'S4-4006','خالد محمد علي عبيد الطنيجي':'S4-4007','خليفه بن احمد بن يعقوب بن يوسف البلوشي':'S4-4008','ذياب هلال ناصر مطر البلوشي':'S4-4009','راشد احمد سالم مرزوق الزحمي':'S4-4010','سعيد حمدان سعيد عبيد المسماري':'S4-4011','سلطان عادل سليمان علي الظنحاني':'S4-4012','سلطان علي عبيد حسن الشحي':'S4-4013','سيف بن ابراهيم بن درويش بن خميس الجابري':'S4-4014','سيف سالم محمد عبيد المسماري':'S4-4015','سيف عبدالله ربيع سالم السعيدي':'S4-4016','عبدالله بن قاسم بن درويش بن خميس الجابري':'S4-4017','محمد احمد خميس عامر النعيمي':'S4-4018','محمد حمد ابراهيم يوسف ال محمد':'S4-4019','محمد خلفان خميس سليمان مطلعي':'S4-4020','محمد راشد عبدالله راشد الشحي':'S4-4021','محمد علي سالم علي الكعبي':'S4-4022','محمد محمد عبيد خديم السماحي':'S4-4023','مشعل خالد عبدالرحيم محمد العوضي':'S4-4024','منصور عيسى محمد عبدالله الكعبي':'S4-4025','منصور فهد ناصر سعيد النعيمي':'S4-4026','منصور ياسر جمعه الزري المسماري':'S4-4027','ناصر خميس سالمين سعيد الزعابي':'S4-4028','يحيى صالح احمد حسين القيسي':'S4-4029',
-'احمد راشد محمد عبدالله الحفيتي':'S5-5001','احمد سلطان احمد محمد الحفيتي':'S5-5002','احمد محمد خلفان راشد الكندي':'S5-5003','حارب وليد راشد احمد الحنطوبي':'S5-5004','حمد حمدان جلال حسين مختار':'S5-5005','حمد محمد سعيد نويله اليماحي':'S5-5006','خالد جاسم راشد عبدالرحمن الكندي':'S5-5007','خالد عبيد عبيد سليمان الحوسني':'S5-5008','خالد فايز عيسى داغر البلوشي':'S5-5009','خليفه احمد محمد احمد الظنحاني':'S5-5010','ذياب يوسف عبدالله الوطني آل علي':'S5-5011','راشد محمد خميس سليمان مطلعي':'S5-5012','زايد احمد على المطوع الكعبي':'S5-5013','زيد محمد عبدالله محمد المسماري':'S5-5014','سالم محمد سالم ثاني الجابري':'S5-5015','سعيد سيد سعيد التخلوفه اليماحي':'S5-5016','سعيد على سعيد محمد الحمودي':'S5-5017','سليمان محمد خميس سليمان مطلعي':'S5-5018','سليمان يونس سليمان عبدالله الحنطوبي':'S5-5019','سيف عثمان خميس الدرعي المسماري':'S5-5020','سيف نبيل خميس سالم هناوي':'S5-5021','فيصل صالح حسن بارون آل علي':'S5-5022','محمد حمد على دويب الحمودي':'S5-5023','محمد زايد على نصيب عريدي':'S5-5024','محمد سعيد محمد علي الحنطوبي':'S5-5025','محمد صالح محمد شاكر ال محمد':'S5-5026','محمد على عبدالله على الكندي':'S5-5027','محمد ناصر خميس محمد المطروشي':'S5-5028','نهيان محمد سليمان عبدالله الحنطوبي':'S5-5029'
-};
-
-// قائمة كل الطلاب مع شعبهم
-const ALL_STUDENTS = [];
-Object.entries(STUDENTS).forEach(([sec,names])=>names.forEach(n=>ALL_STUDENTS.push({name:n,sec,pin:PINS[n]||''})));
+const ALL_STU=[];
+Object.entries(STUDENTS).forEach(([s,ns])=>ns.forEach(n=>ALL_STU.push({name:n,sec:s,pin:PINS[n]||''})));
 
 function loadNames(){
   const sec=document.getElementById('rs').value,sel=document.getElementById('rn');
@@ -464,23 +398,21 @@ function loadNames(){
   STUDENTS[sec].forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
 }
 
-// Stars
+// نجوم
 const se=document.getElementById('stars');
 for(let i=0;i<55;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*3+1;s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;se.appendChild(s);}
 
+// ══ صفحات ══
 const PGS=['pg-land','pg-tl','pg-dash','pg-reg','pg-quiz','pg-res','pg-done'];
 function go(id){PGS.forEach(p=>{const e=document.getElementById(p);if(e)e.classList.toggle('hidden',p!==id);});}
 function toast(msg,dur=4000){const t=document.getElementById('tst');t.innerHTML=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);}
 function showConf(ic,tit,msg,onY){document.getElementById('cic').textContent=ic;document.getElementById('ctit').textContent=tit;document.getElementById('cmsg').textContent=msg;document.getElementById('cyes').onclick=()=>{closeConf();onY();};document.getElementById('cov').style.display='flex';}
 function closeConf(){document.getElementById('cov').style.display='none';}
 
-// ══════════════════════════════════════════
-//  قفل الشاشة
-// ══════════════════════════════════════════
+// ══ قفل ══
 let quizActive=false,visLocked=false,curPin='',curName='';
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&quizActive&&!visLocked)lockScr();});
 window.addEventListener('blur',()=>{if(quizActive&&!visLocked)lockScr();});
-
 function lockScr(){
   visLocked=true;
   document.getElementById('blk').style.display='flex';
@@ -491,8 +423,7 @@ function lockScr(){
     db.ref(DB.active+'/'+curPin).update({status:'locked'});
   }
 }
-
-function listenForUnlock(){
+function listenUnlock(){
   if(!curPin)return;
   db.ref(DB.locks+'/'+curPin).on('value',snap=>{
     const d=snap.val();
@@ -506,9 +437,7 @@ function listenForUnlock(){
   });
 }
 
-// ══════════════════════════════════════════
-//  المؤقت
-// ══════════════════════════════════════════
+// ══ مؤقت ══
 let tInt=null,sLeft=TOTAL_SEC,sUsed=0;
 const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
 function startTimer(){
@@ -531,11 +460,8 @@ function startTimer(){
 }
 function stopTimer(){clearInterval(tInt);}
 
-// ══════════════════════════════════════════
-//  الأسئلة
-// ══════════════════════════════════════════
+// ══ أسئلة ══
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
 const BASE_QS=[
   {t:'mcq',lv:'r',lb:'التذكر',tp:'البناء الضوئي',q:'أيٌّ من العضيات الخلوية التالية تعتبر الموقع الرئيسي لحدوث عملية البناء الضوئي في الخلية النباتية؟',opts:['البلاستيدات الخضراء','الميتوكوندريا','الفجوة المركزية','جدار الخلية'],ans:0,exp:'البلاستيدات الخضراء (الكلوروبلاست) هي موقع البناء الضوئي وصنع الغذاء في الخلية النباتية.'},
   {t:'mcq',lv:'r',lb:'التذكر',tp:'النباتات اللاوعائية',q:'ما الوظيفة الأساسية التي تؤديها أشباه الجذور في النباتات اللاوعائية مثل الحزازيات؟',opts:['تثبيت النبات في السطح','نقل الماء لمسافات طويلة','إنتاج الأبواغ للتكاثر','تصنيع الغذاء بالبناء الضوئي'],ans:0,exp:'أشباه الجذور في الحزازيات وظيفتها الأساسية تثبيت النبات في السطح وليس نقل الماء.'},
@@ -564,14 +490,12 @@ function prepareQs(){
 }
 
 let QS=[],cur=0,ANS=[],sData={},lastRec={};
-let mSel=null,dragId=null,activeTab='all',allResults=[];
-let presenceData={},submissionsData={},presenceFilter='all-s';
+let mSel=null,dragId=null,activeDashTab='all',allResults=[];
+let presData={},subsData={},presFilter='all';
 const TOTAL_QS=BASE_QS.length;
 const lvC={r:'lr',u:'lu',a:'la',an:'lan'};
 
-// ══════════════════════════════════════════
-//  بدء الاختبار
-// ══════════════════════════════════════════
+// ══ بدء الاختبار ══
 async function doStart(){
   const name=(document.getElementById('rn').value||'').trim();
   const grade=document.getElementById('rg').value;
@@ -595,11 +519,10 @@ async function doStart(){
          وقت التسليم: ${sub.time}`;
       go('pg-done');return;
     }
-    if(sub&&sub.retryAllowed) await db.ref(DB.submissions+'/'+pin+'/retryAllowed').set(false);
+    if(sub&&sub.retryAllowed)await db.ref(DB.submissions+'/'+pin+'/retryAllowed').set(false);
   }catch(e){console.error(e);}
   sData={name,grade,sec,pin};
   curPin=pin;curName=name;
-  // سجّل دخول الطالب
   await db.ref(DB.active+'/'+pin).set({name,sec,status:'active',enteredAt:new Date().toLocaleString('ar-SA')});
   beginQuiz();
 }
@@ -607,16 +530,12 @@ async function doStart(){
 function beginQuiz(){
   QS=prepareQs();go('pg-quiz');quizActive=true;startTimer();
   ANS=new Array(TOTAL_QS).fill(null);cur=0;mSel=null;
-  listenForUnlock();renderNav();renderQ();
-  // احذف السجل عند إغلاق النافذة
-  window.addEventListener('beforeunload',()=>{
-    if(curPin) db.ref(DB.active+'/'+curPin).remove();
-  });
+  listenUnlock();renderNav();renderQ();
+  window.addEventListener('beforeunload',()=>{if(curPin)db.ref(DB.active+'/'+curPin).remove();});
 }
 
 function renderNav(){
-  const n=document.getElementById('qnav');
-  n.innerHTML=QS.map((_,i)=>`<div class="qdot${i===cur?' cur':ANS[i]!==null?' ans':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
+  document.getElementById('qnav').innerHTML=QS.map((_,i)=>`<div class="qdot${i===cur?' cur':ANS[i]!==null?' ans':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
   document.getElementById('subbtn').classList.toggle('hidden',cur!==TOTAL_QS-1);
   document.getElementById('nxt').classList.toggle('hidden',cur===TOTAL_QS-1);
   document.getElementById('prv').classList.toggle('hidden',cur===0);
@@ -644,22 +563,12 @@ function pickOpt(i){ANS[cur]=i;renderNav();renderQ();}
 function renderMatch(q){
   const ua=ANS[cur]||{};
   let h='<div class="mg"><div><div class="mc">🔵 المصطلح</div>';
-  q.left.forEach((item,i)=>{
-    const done=ua[i]!==undefined,sel=mSel===i;
-    h+=`<div class="mi${done?' mdone':sel?' msel':''}" onclick="${done?'':'pLeft('+i+')'}">${item}${done?' ✓':''}</div>`;
-  });
+  q.left.forEach((item,i)=>{const done=ua[i]!==undefined,sel=mSel===i;h+=`<div class="mi${done?' mdone':sel?' msel':''}" onclick="${done?'':'pLeft('+i+')'}">${item}${done?' ✓':''}</div>`;});
   h+='</div><div><div class="mc">🟡 التعريف</div>';
   const usedR=Object.values(ua);
-  q.right.forEach((item,j)=>{
-    const used=usedR.includes(j);
-    h+=`<div class="mi mr${used?' mdone':''}" onclick="${used?'':'pRight('+j+')'}">${item}${used?' ✓':''}</div>`;
-  });
+  q.right.forEach((item,j)=>{const used=usedR.includes(j);h+=`<div class="mi mr${used?' mdone':''}" onclick="${used?'':'pRight('+j+')'}">${item}${used?' ✓':''}</div>`;});
   h+='</div></div>';
-  if(Object.keys(ua).length>0){
-    h+='<div class="conn">';
-    Object.entries(ua).forEach(([k,v])=>{h+=`<div class="cr"><div class="cl">${q.left[k]}</div><span>→</span><div class="cv">${q.right[v]}</div></div>`;});
-    h+='</div>';
-  }
+  if(Object.keys(ua).length>0){h+='<div class="conn">';Object.entries(ua).forEach(([k,v])=>{h+=`<div class="cr"><div class="cl">${q.left[k]}</div><span>→</span><div class="cv">${q.right[v]}</div></div>`;});h+='</div>';}
   if(mSel===null&&Object.keys(ua).length<q.left.length)h+=`<div style="margin-top:9px;font-size:12px;color:#a0c4ff;text-align:center">اضغط مصطلحاً من اليسار ثم تعريفه من اليمين</div>`;
   return h;
 }
@@ -673,10 +582,7 @@ function pRight(j){
 
 function renderOrder(q){
   if(!ANS[cur]){let sh=[...q.items].map(x=>x.id);do{sh=sh.sort(()=>Math.random()-.5);}while(sh.every((id,i)=>id===q.correct[i]));ANS[cur]=sh;}
-  return'<div class="ol">'+ANS[cur].map((id,idx)=>{
-    const item=q.items.find(x=>x.id===id);
-    return`<div class="oi" id="oi-${id}" draggable="true" ondragstart="ds(event,'${id}')" ondragover="dov(event)" ondrop="dp(event,'${id}')" ondragenter="de(event)" ondragleave="dl(event)"><div class="onum">${idx+1}</div><div style="flex:1;font-size:13px">${item?item.text:''}</div><span style="color:#a0c4ff">⠿</span></div>`;
-  }).join('')+'</div><div style="font-size:11px;color:#a0c4ff;text-align:center;margin-top:4px">اسحب وأفلت لإعادة الترتيب</div>';
+  return'<div class="ol">'+ANS[cur].map((id,idx)=>{const item=q.items.find(x=>x.id===id);return`<div class="oi" id="oi-${id}" draggable="true" ondragstart="ds(event,'${id}')" ondragover="dov(event)" ondrop="dp(event,'${id}')" ondragenter="de(event)" ondragleave="dl(event)"><div class="onum">${idx+1}</div><div style="flex:1;font-size:13px">${item?item.text:''}</div><span style="color:#a0c4ff">⠿</span></div>`;}).join('')+'</div><div style="font-size:11px;color:#a0c4ff;text-align:center;margin-top:4px">اسحب وأفلت لإعادة الترتيب</div>';
 }
 function ds(e,id){dragId=id;e.dataTransfer.effectAllowed='move';setTimeout(()=>{const el=document.getElementById('oi-'+id);if(el)el.classList.add('drg');},0);}
 function dov(e){e.preventDefault();}
@@ -686,20 +592,17 @@ function dp(e,tid){e.preventDefault();e.currentTarget.classList.remove('dov');if
 
 function goNext(){if(cur<TOTAL_QS-1){cur++;mSel=null;renderNav();renderQ();}}
 function goPrev(){if(cur>0){cur--;mSel=null;renderNav();renderQ();}}
-function confirmSubmit(){
-  const u=ANS.filter(a=>a===null).length;
-  showConf('📝','تسليم الاختبار',u>0?`لديك ${u} سؤال غير مجاب. هل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟',()=>finish(false));
-}
+function confirmSubmit(){const u=ANS.filter(a=>a===null).length;showConf('📝','تسليم الاختبار',u>0?`لديك ${u} سؤال غير مجاب. هل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟',()=>finish(false));}
 
-// ══════════════════════════════════════════
-//  إنهاء وحفظ
-// ══════════════════════════════════════════
+// ══ إنهاء الاختبار ══
 async function finish(timed){
   stopTimer();quizActive=false;
   let mcqSc=0,mcqD=[];
   QS.forEach((q,i)=>{
-    if(q.t==='mcq'){const ok=ANS[i]===q.ans;if(ok)mcqSc++;
-      mcqD.push({qNum:i+1,topic:q.tp,correct:ok,level:q.lb,chosen:ANS[i],rightAns:q.ans,opts:q.opts,exp:q.exp,q:q.q});}
+    if(q.t==='mcq'){
+      const ok=ANS[i]===q.ans;if(ok)mcqSc++;
+      mcqD.push({qNum:i+1,topic:q.tp,correct:ok,level:q.lb,chosen:ANS[i],rightAns:q.ans,opts:q.opts,exp:q.exp,q:q.q});
+    }
   });
   let mSc=0;
   const mIdx=QS.findIndex(q=>q.t==='matching');
@@ -710,14 +613,13 @@ async function finish(timed){
   const total=parseFloat((mcqSc+mSc+oSc).toFixed(2)),maxScore=mcqD.length+4;
   const pct=Math.round(total/maxScore*100),gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
-  // تفاصيل إجابات كل سؤال للتحليل
   const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,level:d.level,correct:d.correct?1:0}));
-  lastRec={name:sData.name,section:sData.sec,grade:sData.grade,pin:sData.pin,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails,matchCorrect:mSc>=2?1:mSc>0?0.5:0,orderCorrect:oSc>=2?1:oSc>0?0.5:0};
+  lastRec={name:sData.name,section:sData.sec,grade:sData.grade,pin:sData.pin,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails};
   try{
     await db.ref(DB.results).push(lastRec);
     await db.ref(DB.submissions+'/'+sData.pin).set({submitted:true,name:sData.name,section:sData.sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false});
     await db.ref(DB.locks+'/'+sData.pin).remove();
-    await db.ref(DB.active+'/'+sData.pin).remove(); // احذف من النشطين
+    await db.ref(DB.active+'/'+sData.pin).remove();
     toast('✅ تم إرسال نتيجتك للمعلم!',4000);
   }catch(e){toast('⚠️ تعذّر الإرسال.',4000);console.error(e);}
   showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore);
@@ -743,114 +645,70 @@ function showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore){
   let rev=`<div style="text-align:right;margin-top:14px"><h3 style="color:#e0c97f;margin-bottom:14px;font-size:15px;border-bottom:1px solid rgba(224,201,127,.3);padding-bottom:8px">📋 مراجعة تفصيلية</h3>`;
   mcqD.forEach(d=>{
     rev+=`<div class="rev-item ${d.correct?'rok':'rng'}"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span>${d.correct?'✅':'❌'}</span><span style="font-size:13px;font-weight:700;color:${d.correct?'#64ff96':'#ff6464'}">س${d.qNum} — ${d.topic}</span></div><div style="font-size:13px;color:#e0e0ff;margin-bottom:8px">${d.q}</div><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">`;
-    d.opts.forEach((o,i)=>{
-      const isC=i===d.rightAns,isCh=d.chosen===i;
-      rev+=`<div style="padding:7px 12px;border-radius:8px;border:1px solid ${isC?'#64ff96':isCh?'#ff6464':'rgba(255,255,255,.1)'};background:${isC?'rgba(100,255,150,.15)':isCh?'rgba(255,100,100,.15)':'rgba(255,255,255,.04)'};color:${isC?'#64ff96':isCh?'#ff8080':'#bbb'};font-size:12px">${isC?'✓ ':isCh?'✗ ':'  '}${L[i]}. ${o}${isC?' ← صحيح':''}${isCh&&!isC?' ← إجابتك':''}</div>`;
-    });
+    d.opts.forEach((o,i)=>{const isC=i===d.rightAns,isCh=d.chosen===i;rev+=`<div style="padding:7px 12px;border-radius:8px;border:1px solid ${isC?'#64ff96':isCh?'#ff6464':'rgba(255,255,255,.1)'};background:${isC?'rgba(100,255,150,.15)':isCh?'rgba(255,100,100,.15)':'rgba(255,255,255,.04)'};color:${isC?'#64ff96':isCh?'#ff8080':'#bbb'};font-size:12px">${isC?'✓ ':isCh?'✗ ':'  '}${L[i]}. ${o}${isC?' ← صحيح':''}${isCh&&!isC?' ← إجابتك':''}</div>`;});
     rev+=`</div><div style="background:rgba(224,201,127,.08);border-right:3px solid #e0c97f;padding:8px 10px;border-radius:6px;font-size:12px;color:#e0c97f">💡 ${d.exp}</div></div>`;
   });
   document.getElementById('rev-area').innerHTML=rev+'</div>';
 }
 
-// ══════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  لوحة المعلم
-// ══════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 function doTL(){
   const v=(document.getElementById('tl-i').value||'').trim();
-  if(v===TC){document.getElementById('tl-e').classList.add('hidden');document.getElementById('tl-i').value='';go('pg-dash');startLiveDash();}
+  if(v===TC){document.getElementById('tl-e').classList.add('hidden');document.getElementById('tl-i').value='';go('pg-dash');startDash();}
   else document.getElementById('tl-e').classList.remove('hidden');
 }
 
-function startLiveDash(){
-  // نتائج المسلّمين
-  db.ref(DB.results).on('value',snap=>{
-    allResults=[];
-    snap.forEach(child=>allResults.push({id:child.key,...child.val()}));
-    renderDash(activeTab);
-  });
-  // الطلاب النشطون
-  db.ref(DB.active).on('value',snap=>{
-    presenceData={};
-    snap.forEach(child=>presenceData[child.key]=child.val());
-    renderPresence(presenceFilter);
-  });
-  // سجل التسليم
-  db.ref(DB.submissions).on('value',snap=>{
-    submissionsData={};
-    snap.forEach(child=>submissionsData[child.key]=child.val());
-    renderPresence(presenceFilter);
-  });
-  // القفل
-  db.ref(DB.locks).on('value',()=>renderPresence(presenceFilter));
+function startDash(){
+  db.ref(DB.results).on('value',snap=>{allResults=[];snap.forEach(c=>allResults.push({id:c.key,...c.val()}));renderDash(activeDashTab);if(anVisible)buildAnalysis();});
+  db.ref(DB.active).on('value',snap=>{presData={};snap.forEach(c=>presData[c.key]=c.val());renderPres();});
+  db.ref(DB.submissions).on('value',snap=>{subsData={};snap.forEach(c=>subsData[c.key]=c.val());renderPres();});
+  db.ref(DB.locks).on('value',()=>renderPres());
 }
 
-// ══════════════════════════════════════════
-//  شبكة الحضور
-// ══════════════════════════════════════════
-function getStudentStatus(pin){
-  const sub=submissionsData[pin];
-  if(sub&&sub.submitted&&!sub.retryAllowed) return 'submitted';
-  const act=presenceData[pin];
-  if(act){
-    if(act.status==='locked') return 'locked';
-    if(act.status==='active') return 'active';
-  }
-  return 'absent';
+// ══ مراقبة الحضور ══
+function setPresFilter(f){presFilter=f;renderPres();}
+
+function stuStatus(pin){
+  const sub=subsData[pin];
+  if(sub&&sub.submitted&&!sub.retryAllowed)return'submitted';
+  const act=presData[pin];
+  if(act){if(act.status==='locked')return'locked';if(act.status==='active')return'active';}
+  return'absent';
 }
 
-function renderPresence(filter){
-  presenceFilter=filter;
-  const students=filter==='all-s'?ALL_STUDENTS:ALL_STUDENTS.filter(s=>s.sec===filter);
-
-  // إحصائيات
-  let cActive=0,cSub=0,cLocked=0,cAbsent=0;
-  students.forEach(s=>{
-    const st=getStudentStatus(s.pin);
-    if(st==='active')cActive++;
-    else if(st==='submitted')cSub++;
-    else if(st==='locked')cLocked++;
-    else cAbsent++;
-  });
-  document.getElementById('presence-stats').innerHTML=`
-    <span style="font-size:12px;background:rgba(100,255,150,.15);border:1px solid #64ff96;color:#64ff96;padding:4px 12px;border-radius:20px">🟢 داخل الاختبار: ${cActive}</span>
-    <span style="font-size:12px;background:rgba(100,200,255,.15);border:1px solid #64c8ff;color:#64c8ff;padding:4px 12px;border-radius:20px">🔵 سلّم: ${cSub}</span>
-    <span style="font-size:12px;background:rgba(255,100,100,.15);border:1px solid #ff6464;color:#ff6464;padding:4px 12px;border-radius:20px">🔴 خرج: ${cLocked}</span>
-    <span style="font-size:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#aaa;padding:4px 12px;border-radius:20px">⚪ لم يدخل: ${cAbsent}</span>
-  `;
-
-  // البطاقات
-  document.getElementById('presence-grid').innerHTML=students.map(s=>{
-    const st=getStudentStatus(s.pin);
-    const dotCls={'active':'dot-active','submitted':'dot-submitted','locked':'dot-locked','absent':'dot-absent'}[st];
-    const cardCls={'active':'active','submitted':'submitted','locked':'locked','absent':'absent'}[st];
-    const statusTxt={'active':'🟢 داخل الاختبار','submitted':'✅ سلّم الاختبار','locked':'🔴 خرج من الصفحة','absent':'⚪ لم يدخل بعد'}[st];
-    const actions=`
-      <button class="abtn abtn-unlock" onclick="unlockStudent('${s.pin}','${s.name}')">🔓 تعيين</button>
-      <button class="abtn abtn-retry" onclick="allowRetry('${s.pin}','${s.name}')">🔄 إعادة</button>
-    `;
-    return`<div class="pcard ${cardCls}">
-      <div class="pcard-top">
-        <div class="pcard-dot ${dotCls}"></div>
-        <div class="pcard-name">${s.name}</div>
-        <span style="font-size:10px;color:#a0c4ff;white-space:nowrap">ش${s.sec}</span>
+function renderPres(){
+  const stus=presFilter==='all'?ALL_STU:ALL_STU.filter(s=>s.sec===presFilter);
+  let cA=0,cS=0,cL=0,cAb=0;
+  stus.forEach(s=>{const st=stuStatus(s.pin);if(st==='active')cA++;else if(st==='submitted')cS++;else if(st==='locked')cL++;else cAb++;});
+  document.getElementById('pres-stats').innerHTML=`
+    <span style="font-size:11px;background:rgba(100,255,150,.12);border:1px solid #64ff96;color:#64ff96;padding:3px 10px;border-radius:16px">🟢 داخل: ${cA}</span>
+    <span style="font-size:11px;background:rgba(100,200,255,.12);border:1px solid #64c8ff;color:#64c8ff;padding:3px 10px;border-radius:16px">🔵 سلّم: ${cS}</span>
+    <span style="font-size:11px;background:rgba(255,100,100,.12);border:1px solid #ff6464;color:#ff6464;padding:3px 10px;border-radius:16px">🔴 خرج: ${cL}</span>
+    <span style="font-size:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#aaa;padding:3px 10px;border-radius:16px">⚪ لم يدخل: ${cAb}</span>`;
+  const stMap={active:'active',submitted:'submitted',locked:'locked',absent:''};
+  const dotMap={active:'pdot-active',submitted:'pdot-submitted',locked:'pdot-locked',absent:'pdot-absent'};
+  const txtMap={active:'🟢 داخل الاختبار',submitted:'✅ سلّم',locked:'🔴 خرج من الصفحة',absent:'⚪ لم يدخل بعد'};
+  document.getElementById('pres-grid').innerHTML=stus.map(s=>{
+    const st=stuStatus(s.pin);
+    return`<div class="pcard ${stMap[st]}">
+      <div class="pcard-top"><div class="pdot ${dotMap[st]}"></div><div class="pcard-name">${s.name}</div><span style="font-size:10px;color:#a0c4ff">ش${s.sec}</span></div>
+      <div class="pcard-status">${txtMap[st]}</div>
+      <div class="pcard-actions">
+        <button class="abtn abtn-unlock" onclick="unlockStu('${s.pin}','${s.name}')">🔓 تعيين</button>
+        <button class="abtn abtn-retry" onclick="allowRetry('${s.pin}','${s.name}')">🔄 إعادة</button>
       </div>
-      <div class="pcard-status">${statusTxt}</div>
-      <div class="pcard-actions">${actions}</div>
     </div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════
-//  جدول النتائج
-// ══════════════════════════════════════════
+// ══ جدول النتائج ══
 function renderDash(sec){
-  activeTab=sec;
+  activeDashTab=sec;
   const fil=sec==='all'?allResults:allResults.filter(r=>r.section===sec);
   const secs=['all','1','2','4','5'];
-  document.getElementById('dtabs').innerHTML=secs.map(s=>{
-    const cnt=s==='all'?allResults.length:allResults.filter(r=>r.section===s).length;
-    return`<button class="tab${s===sec?' act':''}" onclick="renderDash('${s}')">${s==='all'?`الكل(${cnt})`:`ش${s}(${cnt})`}</button>`;
-  }).join('');
+  document.getElementById('dtabs').innerHTML=secs.map(s=>{const cnt=s==='all'?allResults.length:allResults.filter(r=>r.section===s).length;return`<button class="tab${s===sec?' act':''}" onclick="renderDash('${s}')">${s==='all'?`الكل(${cnt})`:`ش${s}(${cnt})`}</button>`;}).join('');
   const avg=fil.length?Math.round(fil.reduce((a,r)=>a+r.pct,0)/fil.length):0;
   const pass=fil.filter(r=>r.pct>=50).length;
   document.getElementById('dstats').innerHTML=`
@@ -858,100 +716,299 @@ function renderDash(sec){
     <div class="sc"><div class="sv">${avg}%</div><div class="sl">المتوسط</div></div>
     <div class="sc"><div class="sv">${fil.length?Math.max(...fil.map(r=>r.pct)):0}%</div><div class="sl">أعلى</div></div>
     <div class="sc"><div class="sv">${fil.length?Math.min(...fil.map(r=>r.pct)):0}%</div><div class="sl">أدنى</div></div>
-    <div class="sc"><div class="sv">${pass}</div><div class="sl">ناجح</div></div>
-    <div class="sc"><div class="sv">${fil.length-pass}</div><div class="sl">راسب</div></div>
-    <div class="sc"><div class="sv">${fil.filter(r=>r.pct>=90).length}🏆</div><div class="sl">امتياز</div></div>`;
+    <div class="sc"><div class="sv" style="color:#64ff96">${pass}</div><div class="sl">ناجح</div></div>
+    <div class="sc"><div class="sv" style="color:#ff6464">${fil.length-pass}</div><div class="sl">راسب</div></div>
+    <div class="sc"><div class="sv" style="color:#ffd700">${fil.filter(r=>r.pct>=90).length}🏆</div><div class="sl">امتياز</div></div>`;
   if(!fil.length){document.getElementById('dbody').innerHTML=`<tr><td colspan="12" style="text-align:center;padding:28px;color:rgba(255,255,255,.4)">في انتظار نتائج الطلاب...</td></tr>`;return;}
   document.getElementById('dbody').innerHTML=[...fil].sort((a,b)=>b.pct-a.pct).map((r,i)=>{
     const gi=gradeInfo(r.pct),ms=r.maxScore||14;
-    return`<tr>
-      <td>${i+1}</td>
-      <td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td>
-      <td>${r.section}</td>
-      <td><span class="pin-badge">${r.pin||'—'}</span></td>
-      <td>${r.mcqScore||0}/${ms-4}</td>
-      <td>${(+r.matchScore||0).toFixed(1)}/2</td>
-      <td>${(+r.orderScore||0).toFixed(1)}/2</td>
-      <td><strong>${r.score}/${ms}</strong></td>
-      <td>${r.pct}%</td>
-      <td><span class="gp ${gi.cls}">${gi.lbl}</span></td>
-      <td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td>
-      <td>
-        <button class="abtn abtn-retry" onclick="allowRetry('${r.pin}','${r.name}')">🔄 إعادة</button>
-        <button class="abtn abtn-unlock" onclick="unlockStudent('${r.pin}','${r.name}')">🔓 تعيين</button>
-      </td>
-    </tr>`;
+    return`<tr><td>${i+1}</td><td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td><td>${r.section}</td><td><span class="pin-badge">${r.pin||'—'}</span></td><td>${r.mcqScore||0}/${ms-4}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td><td>${(+r.orderScore||0).toFixed(1)}/2</td><td><strong>${r.score}/${ms}</strong></td><td>${r.pct}%</td><td><span class="gp ${gi.cls}">${gi.lbl}</span></td><td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td><td><button class="abtn abtn-retry" onclick="allowRetry('${r.pin}','${r.name}')">🔄</button><button class="abtn abtn-unlock" onclick="unlockStu('${r.pin}','${r.name}')">🔓</button></td></tr>`;
   }).join('');
 }
 
 async function allowRetry(pin,name){
   if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
-  showConf('🔄','السماح بإعادة الاختبار',`هل تريد السماح للطالب:\n${name}\nبإعادة الاختبار؟\n(ستُحفظ نتيجته القديمة)`,async()=>{
+  showConf('🔄','السماح بإعادة الاختبار',`هل تريد السماح للطالب:\n${name}\nبإعادة الاختبار؟`,async()=>{
     await db.ref(DB.submissions+'/'+pin).update({retryAllowed:true,submitted:false});
     toast(`✅ تم السماح لـ ${name} بإعادة الاختبار`,4000);
   });
 }
-
-async function unlockStudent(pin,name){
+async function unlockStu(pin,name){
   if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
   showConf('🔓','إعادة تعيين الشاشة',`هل تريد فتح شاشة الطالب:\n${name}؟`,async()=>{
     await db.ref(DB.locks+'/'+pin).set({locked:false,name,time:new Date().toLocaleString('ar-SA')});
     toast(`✅ تم فتح شاشة ${name}`,3000);
   });
 }
+function doClear(){showConf('🗑','مسح جميع البيانات','هل أنت متأكد؟ لا يمكن التراجع.',async()=>{await db.ref('final').remove();toast('✅ تم مسح جميع البيانات.',3000);});}
 
-function doClear(){
-  showConf('🗑','مسح جميع البيانات','هل أنت متأكد؟ لا يمكن التراجع.',async()=>{
-    await db.ref('final').remove();
-    toast('✅ تم مسح جميع البيانات.',3000);
-  });
-}
-
-// ══════════════════════════════════════════
-//  Excel
-// ══════════════════════════════════════════
+// ══ Excel ══
 function buildXL(data){
   const s=[...data].sort((a,b)=>b.pct-a.pct),ms=s[0]?.maxScore||14;
-  let h=`<html><head><meta charset="UTF-8"></head><body><table border="1" style="font-family:Arial;direction:rtl">
-  <thead><tr style="background:#1b3a6b;color:#fff;font-weight:bold"><th>#</th><th>الاسم</th><th>الشعبة</th><th>الرمز</th><th>MCQ/${ms-4}</th><th>توصيل/2</th><th>ترتيب/2</th><th>المجموع/${ms}</th><th>النسبة</th><th>التقدير</th><th>الزمن</th><th>انتهى الوقت</th><th>وقت التسليم</th></tr></thead><tbody>`;
-  s.forEach((r,i)=>{
-    const gi=gradeInfo(r.pct),bg=i%2===0?'#f5f5f5':'#fff',sc=r.pct>=90?'#006400':r.pct>=80?'#00008B':r.pct>=50?'#8B6914':'#8B0000';
-    h+=`<tr style="background:${bg}"><td>${i+1}</td><td style="font-weight:bold">${r.name}</td><td>${r.section}</td><td>${r.pin||'—'}</td><td>${r.mcqScore||0}</td><td>${(+r.matchScore||0).toFixed(1)}</td><td>${(+r.orderScore||0).toFixed(1)}</td><td style="font-weight:bold;color:${sc}">${r.score}</td><td style="color:${sc}">${r.pct}%</td><td style="font-weight:bold;color:${sc}">${gi.lbl}</td><td>${r.elapsed||'--'}</td><td>${r.timedOut?'نعم':'لا'}</td><td>${r.time||'--'}</td></tr>`;
-  });
+  let h=`<html><head><meta charset="UTF-8"></head><body><table border="1" style="font-family:Arial;direction:rtl"><thead><tr style="background:#1b3a6b;color:#fff"><th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ/${ms-4}</th><th>توصيل/2</th><th>ترتيب/2</th><th>المجموع/${ms}</th><th>%</th><th>التقدير</th><th>الزمن</th><th>انتهى</th><th>وقت التسليم</th></tr></thead><tbody>`;
+  s.forEach((r,i)=>{const gi=gradeInfo(r.pct),bg=i%2===0?'#f5f5f5':'#fff',sc=r.pct>=90?'#006400':r.pct>=80?'#00008B':r.pct>=50?'#8B6914':'#8B0000';h+=`<tr style="background:${bg}"><td>${i+1}</td><td>${r.name}</td><td>${r.section}</td><td>${r.pin||'—'}</td><td>${r.mcqScore||0}</td><td>${(+r.matchScore||0).toFixed(1)}</td><td>${(+r.orderScore||0).toFixed(1)}</td><td style="color:${sc};font-weight:bold">${r.score}</td><td style="color:${sc}">${r.pct}%</td><td style="color:${sc};font-weight:bold">${gi.lbl}</td><td>${r.elapsed||'--'}</td><td>${r.timedOut?'نعم':'لا'}</td><td>${r.time||'--'}</td></tr>`;});
   return h+'</tbody></table></body></html>';
 }
-function dlXL(html,name){
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'}));
-  a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
-  toast('✅ تم تصدير '+name,3000);
-}
-function doXL(sec){const d=allResults.filter(r=>r.section===sec);if(!d.length){toast(`❌ لا توجد نتائج للشعبة ${sec}`,3000);return;}dlXL(buildXL(d),`نتائج_نهائي_شعبة_${sec}.xls`);}
-function doXLAll(){if(!allResults.length){toast('❌ لا توجد بيانات',3000);return;}dlXL(buildXL(allResults),'نتائج_نهائي_جميع_الشعب.xls');}
+function dlXL(html,name){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'}));a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);toast('✅ '+name,3000);}
+function doXL(sec){const d=allResults.filter(r=>r.section===sec);if(!d.length){toast('❌ لا توجد نتائج',3000);return;}dlXL(buildXL(d),`نتائج_ش${sec}.xls`);}
+function doXLAll(){if(!allResults.length){toast('❌ لا توجد بيانات',3000);return;}dlXL(buildXL(allResults),'نتائج_جميع_الشعب.xls');}
 
-// ══════════════════════════════════════════
-//  التحليل
-// ══════════════════════════════════════════
-let charts={};
-function destroyCharts(){Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});charts={};}
-function showAnalysis(){
+// ══════════════════════════════════════════════════════
+//  التحليل المتقدم
+// ══════════════════════════════════════════════════════
+const QI=[
+  {n:1,tp:'البناء الضوئي',lv:'التذكر',bl:'r'},
+  {n:2,tp:'النباتات اللاوعائية',lv:'التذكر',bl:'r'},
+  {n:3,tp:'دورة حياة النبات',lv:'التذكر',bl:'r'},
+  {n:4,tp:'استجابات النبات',lv:'الفهم',bl:'u'},
+  {n:5,tp:'استكشاف الفضاء',lv:'التذكر',bl:'r'},
+  {n:6,tp:'التلسكوبات الفضائية',lv:'الفهم',bl:'u'},
+  {n:7,tp:'تكتونية الصفائح',lv:'الفهم',bl:'u'},
+  {n:8,tp:'الحدود التكتونية',lv:'التطبيق',bl:'a'},
+  {n:9,tp:'التجوية',lv:'التطبيق',bl:'a'},
+  {n:10,tp:'التعرية والترسيب',lv:'التحليل',bl:'an'},
+  {n:11,tp:'طبقات الغلاف الجوي',lv:'التذكر',bl:'r'},
+  {n:12,tp:'قياسات الطقس',lv:'التذكر',bl:'r'},
+  {n:13,tp:'أنواع السحب',lv:'الفهم',bl:'u'},
+  {n:14,tp:'الأعاصير',lv:'التطبيق',bl:'a'},
+  {n:15,tp:'استجابات النبات - توصيل',lv:'التطبيق',bl:'a'},
+  {n:16,tp:'دورة الطقس - ترتيب',lv:'التحليل',bl:'an'}
+];
+const OUTCOMES={
+  'البناء الضوئي':'يتعرف على موقع البناء الضوئي في الخلية النباتية',
+  'النباتات اللاوعائية':'يميّز وظائف أعضاء النباتات اللاوعائية',
+  'دورة حياة النبات':'يشرح مراحل دورة حياة النبات بما فيها السبات',
+  'استجابات النبات':'يصنّف أنواع الانتحاء واستجابات النبات',
+  'استكشاف الفضاء':'يتعرف على محطات تاريخ استكشاف الفضاء',
+  'التلسكوبات الفضائية':'يحلّل مميزات التلسكوبات الفضائية',
+  'تكتونية الصفائح':'يفسّر آلية حركة الصفائح التكتونية',
+  'الحدود التكتونية':'يربط نوع الحد التكتوني بالظواهر الجيولوجية',
+  'التجوية':'يميّز أنواع التجوية ويطبّق التصنيف',
+  'التعرية والترسيب':'يحلّل الفرق بين التعرية والترسيب',
+  'طبقات الغلاف الجوي':'يتعرف على طبقات الغلاف الجوي وخصائصها',
+  'قياسات الطقس':'يتعرف على أجهزة قياس عناصر الطقس',
+  'أنواع السحب':'يصنّف أنواع السحب ويربطها بالطقس',
+  'الأعاصير':'يحدّد العوامل المؤثرة في شدة الأعاصير',
+  'استجابات النبات - توصيل':'يوصّل المصطلح العلمي بتعريفه',
+  'دورة الطقس - ترتيب':'يرتّب مراحل دورة الماء بالتسلسل الصحيح'
+};
+const REMEDIAL={
+  'البناء الضوئي':['فيديو تفاعلي عن الكلوروبلاست','رسم الخلية النباتية وتلوين عضياتها','تمارين مطابقة العضيات بوظائفها'],
+  'النباتات اللاوعائية':['مقارنة مصورة بين النباتات الوعائية واللاوعائية','قراءة عن الحزازيات مع أسئلة فهم','رسم أشباه الجذور'],
+  'دورة حياة النبات':['بطاقات ترتيب مراحل دورة حياة النبات','تجربة زراعة بذرة','ورقة عمل: تعريف السبات'],
+  'استجابات النبات':['فيديو لاستجابات النبات','تمارين تصنيف أنواع الانتحاء','خريطة مفاهيمية'],
+  'استكشاف الفضاء':['خط زمني مصور','لعبة مطابقة الأقمار بسنة إطلاقها','قراءة عن سبوتنيك'],
+  'التلسكوبات الفضائية':['مقارنة جدولية بين التلسكوبات','ورقة تفكير ناقد'],
+  'تكتونية الصفائح':['نموذج محاكاة بالطين','فيديو تيارات الحمل','رسم طبقات الأرض'],
+  'الحدود التكتونية':['بطاقات مطابقة: نوع الحد ← الظاهرة','خريطة جيولوجية','ورقة عمل'],
+  'التجوية':['أمثلة من البيئة المحلية','تجربة تأثير الماء على الصخور','تصنيف صور'],
+  'التعرية والترسيب':['رسوم متحركة','ورقة مقارنة','نصوص مع أسئلة تحليلية'],
+  'طبقات الغلاف الجوي':['مجسم ورقي','جدول مقارنة خصائص الطبقات','لعبة ترتيب الطبقات'],
+  'قياسات الطقس':['بطاقات مطابقة: الجهاز ← ما يقيسه','لعبة بالصور','تجربة باروميتر'],
+  'أنواع السحب':['ألبوم صور مع التصنيف','جدول مقارنة','ملاحظة السماء'],
+  'الأعاصير':['فيديو تكوّن الإعصار','مقياس فوجيتا','مقارنة أعاصير حقيقية'],
+  'استجابات النبات - توصيل':['بطاقات مراجعة','تمارين مطابقة','ورقة ملخص'],
+  'دورة الطقس - ترتيب':['رسم دورة المياه','ترتيب بطاقات المراحل','تمرين: أين يذهب المطر؟']
+};
+
+let anFilter='all',anTab=0,anVisible=false;
+const anCharts={};
+
+function toggleAnalysis(){
   const card=document.getElementById('analysis-card');
-  card.classList.toggle('hidden');
-  if(!card.classList.contains('hidden'))buildCharts();
+  anVisible=!anVisible;
+  card.classList.toggle('hidden',!anVisible);
+  if(anVisible)buildAnalysis();
 }
-function buildCharts(){
-  destroyCharts();
-  if(!allResults.length){toast('❌ لا توجد بيانات',3000);return;}
+
+function setAnF(f){
+  anFilter=f;
+  document.querySelectorAll('#an-filters .an-f').forEach(b=>b.classList.toggle('act',
+    (f==='all'&&b.textContent==='الكل')||(f!=='all'&&b.textContent.includes(f))));
+  buildAnalysis();
+}
+
+function showAnTab(i){
+  anTab=i;
+  document.querySelectorAll('#an-tabs .an-tab').forEach((b,j)=>b.classList.toggle('act',j===i));
+  buildAnalysis();
+}
+
+function getAnData(){return anFilter==='all'?allResults:allResults.filter(r=>r.section===anFilter);}
+
+function qStats(data){
+  return QI.map(q=>{
+    let cor=0,tot=0;
+    data.forEach(r=>{
+      if(q.n<=14&&r.qDetails){const d=r.qDetails.find(x=>x.qNum===q.n);if(d){tot++;if(d.correct)cor++;}}
+      else if(q.n===15&&r.matchScore!=null){tot++;cor+=(r.matchScore>=2?1:r.matchScore>0?0.5:0);}
+      else if(q.n===16&&r.orderScore!=null){tot++;cor+=(r.orderScore>=2?1:r.orderScore>0?0.5:0);}
+    });
+    return{...q,cor,tot,pct:tot>0?Math.round(cor/tot*100):null};
+  });
+}
+
+function killChart(id){if(anCharts[id]){try{anCharts[id].destroy();}catch(e){}delete anCharts[id];}}
+
+function buildAnalysis(){
+  const data=getAnData();
+  const el=document.getElementById('an-content');
+  if(!el)return;
+  if(!data.length){el.innerHTML='<p style="color:#a0c4ff;font-size:13px;padding:12px">لا توجد نتائج بعد — في انتظار تسليم الطلاب.</p>';return;}
+
+  const qs=qStats(data);
+
+  if(anTab===0) buildOverview(data,qs,el);
+  else if(anTab===1) buildQTab(qs,el);
+  else if(anTab===2) buildWeakness(data,qs,el);
+  else if(anTab===3) buildPlan(qs,el);
+  else if(anTab===4) buildSections(el);
+}
+
+function mkCanvas(id,h){return `<div style="position:relative;width:100%;height:${h}px"><canvas id="${id}"></canvas></div>`;}
+
+function buildOverview(data,qs,el){
+  const avg=Math.round(data.reduce((a,r)=>a+r.pct,0)/data.length);
+  const pass=data.filter(r=>r.pct>=50).length;
   const bins=[0,0,0,0,0];
-  allResults.forEach(r=>{if(r.pct>=90)bins[4]++;else if(r.pct>=80)bins[3]++;else if(r.pct>=60)bins[2]++;else if(r.pct>=50)bins[1]++;else bins[0]++;});
-  charts.dist=new Chart(document.getElementById('ch-dist'),{type:'bar',data:{labels:['راسب','مقبول','جيد','جيد جداً','ممتاز'],datasets:[{label:'عدد الطلاب',data:bins,backgroundColor:['#ff6464','#ffc864','#e0c97f','#64c8ff','#64ff96'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false},title:{display:true,text:'توزيع الدرجات',color:'#e0c97f'}},scales:{x:{ticks:{color:'#cde'}},y:{ticks:{color:'#cde'},beginAtZero:true}}}});
-  charts.grade=new Chart(document.getElementById('ch-grade'),{type:'doughnut',data:{labels:['ممتاز','جيد جداً','جيد','مقبول','راسب'],datasets:[{data:[bins[4],bins[3],bins[2],bins[1],bins[0]],backgroundColor:['#64ff96','#64c8ff','#e0c97f','#ffc864','#ff6464']}]},options:{responsive:true,plugins:{title:{display:true,text:'التقديرات',color:'#e0c97f'},legend:{labels:{color:'#cde'}}}}});
-  const secs=['1','2','4','5'],avgs=secs.map(s=>{const r=allResults.filter(x=>x.section===s);return r.length?Math.round(r.reduce((a,x)=>a+x.pct,0)/r.length):0;});
-  charts.sec=new Chart(document.getElementById('ch-sec'),{type:'bar',data:{labels:secs.map(s=>'شعبة '+s),datasets:[{label:'متوسط %',data:avgs,backgroundColor:['#64ff96','#64c8ff','#e0c97f','#ff64c8'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false},title:{display:true,text:'متوسط كل شعبة',color:'#e0c97f'}},scales:{x:{ticks:{color:'#cde'}},y:{ticks:{color:'#cde'},beginAtZero:true,max:100}}}});
-  const avgMCQ=+(allResults.reduce((a,r)=>a+(r.mcqScore||0),0)/allResults.length).toFixed(1);
-  const avgM=+(allResults.reduce((a,r)=>a+(+r.matchScore||0),0)/allResults.length).toFixed(1);
-  const avgO=+(allResults.reduce((a,r)=>a+(+r.orderScore||0),0)/allResults.length).toFixed(1);
-  charts.topic=new Chart(document.getElementById('ch-topic'),{type:'radar',data:{labels:['MCQ (من 10)','توصيل (من 2)','ترتيب (من 2)'],datasets:[{label:'المتوسط',data:[avgMCQ,avgM,avgO],backgroundColor:'rgba(224,201,127,.2)',borderColor:'#e0c97f',pointBackgroundColor:'#e0c97f'}]},options:{responsive:true,plugins:{title:{display:true,text:'متوسط أنواع الأسئلة',color:'#e0c97f'},legend:{labels:{color:'#cde'}}},scales:{r:{ticks:{color:'#cde'},grid:{color:'rgba(255,255,255,.1)'},pointLabels:{color:'#cde'}}}}});
+  data.forEach(r=>{if(r.pct>=90)bins[4]++;else if(r.pct>=80)bins[3]++;else if(r.pct>=60)bins[2]++;else if(r.pct>=50)bins[1]++;else bins[0]++;});
+  const bmap={r:'التذكر',u:'الفهم',a:'التطبيق',an:'التحليل'};
+  const bloomL=['التذكر','الفهم','التطبيق','التحليل'];
+  const bs={};bloomL.forEach(l=>bs[l]={c:0,t:0});
+  qs.forEach(q=>{const l=bmap[q.bl];if(q.tot>0){bs[l].c+=q.cor;bs[l].t+=q.tot;}});
+
+  el.innerHTML=`
+    <div class="an-stats">
+      <div class="an-sc"><div class="an-sv">${data.length}</div><div class="an-sl">الطلاب</div></div>
+      <div class="an-sc"><div class="an-sv">${avg}%</div><div class="an-sl">المتوسط</div></div>
+      <div class="an-sc"><div class="an-sv">${Math.max(...data.map(r=>r.pct))}%</div><div class="an-sl">أعلى</div></div>
+      <div class="an-sc"><div class="an-sv">${Math.min(...data.map(r=>r.pct))}%</div><div class="an-sl">أدنى</div></div>
+      <div class="an-sc"><div class="an-sv" style="color:#64ff96">${pass}</div><div class="an-sl">ناجح</div></div>
+      <div class="an-sc"><div class="an-sv" style="color:#ff6464">${data.length-pass}</div><div class="an-sl">راسب</div></div>
+      <div class="an-sc"><div class="an-sv" style="color:#ffd700">${data.filter(r=>r.pct>=90).length}🏆</div><div class="an-sl">امتياز</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px">${mkCanvas('an-dist',180)}</div>
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px">${mkCanvas('an-grade',180)}</div>
+    </div>
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px">${mkCanvas('an-bloom',160)}</div>`;
+
+  setTimeout(()=>{
+    killChart('an-dist');
+    const cD=document.getElementById('an-dist');
+    if(cD)anCharts['an-dist']=new Chart(cD,{type:'bar',data:{labels:['<50','50-59','60-79','80-89','≥90'],datasets:[{data:bins,backgroundColor:['#ff6464','#ffc864','#e0c97f','#64c8ff','#64ff96'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'توزيع الدرجات',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},beginAtZero:true}}}});
+    killChart('an-grade');
+    const cG=document.getElementById('an-grade');
+    if(cG)anCharts['an-grade']=new Chart(cG,{type:'doughnut',data:{labels:['ممتاز','جيد جداً','جيد','مقبول','راسب'],datasets:[{data:[bins[4],bins[3],bins[2],bins[1],bins[0]],backgroundColor:['#64ff96','#64c8ff','#e0c97f','#ffc864','#ff6464']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#cde',font:{size:10}}},title:{display:true,text:'التقديرات',color:'#e0c97f',font:{size:11}}}}});
+    killChart('an-bloom');
+    const cB=document.getElementById('an-bloom');
+    if(cB)anCharts['an-bloom']=new Chart(cB,{type:'bar',data:{labels:bloomL,datasets:[{data:bloomL.map(l=>bs[l].t>0?Math.round(bs[l].c/bs[l].t*100):0),backgroundColor:['#64c8ff','#64ff96','#e0c97f','#ff64c8'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},title:{display:true,text:'الأداء حسب مستوى بلوم',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde'},max:100,min:0},y:{ticks:{color:'#cde',font:{size:10}}}}}});
+  },80);
+}
+
+function buildQTab(qs,el){
+  const valid=qs.filter(q=>q.tot>0);
+  el.innerHTML=`
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px;margin-bottom:10px">${mkCanvas('an-qchart',250)}</div>
+    <div style="overflow-x:auto"><table class="an-tbl"><thead><tr><th>س</th><th>الموضوع</th><th>المستوى</th><th>صح</th><th>خطأ</th><th>النسبة</th><th>الحالة</th></tr></thead><tbody>
+    ${valid.map(q=>{const c=q.pct>=70?'#64ff96':q.pct>=50?'#e0c97f':'#ff6464';const badge=q.pct>=70?`<span class="an-badge" style="background:rgba(100,255,150,.15);color:#64ff96;border:1px solid #64ff96">جيد</span>`:q.pct>=50?`<span class="an-badge" style="background:rgba(255,200,100,.15);color:#ffc864;border:1px solid #ffc864">متوسط</span>`:`<span class="an-badge" style="background:rgba(255,100,100,.15);color:#ff6464;border:1px solid #ff6464">ضعيف</span>`;
+    return`<tr><td style="color:#e0c97f;font-weight:700">س${q.n}</td><td style="text-align:right;font-size:11px">${q.tp}</td><td style="font-size:10px">${q.lv}</td><td style="color:#64ff96">${Math.round(q.cor)}</td><td style="color:#ff6464">${q.tot-Math.round(q.cor)}</td><td><div style="display:flex;align-items:center;gap:5px"><div class="an-bar" style="width:65px"><div class="an-bar-f" style="width:${q.pct}%;background:${c}"></div></div><span style="color:${c};font-weight:700;font-size:11px">${q.pct}%</span></div></td><td>${badge}</td></tr>`;}).join('')}
+    </tbody></table></div>`;
+  setTimeout(()=>{
+    killChart('an-qchart');
+    const cQ=document.getElementById('an-qchart');
+    if(cQ)anCharts['an-qchart']=new Chart(cQ,{type:'bar',data:{labels:valid.map(q=>`س${q.n}`),datasets:[{data:valid.map(q=>q.pct),backgroundColor:valid.map(q=>q.pct>=70?'rgba(100,255,150,.75)':q.pct>=50?'rgba(224,201,127,.75)':'rgba(255,100,100,.75)'),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'نسبة الإجابة الصحيحة لكل سؤال',color:'#e0c97f',font:{size:11}},tooltip:{callbacks:{label:c=>`${c.raw}% — ${valid[c.dataIndex].tp}`}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},max:100,min:0,grid:{color:'rgba(255,255,255,.07)'}}}}});
+  },80);
+}
+
+function buildWeakness(data,qs,el){
+  const weak=qs.filter(q=>q.tot>0&&q.pct<60).sort((a,b)=>a.pct-b.pct);
+  const bmap={r:'التذكر',u:'الفهم',a:'التطبيق',an:'التحليل'};
+  const bcolors={r:'#64c8ff',u:'#64ff96',a:'#e0c97f',an:'#ff64c8'};
+  const bs={};qs.filter(q=>q.tot>0).forEach(q=>{const l=bmap[q.bl];if(!bs[l])bs[l]={pcts:[],bl:q.bl};bs[l].pcts.push(q.pct);});
+  const need=[...data].sort((a,b)=>a.pct-b.pct).slice(0,10);
+  el.innerHTML=`
+    <h3 style="color:#ff6464;font-size:12px;margin-bottom:8px">⚠️ موضوعات بأداء أقل من 60%</h3>
+    ${weak.length?weak.map(q=>`<div style="margin-bottom:8px;padding:10px;border-radius:9px;background:rgba(255,100,100,.07);border:1px solid rgba(255,100,100,.22)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:700;color:#ff6464">س${q.n} — ${q.tp}</span><span style="font-size:12px;font-weight:700;color:#ff6464">${q.pct}%</span></div>
+      <div style="font-size:10px;color:#a0c4ff;margin-bottom:4px">${q.lv} | صح: ${Math.round(q.cor)}/${q.tot}</div>
+      <div class="an-bar"><div class="an-bar-f" style="width:${q.pct}%;background:#ff6464"></div></div>
+      <div style="font-size:10px;color:#a0c4ff;margin-top:4px">${OUTCOMES[q.tp]||'—'}</div>
+    </div>`).join(''):'<p style="color:#64ff96;font-size:12px;padding:6px">✅ لا توجد موضوعات ضعيفة.</p>'}
+    <h3 style="color:#a0c4ff;font-size:12px;margin:12px 0 8px">🔍 تحليل مستويات بلوم</h3>
+    ${Object.entries(bs).map(([l,b])=>{const avg=Math.round(b.pcts.reduce((a,x)=>a+x,0)/b.pcts.length);const c=bcolors[b.bl]||'#ccc';return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;padding:8px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)"><div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:${c};flex-shrink:0">${avg}%</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:${c}">${l} — ${avg>=70?'جيد ✅':avg>=50?'متوسط ⚠️':'ضعيف ❌'}</div><div class="an-bar" style="margin-top:4px"><div class="an-bar-f" style="width:${avg}%;background:${c}"></div></div></div></div>`;}).join('')}
+    <h3 style="color:#a0c4ff;font-size:12px;margin:12px 0 8px">👥 طلاب يحتاجون دعماً (أدنى 10)</h3>
+    <div style="overflow-x:auto"><table class="an-tbl"><thead><tr><th>#</th><th>الاسم</th><th>ش</th><th>الدرجة</th><th>%</th><th>أسئلة خاطئة</th></tr></thead><tbody>
+    ${need.map((r,i)=>{const c=r.pct<50?'#ff6464':r.pct<60?'#ffc864':'#e0c97f';const wq=r.qDetails?r.qDetails.filter(d=>!d.correct).map(d=>`س${d.qNum}`).join('، '):'—';return`<tr><td>${i+1}</td><td style="text-align:right;font-size:11px;font-weight:600">${r.name}</td><td>${r.section}</td><td style="color:${c};font-weight:700">${r.score}/${r.maxScore}</td><td style="color:${c};font-weight:700">${r.pct}%</td><td style="font-size:10px;color:#a0c4ff">${wq}</td></tr>`;}).join('')}
+    </tbody></table></div>`;
+}
+
+function buildPlan(qs,el){
+  const valid=qs.filter(q=>q.tot>0);
+  const crit=valid.filter(q=>q.pct<50).sort((a,b)=>a.pct-b.pct);
+  const warn=valid.filter(q=>q.pct>=50&&q.pct<70).sort((a,b)=>a.pct-b.pct);
+  const ok=valid.filter(q=>q.pct>=70);
+  let h='';
+  if(crit.length){h+=`<div style="font-size:11px;font-weight:700;color:#ff6464;margin-bottom:7px">🔴 أولوية قصوى — تدخل علاجي فوري</div>`;
+    crit.forEach(q=>{const acts=REMEDIAL[q.tp]||[];h+=`<div class="plan-row plan-crit"><div style="font-size:12px;font-weight:700;color:#ff6464;margin-bottom:4px">س${q.n}: ${q.tp} (${q.pct}%)</div><div style="font-size:11px;color:#a0c4ff;line-height:1.8"><strong style="color:#ffb3b3">ناتج التعلم:</strong> ${OUTCOMES[q.tp]||'—'}<br><strong style="color:#ffb3b3">أنشطة:</strong> ${acts.map((a,i)=>`${i+1}. ${a}`).join(' | ')}</div></div>`;});}
+  if(warn.length){h+=`<div style="font-size:11px;font-weight:700;color:#ffc864;margin:10px 0 7px">🟡 تعزيز وإثراء</div>`;
+    warn.forEach(q=>{const acts=REMEDIAL[q.tp]||[];h+=`<div class="plan-row plan-warn"><div style="font-size:12px;font-weight:700;color:#ffc864;margin-bottom:4px">س${q.n}: ${q.tp} (${q.pct}%)</div><div style="font-size:11px;color:#a0c4ff;line-height:1.8"><strong style="color:#ffe0a0">ناتج التعلم:</strong> ${OUTCOMES[q.tp]||'—'}<br><strong style="color:#ffe0a0">أنشطة:</strong> ${acts.slice(0,2).map((a,i)=>`${i+1}. ${a}`).join(' | ')}</div></div>`;});}
+  if(ok.length){h+=`<div style="font-size:11px;font-weight:700;color:#64ff96;margin:10px 0 7px">🟢 أداء جيد</div><div class="plan-row plan-ok"><div style="font-size:11px;color:#a0c4ff">${ok.map(q=>`${q.tp} (${q.pct}%)`).join(' • ')}</div></div>`;}
+  h+=`<h3 style="color:#a0c4ff;font-size:12px;margin:14px 0 9px">📌 نواتج التعلم التي تحتاج تدخلاً</h3>`;
+  const need=[...crit,...warn];
+  h+=need.length?need.map((q,i)=>{const c=q.pct<50?'#ff6464':q.pct<60?'#ffc864':'#e0c97f';return`<div style="display:flex;gap:8px;padding:8px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)"><div style="min-width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${c}">${i+1}</div><div><div style="font-size:11px;font-weight:700;color:${c};margin-bottom:2px">${q.tp} — إتقان: ${q.pct}%</div><div style="font-size:11px;color:#cde;line-height:1.6">${OUTCOMES[q.tp]||'—'}</div><span style="font-size:10px;padding:1px 7px;border-radius:8px;color:${c};border:1px solid ${c};margin-top:3px;display:inline-block">${q.pct<50?'أولوية فورية':'أولوية متوسطة'}</span></div></div>`;}).join(''):'<p style="color:#64ff96;font-size:12px;padding:6px">✅ جميع نواتج التعلم بمستوى جيد.</p>';
+  el.innerHTML=h;
+}
+
+function buildSections(el){
+  const secs=['1','2','4','5'];
+  const sd=secs.map(s=>({sec:s,data:allResults.filter(r=>r.section===s)}));
+  const avgs=sd.map(s=>s.data.length?Math.round(s.data.reduce((a,r)=>a+r.pct,0)/s.data.length):0);
+  el.innerHTML=`
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px;margin-bottom:10px">${mkCanvas('an-secbar',180)}</div>
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px;margin-bottom:10px">${mkCanvas('an-secline',220)}</div>
+    <div style="overflow-x:auto"><table class="an-tbl" id="an-sec-tbl"></table></div>`;
+  setTimeout(()=>{
+    killChart('an-secbar');
+    const cB=document.getElementById('an-secbar');
+    if(cB)anCharts['an-secbar']=new Chart(cB,{type:'bar',data:{labels:secs.map(s=>'شعبة '+s),datasets:[{data:avgs,backgroundColor:['rgba(100,255,150,.7)','rgba(100,200,255,.7)','rgba(224,201,127,.7)','rgba(255,100,200,.7)'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'متوسط كل شعبة',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde'}},y:{ticks:{color:'#cde'},max:100,min:0}}}});
+    const q14=QI.filter(q=>q.n<=14);
+    const colors=['rgba(100,255,150,.9)','rgba(100,200,255,.9)','rgba(224,201,127,.9)','rgba(255,100,200,.9)'];
+    killChart('an-secline');
+    const cL=document.getElementById('an-secline');
+    if(cL)anCharts['an-secline']=new Chart(cL,{type:'line',data:{labels:q14.map(q=>`س${q.n}`),datasets:sd.map((s,i)=>({label:'ش'+s.sec,data:q14.map(q=>{let c=0,t=0;s.data.forEach(r=>{if(r.qDetails){const d=r.qDetails.find(x=>x.qNum===q.n);if(d){t++;if(d.correct)c++;}}});return t>0?Math.round(c/t*100):0;}),borderColor:colors[i],backgroundColor:'transparent',borderWidth:1.5,tension:.3,pointRadius:3,pointBackgroundColor:colors[i]}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#cde',font:{size:10}}},title:{display:true,text:'أداء الشعب في كل سؤال',color:'#e0c97f',font:{size:11}}},scales:{x:{ticks:{color:'#cde',font:{size:10}}},y:{ticks:{color:'#cde'},max:100,min:0,grid:{color:'rgba(255,255,255,.07)'}}}}});
+    const tbl=document.getElementById('an-sec-tbl');
+    if(tbl){let th=`<thead><tr><th>الشعبة</th><th>العدد</th><th>المتوسط</th><th>أعلى</th><th>أدنى</th><th>ناجح</th><th>راسب</th><th>امتياز</th></tr></thead><tbody>`;
+    sd.forEach((s,i)=>{if(!s.data.length)return;const avg=avgs[i],top=Math.max(...s.data.map(r=>r.pct)),low=Math.min(...s.data.map(r=>r.pct)),pass=s.data.filter(r=>r.pct>=50).length,ex=s.data.filter(r=>r.pct>=90).length,c=avg>=70?'#64ff96':avg>=50?'#e0c97f':'#ff6464';th+=`<tr><td style="font-weight:700;color:#e0c97f">ش${s.sec}</td><td>${s.data.length}</td><td style="font-weight:700;color:${c}">${avg}%</td><td style="color:#64ff96">${top}%</td><td style="color:#ff6464">${low}%</td><td style="color:#64ff96">${pass}</td><td style="color:#ff6464">${s.data.length-pass}</td><td style="color:#ffd700">${ex}</td></tr>`;});
+    tbl.innerHTML=th+'</tbody>';}
+  },80);
+}
+
+function exportReport(){
+  const data=getAnData();
+  const qs=qStats(data).filter(q=>q.tot>0);
+  const avg=data.length?Math.round(data.reduce((a,r)=>a+r.pct,0)/data.length):0;
+  const crit=qs.filter(q=>q.pct<50),warn=qs.filter(q=>q.pct>=50&&q.pct<70);
+  let h=`<html><head><meta charset="UTF-8"><style>body{font-family:Arial;direction:rtl;padding:20px}h1{color:#1b3a6b;font-size:16px}h2{color:#415a77;font-size:13px;margin-top:14px}table{width:100%;border-collapse:collapse;margin:6px 0;font-size:11px}th{background:#1b3a6b;color:#fff;padding:6px}td{padding:5px;border:1px solid #ccc;text-align:center}.crit{background:#fff0f0}.warn{background:#fffbf0}.ok{background:#f0fff4}</style></head><body>
+  <h1>تقرير الاختبار النهائي — عملية الدعم والتمكين 2026</h1>
+  <p style="font-size:11px;color:#555">${new Date().toLocaleDateString('ar-SA')} | أ. عماد أبو حجيلة | ${anFilter==='all'?'جميع الشعب':'شعبة '+anFilter}</p>
+  <h2>ملخص الأداء</h2>
+  <table><tr><th>العدد</th><th>المتوسط</th><th>أعلى</th><th>أدنى</th><th>ناجح</th><th>راسب</th></tr>
+  <tr><td>${data.length}</td><td>${avg}%</td><td>${data.length?Math.max(...data.map(r=>r.pct)):0}%</td><td>${data.length?Math.min(...data.map(r=>r.pct)):0}%</td><td>${data.filter(r=>r.pct>=50).length}</td><td>${data.filter(r=>r.pct<50).length}</td></tr></table>
+  <h2>أداء الأسئلة</h2>
+  <table><tr><th>السؤال</th><th>الموضوع</th><th>المستوى</th><th>صح</th><th>خطأ</th><th>%</th><th>الحالة</th></tr>
+  ${qs.map(q=>`<tr class="${q.pct<50?'crit':q.pct<70?'warn':'ok'}"><td>س${q.n}</td><td>${q.tp}</td><td>${q.lv}</td><td>${Math.round(q.cor)}</td><td>${q.tot-Math.round(q.cor)}</td><td>${q.pct}%</td><td>${q.pct<50?'ضعيف':q.pct<70?'متوسط':'جيد'}</td></tr>`).join('')}</table>
+  <h2>نواتج التعلم التي تحتاج تدخلاً</h2>
+  <table><tr><th>#</th><th>الموضوع</th><th>الإتقان</th><th>ناتج التعلم</th><th>الأولوية</th></tr>
+  ${[...crit,...warn].map((q,i)=>`<tr class="${q.pct<50?'crit':'warn'}"><td>${i+1}</td><td>${q.tp}</td><td>${q.pct}%</td><td style="text-align:right">${OUTCOMES[q.tp]||'—'}</td><td>${q.pct<50?'فورية':'متوسطة'}</td></tr>`).join('')}</table>
+  <h2>الأنشطة العلاجية</h2>
+  ${[...crit,...warn].map(q=>`<div style="margin-bottom:9px;padding:8px;border:1px solid #ccc;border-radius:5px;background:${q.pct<50?'#fff0f0':'#fffbf0'}"><p style="font-weight:bold;font-size:12px">س${q.n}: ${q.tp} (${q.pct}%)</p><p style="font-size:11px">${(REMEDIAL[q.tp]||[]).map((a,i)=>`${i+1}. ${a}`).join(' | ')}</p></div>`).join('')}
+  </body></html>`;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([h],{type:'text/html;charset=utf-8'}));
+  a.download=`تقرير_${anFilter==='all'?'الكل':'شعبة_'+anFilter}.html`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  toast('✅ تم تصدير التقرير',3000);
 }
 </script>
 </body>
