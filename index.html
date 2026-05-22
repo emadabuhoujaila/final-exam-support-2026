@@ -595,29 +595,24 @@ function goPrev(){if(cur>0){cur--;mSel=null;renderNav();renderQ();}}
 function confirmSubmit(){
   const u=ANS.filter(a=>a===null).length;
   const msg=u>0?`لديك ${u} سؤال غير مجاب.\nهل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟';
-  showConf('📝','تسليم الاختبار',msg,()=>{
-    closeConf();
-    setTimeout(()=>{
-      try{
-        finish(false);
-      }catch(e){
-        alert('خطأ في finish: '+e.message+'\n'+e.stack);
-      }
-    },100);
-  });
+  showConf('📝','تسليم الاختبار',msg,()=>finish(false));
 }
 
 function showConf(ic,tit,msg,onY){
   document.getElementById('cic').textContent=ic;
   document.getElementById('ctit').textContent=tit;
   document.getElementById('cmsg').textContent=msg;
-  document.getElementById('cyes').onclick=onY;
+  const btn=document.getElementById('cyes');
+  const newBtn=btn.cloneNode(true);
+  btn.parentNode.replaceChild(newBtn,btn);
+  newBtn.addEventListener('click',()=>{
+    document.getElementById('cov').style.display='none';
+    onY();
+  });
   document.getElementById('cov').style.display='flex';
 }
 
-function closeConf(){
-  document.getElementById('cov').style.display='none';
-}
+function closeConf(){document.getElementById('cov').style.display='none';}
 
 // ══ إنهاء الاختبار ══
 async function finish(timed){
