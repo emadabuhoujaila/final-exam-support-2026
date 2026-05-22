@@ -497,7 +497,10 @@ async function doStart(){
   }catch(e){console.warn('check:',e);}
   sData={name,grade,sec,pin};
   curPin=pin;curName=name;
-  try{await db.ref(DB.active+'/'+pinKey(pin)).set({name,sec,status:'active',t:Date.now()});}catch(e){}
+  try{
+    await db.ref(DB.active+'/'+pinKey(pin)).set({name,sec,status:'active',t:Date.now()});
+  }catch(e){console.warn('active set:',e);}
+  listenUnlock();
   beginQuiz();
 }
 
@@ -508,7 +511,6 @@ function beginQuiz(){
   startTimer();
   ANS=new Array(TOTAL_QS).fill(null);
   cur=0;mSel=null;
-  listenUnlock();
   renderNav();renderQ();
 }
 
