@@ -226,7 +226,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
       <div class="stats" id="dstats"></div>
       <div style="overflow-x:auto">
         <table class="rt"><thead><tr>
-          <th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ(/10)</th><th>توصيل(/2)</th><th>ترتيب(/2)</th><th>المجموع(/14)</th><th>%</th><th>التقدير</th><th>الزمن</th><th>إجراءات</th>
+          <th>#</th><th>الاسم</th><th>ش</th><th>الرمز</th><th>MCQ</th><th>توصيل(/2)</th><th>ترتيب(/2)</th><th>المجموع</th><th>%</th><th>التقدير</th><th>الزمن</th><th>إجراءات</th>
         </tr></thead><tbody id="dbody"></tbody></table>
       </div>
     </div>
@@ -384,19 +384,19 @@ function lockScr(){
   document.getElementById('mc').style.filter='blur(12px)';
   document.getElementById('blk-pin').textContent=curPin;
   if(curPin){
-    db.ref(DB.locks+'/'+curPin).set({locked:true,name:curName,time:new Date().toLocaleString('ar-SA')});
-    db.ref(DB.active+'/'+curPin).update({status:'locked'});
+    db.ref(DB.locks+'/'+pinKey(curPin)).set({locked:true,name:curName,time:new Date().toLocaleString('ar-SA')});
+    db.ref(DB.active+'/'+pinKey(curPin)).update({status:'locked'});
   }
 }
 function listenUnlock(){
   if(!curPin)return;
-  db.ref(DB.locks+'/'+curPin).on('value',snap=>{
+  db.ref(DB.locks+'/'+pinKey(curPin)).on('value',snap=>{
     const d=snap.val();
     if(d&&d.locked===false&&visLocked){
       visLocked=false;
       document.getElementById('blk').style.display='none';
       document.getElementById('mc').style.filter='none';
-      db.ref(DB.active+'/'+curPin).update({status:'active'});
+      db.ref(DB.active+'/'+pinKey(curPin)).update({status:'active'});
       toast('✅ تم فتح الشاشة من المعلم!',4000);
     }
   });
@@ -466,6 +466,9 @@ const TOTAL_QS=BASE_QS.length;
 const lvC={r:'lr',u:'lu',a:'la',an:'lan'};
 
 // ══ بدء الاختبار ══
+// تحويل PIN لـ key آمن في Firebase (إزالة الشرطة)
+function pinKey(pin){return pin.replace(/-/g,'_');}
+
 async function doStart(){
   const name=(document.getElementById('rn').value||'').trim();
   const grade=document.getElementById('rg').value;
@@ -479,9 +482,9 @@ async function doStart(){
   if(!pin){err.textContent='يرجى إدخال رمز الدخول.';err.classList.remove('hidden');return;}
   if(PINS[name]!==pin){err.textContent='❌ رمز الدخول غير صحيح.';err.classList.remove('hidden');return;}
   try{
-    const snap=await db.ref(DB.submissions+'/'+pin).once('value');
+    const snap=await db.ref(DB.submissions+'/'+pinKey(pin)).once('value');
     const sub=snap.val();
-    if(sub&&sub.submitted===true&&!sub.retryAllowed){
+    if(sub&&sub.submitted===true&&sub.retryAllowed!==true){
       document.getElementById('done-info').innerHTML=
         `الاسم: <strong style="color:#e0c97f">${sub.name}</strong><br>
          الدرجة: <strong style="color:#64ff96">${sub.score}/${sub.maxScore}</strong> (${sub.pct}%)<br>
@@ -489,11 +492,13 @@ async function doStart(){
          وقت التسليم: ${sub.time}`;
       go('pg-done');return;
     }
-    if(sub&&sub.retryAllowed)await db.ref(DB.submissions+'/'+pin+'/retryAllowed').set(false);
-  }catch(e){console.warn('check submission:',e);}
+    if(sub&&sub.retryAllowed===true){
+      await db.ref(DB.submissions+'/'+pinKey(pin)+'/retryAllowed').set(false);
+    }
+  }catch(e){console.warn('check:',e);}
   sData={name,grade,sec,pin};
   curPin=pin;curName=name;
-  try{await db.ref(DB.active+'/'+pin).set({name,sec,status:'active',t:Date.now()});}catch(e){}
+  try{await db.ref(DB.active+'/'+pinKey(pin)).set({name,sec,status:'active',t:Date.now()});}catch(e){}
   beginQuiz();
 }
 
@@ -550,7 +555,7 @@ function doFinish(timed){
     (oQ.correct||[]).forEach((id,i)=>{if(oA[i]===id)oSc+=0.5;});
     oSc=parseFloat(oSc.toFixed(2));
   }
-  const maxScore=14;
+  const maxScore=BASE_QS.filter(q=>q.t==='mcq').length + 4; // MCQ + توصيل(2) + ترتيب(2)
   const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
   const pct=Math.round(total/maxScore*100);
   const gi=gradeInfo(pct);
@@ -581,9 +586,9 @@ function doFinish(timed){
   db.ref(DB.results).push(rec)
     .then(()=>{
       toast('✅ تم إرسال نتيجتك للمعلم!',4000);
-      db.ref(DB.submissions+'/'+pin).set({submitted:true,name,section:sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false}).catch(()=>{});
-      db.ref(DB.active+'/'+pin).remove().catch(()=>{});
-      db.ref(DB.locks+'/'+pin).remove().catch(()=>{});
+      db.ref(DB.submissions+'/'+pinKey(pin)).set({submitted:true,name,section:sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false}).catch(()=>{});
+      db.ref(DB.active+'/'+pinKey(pin)).remove().catch(()=>{});
+      db.ref(DB.locks+'/'+pinKey(pin)).remove().catch(()=>{});
     })
     .catch(e=>toast('⚠️ لم يُرسل للمعلم: '+e.message,8000));
 }
@@ -746,10 +751,11 @@ function renderDash(sec){
     <div class="sc"><div class="sv" style="color:#ffd700">${fil.filter(r=>r.pct>=90).length}🏆</div><div class="sl">امتياز</div></div>`;
   if(!fil.length){document.getElementById('dbody').innerHTML=`<tr><td colspan="12" style="text-align:center;padding:28px;color:rgba(255,255,255,.4)">في انتظار نتائج الطلاب...</td></tr>`;return;}
   document.getElementById('dbody').innerHTML=[...fil].sort((a,b)=>b.pct-a.pct).map((r,i)=>{
-    const gi=gradeInfo(r.pct),ms=r.maxScore||14;
+    const ms=r.maxScore||(BASE_QS.filter(q=>q.t==='mcq').length+4);
+    const mcqMax=ms-4;
     return`<tr><td>${i+1}</td><td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td>
       <td>${r.section}</td><td><span class="pin-badge">${r.pin||'—'}</span></td>
-      <td>${r.mcqScore||0}/${ms-4}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td>
+      <td>${r.mcqScore||0}/${mcqMax}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td>
       <td>${(+r.orderScore||0).toFixed(1)}/2</td><td><strong>${r.score}/${ms}</strong></td>
       <td>${r.pct}%</td><td><span class="gp ${gi.cls}">${gi.lbl}</span></td>
       <td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td>
@@ -762,13 +768,13 @@ function renderDash(sec){
 async function allowRetry(pin,name){
   if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
   if(!confirm('السماح للطالب '+name+' بإعادة الاختبار؟'))return;
-  await db.ref(DB.submissions+'/'+pin).update({retryAllowed:true,submitted:false});
+  await db.ref(DB.submissions+'/'+pinKey(pin)).update({retryAllowed:true,submitted:false});
   toast('✅ تم السماح لـ '+name,4000);
 }
 async function unlockStu(pin,name){
   if(!pin||pin==='undefined'){toast('❌ لا يوجد رمز',3000);return;}
   if(!confirm('فتح شاشة الطالب '+name+'؟'))return;
-  await db.ref(DB.locks+'/'+pin).set({locked:false,name,time:new Date().toLocaleString('ar-SA')});
+  await db.ref(DB.locks+'/'+pinKey(pin)).set({locked:false,name,time:new Date().toLocaleString('ar-SA')});
   toast('✅ تم فتح شاشة '+name,3000);
 }
 function doClear(){
