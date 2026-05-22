@@ -122,6 +122,24 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 .abtn{padding:4px 9px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border:none;margin:2px;white-space:nowrap}
 .abtn-unlock{background:rgba(255,200,100,.2);color:#ffc864;border:1px solid #ffc864}
 .abtn-retry{background:rgba(100,200,255,.2);color:#64c8ff;border:1px solid #64c8ff}
+/* ── تحليل متقدم ── */
+.atab{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-family:inherit}
+.atab.act{background:linear-gradient(135deg,#e0c97f,#c9862a);color:#1b263b;border-color:transparent}
+.an-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px;margin-bottom:4px}
+.an-sc{background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.an-sv{font-size:17px;font-weight:700;color:#e0c97f}
+.an-sl{font-size:10px;color:#a0c4ff;margin-top:2px}
+.an-table{width:100%;border-collapse:collapse;font-size:11px}
+.an-table th{background:rgba(224,201,127,.15);padding:7px 5px;border:1px solid rgba(255,255,255,.1);color:#e0c97f;white-space:nowrap}
+.an-table td{padding:6px 5px;border:1px solid rgba(255,255,255,.08);text-align:center;vertical-align:middle}
+.an-table tr:nth-child(even) td{background:rgba(255,255,255,.03)}
+.an-bar{width:100%;background:rgba(255,255,255,.1);border-radius:20px;height:12px;overflow:hidden}
+.an-bar-fill{height:100%;border-radius:20px}
+.an-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.an-plan-item{border-right:3px solid;padding:11px 13px;border-radius:0 9px 9px 0;margin-bottom:9px}
+.an-plan-crit{border-color:#ff6464;background:rgba(255,100,100,.07)}
+.an-plan-warn{border-color:#ffc864;background:rgba(255,200,100,.07)}
+.an-plan-ok{border-color:#64ff96;background:rgba(100,255,150,.07)}
 
 /* ── شبكة الحضور ── */
 .presence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
@@ -233,7 +251,7 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
         <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('4')">📥 Excel ش٤</button>
         <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="doXL('5')">📥 Excel ش٥</button>
         <button class="btn2" style="background:rgba(224,201,127,.15);color:#e0c97f;border:1px solid #e0c97f" onclick="doXLAll()">📥 Excel الكل</button>
-        <button class="btn2" style="background:rgba(255,100,200,.12);color:#ff64c8;border:1px solid #ff64c8" onclick="showAnalysis()">📈 تحليل</button>
+        <button class="btn2" style="background:rgba(255,100,200,.12);color:#ff64c8;border:1px solid #ff64c8" onclick="toggleAnalysis()">📈 تحليل متقدم</button>
       </div>
       <div class="tabs" id="dtabs"></div>
       <div class="stats" id="dstats"></div>
@@ -244,12 +262,78 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 
     <!-- Analysis -->
     <div class="card hidden" id="analysis-card">
-      <h3 style="color:#e0c97f;margin-bottom:14px">📈 تحليل متقدم</h3>
-      <div class="chart-grid">
-        <div class="chart-area"><canvas id="ch-dist"></canvas></div>
-        <div class="chart-area"><canvas id="ch-grade"></canvas></div>
-        <div class="chart-area"><canvas id="ch-sec"></canvas></div>
-        <div class="chart-area"><canvas id="ch-topic"></canvas></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <h3 style="color:#e0c97f;margin:0">📈 التحليل المتقدم</h3>
+        <button class="btn2" style="background:rgba(100,255,150,.12);color:#64ff96;border:1px solid #64ff96" onclick="exportReport()">📥 تصدير التقرير</button>
+      </div>
+      <!-- فلتر الشعبة -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="an-filters">
+        <button class="atab act" onclick="setAnFilter('all')">الكل</button>
+        <button class="atab" onclick="setAnFilter('1')">شعبة ١</button>
+        <button class="atab" onclick="setAnFilter('2')">شعبة ٢</button>
+        <button class="atab" onclick="setAnFilter('4')">شعبة ٤</button>
+        <button class="atab" onclick="setAnFilter('5')">شعبة ٥</button>
+      </div>
+      <!-- تبويبات التحليل -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px" id="an-tabs">
+        <button class="atab act" onclick="showAnTab('an-overview')">📊 عامة</button>
+        <button class="atab" onclick="showAnTab('an-questions')">❓ الأسئلة</button>
+        <button class="atab" onclick="showAnTab('an-weakness')">⚠️ مواطن الضعف</button>
+        <button class="atab" onclick="showAnTab('an-plan')">📋 خطة العلاج</button>
+        <button class="atab" onclick="showAnTab('an-sections')">🏫 مقارنة الشعب</button>
+      </div>
+
+      <!-- نظرة عامة -->
+      <div id="an-overview">
+        <div class="an-stats" id="an-stats-grid"></div>
+        <div class="chart-grid" style="margin-top:12px">
+          <div class="chart-area"><canvas id="ch-dist" role="img" aria-label="توزيع الدرجات"></canvas></div>
+          <div class="chart-area"><canvas id="ch-grade" role="img" aria-label="التقديرات"></canvas></div>
+        </div>
+        <div class="chart-area" style="margin-top:12px"><canvas id="ch-bloom" role="img" aria-label="مستويات بلوم"></canvas></div>
+      </div>
+
+      <!-- تحليل الأسئلة -->
+      <div id="an-questions" class="hidden">
+        <div class="chart-area" style="margin-bottom:12px">
+          <div style="position:relative;height:280px"><canvas id="ch-questions" role="img" aria-label="أداء الأسئلة"></canvas></div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="an-table"><thead><tr>
+            <th>س</th><th>الموضوع</th><th>المستوى</th><th>صح</th><th>خطأ</th><th>النسبة</th><th>الحالة</th>
+          </tr></thead><tbody id="an-q-body"></tbody></table>
+        </div>
+      </div>
+
+      <!-- مواطن الضعف -->
+      <div id="an-weakness" class="hidden">
+        <h3 style="color:#ff6464;margin-bottom:10px">⚠️ الموضوعات الأضعف (أقل من 60%)</h3>
+        <div id="an-weak-list"></div>
+        <h3 style="color:#a0c4ff;margin:14px 0 10px">🔍 تحليل مستويات بلوم</h3>
+        <div id="an-bloom-list"></div>
+        <h3 style="color:#a0c4ff;margin:14px 0 10px">👥 طلاب يحتاجون دعماً</h3>
+        <div style="overflow-x:auto">
+          <table class="an-table"><thead><tr><th>#</th><th>الاسم</th><th>ش</th><th>الدرجة</th><th>%</th><th>الأسئلة الخاطئة</th></tr></thead>
+          <tbody id="an-weak-students"></tbody></table>
+        </div>
+      </div>
+
+      <!-- خطة العلاج -->
+      <div id="an-plan" class="hidden">
+        <div id="an-plan-list"></div>
+        <h3 style="color:#a0c4ff;margin:14px 0 10px">📌 نواتج التعلم التي تحتاج تدخلاً</h3>
+        <div id="an-outcomes-list"></div>
+      </div>
+
+      <!-- مقارنة الشعب -->
+      <div id="an-sections" class="hidden">
+        <div class="chart-area" style="margin-bottom:12px">
+          <div style="position:relative;height:220px"><canvas id="ch-sec" role="img" aria-label="متوسط الشعب"></canvas></div>
+        </div>
+        <div class="chart-area" style="margin-bottom:12px">
+          <div style="position:relative;height:260px"><canvas id="ch-sec-q" role="img" aria-label="أداء الشعب في الأسئلة"></canvas></div>
+        </div>
+        <div style="overflow-x:auto"><table class="an-table" id="an-sec-table"></table></div>
       </div>
     </div>
   </div>
@@ -626,7 +710,9 @@ async function finish(timed){
   const total=parseFloat((mcqSc+mSc+oSc).toFixed(2)),maxScore=mcqD.length+4;
   const pct=Math.round(total/maxScore*100),gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
-  lastRec={name:sData.name,section:sData.sec,grade:sData.grade,pin:sData.pin,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore};
+  // تفاصيل إجابات كل سؤال للتحليل
+  const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,level:d.level,correct:d.correct?1:0}));
+  lastRec={name:sData.name,section:sData.sec,grade:sData.grade,pin:sData.pin,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails,matchCorrect:mSc>=2?1:mSc>0?0.5:0,orderCorrect:oSc>=2?1:oSc>0?0.5:0};
   try{
     await db.ref(DB.results).push(lastRec);
     await db.ref(DB.submissions+'/'+sData.pin).set({submitted:true,name:sData.name,section:sData.sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false});
