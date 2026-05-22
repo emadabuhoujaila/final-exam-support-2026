@@ -423,8 +423,7 @@ function startTimer(){
     if(sLeft===120)toast('🚨 دقيقتان فقط!',8000);
     if(sLeft<=0){clearInterval(tInt);toast('⌛ انتهى الوقت!',5000);setTimeout(()=>doFinish(true),1500);}
   },1000);
-}
-function stopTimer(){clearInterval(tInt);}
+}function stopTimer(){clearInterval(tInt);}
 
 // ══ أسئلة ══
 function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
@@ -527,26 +526,36 @@ function hideSubmitConfirm(){
   document.getElementById('subbtn-cancel').classList.add('hidden');
 }
 function doFinish(timed){
-  timed=timed===true;
-  stopTimer();quizActive=false;
-  go('pg-res');
+  timed=(timed===true);
+  stopTimer();
+  quizActive=false;
+
+  // تجميد بيانات الطالب فوراً
+  const pin=curPin||'';
+  const name=curName||'';
+  const sec=sData.sec||'';
+
   // حساب الدرجات
-  let mcqSc=0,mcqD=[];
+  let mcqSc=0, mcqD=[];
   QS.forEach((q,i)=>{
     if(q.t!=='mcq')return;
     const ok=(ANS[i]===q.ans);
     if(ok)mcqSc++;
     mcqD.push({qNum:i+1,topic:q.tp,correct:ok,level:q.lb,
-      chosen:ANS[i]===null?-1:ANS[i],
+      chosen:(ANS[i]===null||ANS[i]===undefined)?-1:ANS[i],
       rightAns:q.ans,exp:q.exp||'',q:q.q||'',opts:q.opts||[]});
   });
+
   let mSc=0;
   const mIdx=QS.findIndex(q=>q.t==='matching');
   if(mIdx>=0){
-    const mQ=QS[mIdx],mA=ANS[mIdx]||{};
-    Object.entries(mQ.correct||{}).forEach(([k,v])=>{if(mA[k]!==undefined&&mA[k]===v)mSc+=2/3;});
+    const mQ=QS[mIdx], mA=ANS[mIdx]||{};
+    Object.entries(mQ.correct||{}).forEach(([k,v])=>{
+      if(mA[k]!==undefined&&mA[k]===v)mSc+=2/3;
+    });
     mSc=Math.min(2,parseFloat(mSc.toFixed(2)));
   }
+
   let oSc=0;
   const oIdx=QS.findIndex(q=>q.t==='ordering');
   if(oIdx>=0){
@@ -555,42 +564,80 @@ function doFinish(timed){
     (oQ.correct||[]).forEach((id,i)=>{if(oA[i]===id)oSc+=0.5;});
     oSc=parseFloat(oSc.toFixed(2));
   }
-  const maxScore=BASE_QS.filter(q=>q.t==='mcq').length + 4; // MCQ + توصيل(2) + ترتيب(2)
+
+  const mcqCount=QS.filter(q=>q.t==='mcq').length;
+  const maxScore=mcqCount+4;
   const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
-  const pct=Math.round(total/maxScore*100);
+  const pct=Math.min(100,Math.round(total/maxScore*100));
   const gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA');
-  // عرض النتيجة
+  const elapsed=fmt(sUsed);
+
+  // عرض النتيجة فوراً
+  go('pg-res');
   document.getElementById('res-icon').textContent=gi.icon;
   document.getElementById('rpct').textContent=pct+'%';
   document.getElementById('rsc').textContent=total+' / '+maxScore;
-  document.getElementById('rmsg').textContent=timed?'⌛ انتهى الوقت':pct>=90?'ممتاز جداً! 🌟':pct>=80?'جيد جداً! 🏅':pct>=60?'جيد 👍':pct>=50?'مقبول 📚':'لم تجتز الاختبار 💡';
-  document.getElementById('rsub').innerHTML=`<span style="color:#a0c4ff">${sData.name} | شعبة ${sData.sec}</span><br>
-    <span style="font-size:11px;color:#64c8ff">MCQ: ${mcqSc}/${mcqD.length} | توصيل: ${mSc.toFixed(1)}/2 | ترتيب: ${oSc.toFixed(1)}/2 | الزمن: ${fmt(sUsed)}</span>`;
+  document.getElementById('rmsg').textContent=
+    timed?'⌛ انتهى الوقت':
+    pct>=90?'ممتاز جداً! 🌟':pct>=80?'جيد جداً! 🏅':
+    pct>=60?'جيد 👍':pct>=50?'مقبول 📚':'لم تجتز الاختبار 💡';
+  document.getElementById('rsub').innerHTML=
+    `<span style="color:#a0c4ff">${name} | شعبة ${sec}</span><br>
+    <span style="font-size:11px;color:#64c8ff">MCQ: ${mcqSc}/${mcqCount} | توصيل: ${mSc.toFixed(1)}/2 | ترتيب: ${oSc.toFixed(1)}/2 | الزمن: ${elapsed}</span>`;
+
   // مراجعة تفصيلية
   const L=['أ','ب','ج','د'];
-  let rev=`<div style="text-align:right;margin-top:14px"><h3 style="color:#e0c97f;margin-bottom:14px;font-size:15px;border-bottom:1px solid rgba(224,201,127,.3);padding-bottom:8px">📋 مراجعة تفصيلية</h3>`;
+  let rev=`<div style="text-align:right;margin-top:14px">
+    <h3 style="color:#e0c97f;margin-bottom:14px;font-size:15px;border-bottom:1px solid rgba(224,201,127,.3);padding-bottom:8px">📋 مراجعة تفصيلية</h3>`;
   mcqD.forEach(d=>{
-    rev+=`<div class="rev-item ${d.correct?'rok':'rng'}"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span>${d.correct?'✅':'❌'}</span><span style="font-size:13px;font-weight:700;color:${d.correct?'#64ff96':'#ff6464'}">س${d.qNum} — ${d.topic}</span></div><div style="font-size:13px;color:#e0e0ff;margin-bottom:8px">${d.q}</div><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">`;
-    d.opts.forEach((o,i)=>{const isC=i===d.rightAns,isCh=d.chosen===i;
-      rev+=`<div style="padding:7px 12px;border-radius:8px;border:1px solid ${isC?'#64ff96':isCh?'#ff6464':'rgba(255,255,255,.1)'};background:${isC?'rgba(100,255,150,.15)':isCh?'rgba(255,100,100,.15)':'rgba(255,255,255,.04)'};color:${isC?'#64ff96':isCh?'#ff8080':'#bbb'};font-size:12px">${isC?'✓ ':isCh?'✗ ':'  '}${L[i]}. ${o}${isC?' ← صحيح':''}${isCh&&!isC?' ← إجابتك':''}</div>`;});
+    rev+=`<div class="rev-item ${d.correct?'rok':'rng'}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span>${d.correct?'✅':'❌'}</span>
+        <span style="font-size:13px;font-weight:700;color:${d.correct?'#64ff96':'#ff6464'}">س${d.qNum} — ${d.topic}</span>
+      </div>
+      <div style="font-size:13px;color:#e0e0ff;margin-bottom:8px">${d.q}</div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">`;
+    d.opts.forEach((o,i)=>{
+      const isC=i===d.rightAns, isCh=d.chosen===i;
+      rev+=`<div style="padding:7px 12px;border-radius:8px;
+        border:1px solid ${isC?'#64ff96':isCh?'#ff6464':'rgba(255,255,255,.1)'};
+        background:${isC?'rgba(100,255,150,.15)':isCh?'rgba(255,100,100,.15)':'rgba(255,255,255,.04)'};
+        color:${isC?'#64ff96':isCh?'#ff8080':'#bbb'};font-size:12px">
+        ${isC?'✓ ':isCh?'✗ ':'  '}${L[i]}. ${o}${isC?' ← صحيح':''}${isCh&&!isC?' ← إجابتك':''}</div>`;
+    });
     rev+=`</div><div style="background:rgba(224,201,127,.08);border-right:3px solid #e0c97f;padding:8px 10px;border-radius:6px;font-size:12px;color:#e0c97f">💡 ${d.exp}</div></div>`;
   });
   document.getElementById('rev-area').innerHTML=rev+'</div>';
-  // حفظ Firebase
-  const pin=sData.pin,name=sData.name,sec=sData.sec;
+
+  // حفظ في Firebase — فقط إذا كان هناك pin
+  if(!pin){
+    document.querySelector('#pg-res .card div:last-child p').textContent='⚠️ لم يتم الإرسال — لا يوجد رمز طالب';
+    return;
+  }
+
   const qDetails=mcqD.map(d=>({qNum:d.qNum,topic:d.topic,correct:d.correct?1:0}));
-  const rec={name,section:sec,pin,score:total,mcqScore:mcqSc,
-    matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,
-    elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,qDetails};
+  const rec={
+    name,section:sec,pin,
+    score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,
+    pct,gradeLabel:gi.lbl,elapsed,timedOut:timed,time:ts,maxScore,qDetails
+  };
+
   db.ref(DB.results).push(rec)
     .then(()=>{
-      toast('✅ تم إرسال نتيجتك للمعلم!',4000);
-      db.ref(DB.submissions+'/'+pinKey(pin)).set({submitted:true,name,section:sec,score:total,maxScore,pct,gradeLabel:gi.lbl,time:ts,retryAllowed:false}).catch(()=>{});
+      toast('✅ تم إرسال نتيجتك للمعلم!',5000);
+      db.ref(DB.submissions+'/'+pinKey(pin)).set({
+        submitted:true,name,section:sec,
+        score:total,maxScore,pct,gradeLabel:gi.lbl,
+        time:ts,retryAllowed:false
+      }).catch(e=>console.warn('sub err:',e));
       db.ref(DB.active+'/'+pinKey(pin)).remove().catch(()=>{});
       db.ref(DB.locks+'/'+pinKey(pin)).remove().catch(()=>{});
     })
-    .catch(e=>toast('⚠️ لم يُرسل للمعلم: '+e.message,8000));
+    .catch(e=>{
+      console.error('push err:',e);
+      toast('⚠️ لم يُرسل: '+e.message,8000);
+    });
 }
 
 function gradeInfo(pct){
