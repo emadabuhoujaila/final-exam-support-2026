@@ -339,7 +339,9 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <div class="nav">
       <button class="nb nx" id="nxt" onclick="goNext()">التالي ←</button>
       <button class="nb pv hidden" id="prv" onclick="goPrev()">→ السابق</button>
-      <button class="nb sub hidden" id="subbtn" onclick="confirmSubmit()">✅ تسليم الاختبار</button>
+      <button class="nb sub hidden" id="subbtn" onclick="handleSubmit()">✅ تسليم الاختبار</button>
+      <button class="nb sub hidden" id="subbtn2" onclick="finish(false)" style="background:linear-gradient(135deg,#ff4444,#cc0000)">⚠️ تأكيد التسليم</button>
+      <button class="nb pv hidden" id="subbtn3" onclick="cancelSubmit()">إلغاء</button>
     </div>
   </div>
 
@@ -536,8 +538,11 @@ function beginQuiz(){
 
 function renderNav(){
   document.getElementById('qnav').innerHTML=QS.map((_,i)=>`<div class="qdot${i===cur?' cur':ANS[i]!==null?' ans':''}" onclick="jumpTo(${i})">${i+1}</div>`).join('');
-  document.getElementById('subbtn').classList.toggle('hidden',cur!==TOTAL_QS-1);
-  document.getElementById('nxt').classList.toggle('hidden',cur===TOTAL_QS-1);
+  const last=cur===TOTAL_QS-1;
+  document.getElementById('subbtn').classList.toggle('hidden',!last);
+  document.getElementById('subbtn2').classList.add('hidden');
+  document.getElementById('subbtn3').classList.add('hidden');
+  document.getElementById('nxt').classList.toggle('hidden',last);
   document.getElementById('prv').classList.toggle('hidden',cur===0);
 }
 function jumpTo(i){cur=i;mSel=null;renderNav();renderQ();}
@@ -592,27 +597,21 @@ function dp(e,tid){e.preventDefault();e.currentTarget.classList.remove('dov');if
 
 function goNext(){if(cur<TOTAL_QS-1){cur++;mSel=null;renderNav();renderQ();}}
 function goPrev(){if(cur>0){cur--;mSel=null;renderNav();renderQ();}}
-function confirmSubmit(){
+function handleSubmit(){
   const u=ANS.filter(a=>a===null).length;
-  const msg=u>0?`لديك ${u} سؤال غير مجاب.\nهل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟';
-  showConf('📝','تسليم الاختبار',msg,()=>finish(false));
+  document.getElementById('subbtn').classList.add('hidden');
+  document.getElementById('subbtn2').classList.remove('hidden');
+  document.getElementById('subbtn3').classList.remove('hidden');
+  if(u>0) toast('⚠️ لديك '+u+' سؤال غير مجاب — اضغط تأكيد للتسليم أو إلغاء للرجوع',5000);
 }
 
-function showConf(ic,tit,msg,onY){
-  document.getElementById('cic').textContent=ic;
-  document.getElementById('ctit').textContent=tit;
-  document.getElementById('cmsg').textContent=msg;
-  const btn=document.getElementById('cyes');
-  const newBtn=btn.cloneNode(true);
-  btn.parentNode.replaceChild(newBtn,btn);
-  newBtn.addEventListener('click',()=>{
-    document.getElementById('cov').style.display='none';
-    onY();
-  });
-  document.getElementById('cov').style.display='flex';
+function cancelSubmit(){
+  document.getElementById('subbtn').classList.remove('hidden');
+  document.getElementById('subbtn2').classList.add('hidden');
+  document.getElementById('subbtn3').classList.add('hidden');
 }
 
-function closeConf(){document.getElementById('cov').style.display='none';}
+function confirmSubmit(){handleSubmit();}
 
 // ══ إنهاء الاختبار ══
 async function finish(timed){
