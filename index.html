@@ -612,8 +612,8 @@ async function finish(timed){
   let oSc=0;
   const oIdx=QS.findIndex(q=>q.t==='ordering');
   if(oIdx>=0){const oQ=QS[oIdx],oA=ANS[oIdx]||oQ.items.map(x=>x.id);oQ.correct.forEach((id,i)=>{if(oA[i]===id)oSc+=0.5;});oSc=parseFloat(oSc.toFixed(2));}
-  const total=parseFloat((mcqSc+mSc+oSc).toFixed(2));
-  const maxScore=mcqD.length+4;
+  // 14 أسئلة MCQ (10 درجات) + توصيل (2) + ترتيب (2) = 14
+  const maxScore=14;
   const pct=Math.round(total/maxScore*100);
   const gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
@@ -635,26 +635,34 @@ async function finish(timed){
   saveResult(rec,studentData.pin,studentData.name,studentData.sec,total,maxScore,pct,gi.lbl,ts);
 }
 
-async function saveResult(rec, pin, name, sec, total, maxScore, pct, gradeLabel, ts, attempt=1){
+async function saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt=1){
   try{
-    await db.ref(DB.results).push(rec);
+    // فصل qDetails عن السجل الرئيسي لتجنب مشاكل الحجم
+    const {qDetails,...mainRec}=rec;
+    // تنظيف القيم undefined
+    const clean=JSON.parse(JSON.stringify(mainRec));
+    // حفظ السجل الرئيسي
+    const ref=await db.ref(DB.results).push(clean);
+    // حفظ qDetails منفصلاً باستخدام نفس الـ key
+    if(qDetails&&qDetails.length>0){
+      await db.ref(DB.results+'/'+ref.key+'/qDetails').set(qDetails);
+    }
+    // تسجيل التسليم
     await db.ref(DB.submissions+'/'+pin).set({
-      submitted:true, name, section:sec,
-      score:total, maxScore, pct, gradeLabel,
-      time:ts, retryAllowed:false
+      submitted:true,name,section:sec,
+      score:total,maxScore,pct,gradeLabel,
+      time:ts,retryAllowed:false
     });
-    // حذف القفل والنشاط بعد النجاح فقط
     db.ref(DB.locks+'/'+pin).remove().catch(()=>{});
     db.ref(DB.active+'/'+pin).remove().catch(()=>{});
     toast('✅ تم إرسال نتيجتك للمعلم!',4000);
   }catch(e){
-    console.error('Firebase save attempt '+attempt+' failed:',e);
+    console.error('محاولة '+attempt+' فشلت:',e);
     if(attempt<4){
-      // إعادة المحاولة بعد تأخير متزايد
-      setTimeout(()=>saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt+1), attempt*2000);
-      if(attempt===1) toast('⚠️ جاري إعادة الإرسال...', 3000);
-    } else {
-      toast('❌ تعذّر الإرسال — تحقق من الاتصال بالإنترنت.',6000);
+      setTimeout(()=>saveResult(rec,pin,name,sec,total,maxScore,pct,gradeLabel,ts,attempt+1),attempt*2000);
+      if(attempt===1)toast('⚠️ جاري إعادة الإرسال...',3000);
+    }else{
+      toast('❌ تعذّر الإرسال — تحقق من الاتصال.',6000);
     }
   }
 }
@@ -758,8 +766,8 @@ function renderPres(){
       <div class="pcard-top"><div class="pdot ${dotMap[st]}"></div><div class="pcard-name">${s.name}</div><span style="font-size:10px;color:#a0c4ff">ش${s.sec}</span></div>
       <div class="pcard-status">${txtMap[st]}</div>
       <div class="pcard-actions">
-        <button class="abtn abtn-unlock" onclick="unlockStu('${s.pin}','${s.name}')">🔓 تعيين</button>
-        <button class="abtn abtn-retry" onclick="allowRetry('${s.pin}','${s.name}')">🔄 إعادة</button>
+        <button class="abtn abtn-unlock" data-pin="${s.pin}" data-name="${s.name}" onclick="unlockStu(this.dataset.pin,this.dataset.name)">🔓 تعيين</button>
+        <button class="abtn abtn-retry" data-pin="${s.pin}" data-name="${s.name}" onclick="allowRetry(this.dataset.pin,this.dataset.name)">🔄 إعادة</button>
       </div>
     </div>`;
   }).join('');
@@ -784,7 +792,10 @@ function renderDash(sec){
   if(!fil.length){document.getElementById('dbody').innerHTML=`<tr><td colspan="12" style="text-align:center;padding:28px;color:rgba(255,255,255,.4)">في انتظار نتائج الطلاب...</td></tr>`;return;}
   document.getElementById('dbody').innerHTML=[...fil].sort((a,b)=>b.pct-a.pct).map((r,i)=>{
     const gi=gradeInfo(r.pct),ms=r.maxScore||14;
-    return`<tr><td>${i+1}</td><td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td><td>${r.section}</td><td><span class="pin-badge">${r.pin||'—'}</span></td><td>${r.mcqScore||0}/${ms-4}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td><td>${(+r.orderScore||0).toFixed(1)}/2</td><td><strong>${r.score}/${ms}</strong></td><td>${r.pct}%</td><td><span class="gp ${gi.cls}">${gi.lbl}</span></td><td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td><td><button class="abtn abtn-retry" onclick="allowRetry('${r.pin}','${r.name}')">🔄</button><button class="abtn abtn-unlock" onclick="unlockStu('${r.pin}','${r.name}')">🔓</button></td></tr>`;
+    return`<tr><td>${i+1}</td><td style="text-align:right;font-weight:600;min-width:130px">${r.name}${r.pct>=90?'🏆':r.pct>=80?'🥇':''}${r.timedOut?'⌛':''}</td><td>${r.section}</td><td><span class="pin-badge">${r.pin||'—'}</span></td><td>${r.mcqScore||0}/${ms-4}</td><td>${(+r.matchScore||0).toFixed(1)}/2</td><td>${(+r.orderScore||0).toFixed(1)}/2</td><td><strong>${r.score}/${ms}</strong></td><td>${r.pct}%</td><td><span class="gp ${gi.cls}">${gi.lbl}</span></td><td style="color:#e0c97f;font-size:10px">${r.elapsed||'--'}</td><td>
+      <button class="abtn abtn-retry" data-pin="${r.pin}" data-name="${r.name}" onclick="allowRetry(this.dataset.pin,this.dataset.name)">🔄</button>
+      <button class="abtn abtn-unlock" data-pin="${r.pin}" data-name="${r.name}" onclick="unlockStu(this.dataset.pin,this.dataset.name)">🔓</button>
+    </td></tr>`;
   }).join('');
 }
 
