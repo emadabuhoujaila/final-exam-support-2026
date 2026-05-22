@@ -596,9 +596,27 @@ function confirmSubmit(){
   const u=ANS.filter(a=>a===null).length;
   const msg=u>0?`لديك ${u} سؤال غير مجاب.\nهل تريد التسليم؟`:'هل أنت متأكد من تسليم الاختبار؟';
   showConf('📝','تسليم الاختبار',msg,()=>{
-    try{ finish(false); }
-    catch(e){ alert('خطأ: '+e.message); }
+    closeConf();
+    setTimeout(()=>{
+      try{
+        finish(false);
+      }catch(e){
+        alert('خطأ في finish: '+e.message+'\n'+e.stack);
+      }
+    },100);
   });
+}
+
+function showConf(ic,tit,msg,onY){
+  document.getElementById('cic').textContent=ic;
+  document.getElementById('ctit').textContent=tit;
+  document.getElementById('cmsg').textContent=msg;
+  document.getElementById('cyes').onclick=onY;
+  document.getElementById('cov').style.display='flex';
+}
+
+function closeConf(){
+  document.getElementById('cov').style.display='none';
 }
 
 // ══ إنهاء الاختبار ══
