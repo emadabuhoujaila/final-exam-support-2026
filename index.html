@@ -160,7 +160,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     </div>
   </div>
 
-  <!-- Student login with code -->
   <div class="card hidden" id="pg-login">
     <h3 style="color:#90ee90;margin-bottom:5px;text-align:center">🔐 دخول الطالب</h3>
     <p style="text-align:center;font-size:12px;color:#a0ffa0;margin-bottom:14px">أدخل رمز الدخول الخاص بك</p>
@@ -178,7 +177,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
     <button onclick="go('pg-land')" style="margin-top:7px;width:100%;padding:9px;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:9px;color:#fff;cursor:pointer;font-family:inherit;font-size:13px">رجوع</button>
   </div>
 
-  <!-- Already submitted page -->
   <div class="card hidden" id="pg-done" style="text-align:center">
     <div style="font-size:64px;margin-bottom:12px">✅</div>
     <h3 style="color:#90ee90;margin-bottom:8px">سبق وقدّمت الاختبار</h3>
@@ -210,7 +208,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
       </div>
       <div class="tabs" id="dtabs"></div>
       <div class="stats" id="dstats"></div>
-      <!-- Excel export buttons -->
       <div style="margin-bottom:12px">
         <div style="font-size:12px;color:#90ee90;font-weight:700;margin-bottom:7px">📥 تصدير Excel:</div>
         <div class="xl-btns">
@@ -278,7 +275,6 @@ body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;min-height:100
 </div>
 
 <script>
-// ===================== FIREBASE CONFIG =====================
 const firebaseConfig = {
   apiKey: "AIzaSyCjBMCrdUpvM1VCV3tZGq64VI_WTMEWxDs",
   authDomain: "final-quiz-2026.firebaseapp.com",
@@ -288,16 +284,13 @@ const firebaseConfig = {
   messagingSenderId: "132817842071",
   appId: "1:132817842071:web:388827d5a95a829b539ed2"
 };
-// ⚠️ IMPORTANT: Replace the above with your NEW Firebase project config
-// Create new project at https://console.firebase.google.com
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 const TC = 'emad2026_teacher';
-const RESET_CODE = 'emad_reset'; // Teacher uses this to unlock locked students
+const RESET_CODE = 'emad_reset';
 const TOTAL = 2100;
 
-// ===================== STUDENT DATA & CODES =====================
 const STUDENTS = {
   '1': ['احمد مجيد سعيد سالم المرشدي','جاسم محمد عبدالله الملا الريسي','حارب محمد سهيل عبيد الحفيتي','حسن محمد حسن محمد الحفيتي','حمد محمد محبوب جمعة كياني','حمدان حسين علي العبودي الطنيجي','حمدان عبدالله أحمد محمد المزروعي','حميد راشد عبيد الشميلي اليماحي','حميد عبيد محمد حميد اليماحي','خليفه مفتاح مال الله جمعه الكندي','راشد سلطان علي خميس اليماحي','راشد سيف مبارك سيف المزروعي','راشد عبيد بلال عبيد المسماري','زايد محمد الماس محمد الظنحاني','سعيد احمد حسين الشمار الكندري','سعيد محمد راشد عبيد الكعبي','سيف راشد مبارك سيف المزروعي','سيف عبدالله راشد محمد اليماحي','عبدالعزيز علي حسن علي المسماري','عبدالله احمد عيسى محمد فضل','عبدالله راشد سهيل سعيد اليماحي','علي ابراهيم عبدالله سعيد اليماحي','علي راشد علي سالم المزروعي','مايد احمد جمعه علي كياني','منصور عبدالله محمد المسماري','نايف ابراهيم عبيد حسن الشحي'],
   '2': ['أحمد عيسى محمد راشد البكر','حمدان أسد محمد نواز أحمد','زايد عبدالله علي محمد البلوشي','سيف يوسف عبدالله سالم الكندي','عامر أحمد راشد علي السعدي','عبدالرحمن علي محمد سعيد المحرزي','عبدالله سالم سيف عبيد الحفيتي','عبدالله سالم عبيد الشميلي اليماحي','عبدالله سعيد علي الحاج الحفيتي','عبيد سعيد محمد سعيد الذباحي','عزام محمد حسين محمد شاكر','علي عبيد غاصب عبيد المسماري','عمار عبدالله خميس الخال السويدي','عمر عبدالرزاق عبدالله عبدالرحمن البستكي','غيث عبيد محمد خميس اليماحي','مايد أحمد عيسى الملا العبدولي','مبارك عيسى خاطر عبدالله السعدي','محمد أحمد سيف أحمد المسماري','محمد حميد عبدالله محمد الظنحاني','محمد خلفان محمد عبدالله المطروشي','محمد راشد أحمد خميس الكعبي','محمد راشد محمد علي الكعبي','محمد عبدالله علي بن صباح الزحمي','محمد مانع سعيد عبيد الحفيتي','موسى محمود محمد موسى حسين','نهيان خالد راشد علي الكعبي','نواف راشد عبدالله راشد قيوظي','نواف صالح عثمان مبارك المسماري'],
@@ -305,14 +298,13 @@ const STUDENTS = {
   '5': ['احمد راشد محمد عبدالله الحفيتي','احمد سلطان احمد محمد الحفيتي','احمد محمد خلفان راشد الكندي','حارب وليد راشد احمد الحنطوبي','حمد حمدان جلال حسين مختار','حمد محمد سعيد نويله اليماحي','خالد جاسم راشد عبدالرحمن الكندي','خالد عبيد عبيد سليمان الحوسني','خالد فايز عيسى داغر البلوشي','خليفه احمد محمد احمد الظنحاني','ذياب يوسف عبدالله الوطني آل علي','راشد محمد خميس سليمان مطلعي','زايد احمد على المطوع الكعبي','زيد محمد عبدالله محمد المسماري','سالم محمد سالم ثاني الجابري','سعيد سيد سعيد التخلوفه اليماحي','سعيد على سعيد محمد الحمودي','سليمان محمد خميس سليمان مطلعي','سليمان يونس سليمان عبدالله الحنطوبي','سيف عثمان خميس الدرعي المسماري','سيف نبيل خميس سالم هناوي','فيصل صالح حسن بارون آل علي','محمد حمد على دويب الحمودي','محمد زايد على نصيب عريدي','محمد سعيد محمد علي الحنطوبي','محمد صالح محمد شاكر ال محمد','محمد على عبدالله على الكندي','محمد ناصر خميس محمد المطروشي','نهيان محمد سليمان عبدالله الحنطوبي']
 };
 
-// Generate deterministic codes
 function hashCode(str) {
   let h = 0;
   for (let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
   return Math.abs(h);
 }
-const CODE_MAP = {}; // code -> {name, section}
-const NAME_CODE = {}; // name -> code
+const CODE_MAP = {};
+const NAME_CODE = {};
 const usedCodes = new Set();
 function genCode(sec, name) {
   const prefix = '7' + sec;
@@ -331,7 +323,6 @@ Object.keys(STUDENTS).forEach(sec => {
   });
 });
 
-// Stars
 const se = document.getElementById('stars');
 for (let i = 0; i < 55; i++) {
   const s = document.createElement('div'); s.className = 'star';
@@ -355,9 +346,10 @@ async function lockScr() {
   visLocked=true;
   document.getElementById('blk').style.display='flex';
   document.getElementById('mc').style.filter='blur(12px)';
-  // Mark as locked in Firebase
   if(currentStudentCode) {
     try { await db.ref('locked/'+currentStudentCode).set(true); } catch(e){}
+    // ✅ حذف حالة "في الاختبار" عند القفل
+    try { await db.ref('active/'+currentStudentCode).remove(); } catch(e){}
   }
 }
 
@@ -369,7 +361,6 @@ async function unlockScreen() {
     document.getElementById('mc').style.filter='none';
     document.getElementById('bci').value='';
     document.getElementById('bcerr').style.display='none';
-    // Remove lock flag
     if(currentStudentCode) {
       try { await db.ref('locked/'+currentStudentCode).remove(); } catch(e){}
     }
@@ -389,9 +380,21 @@ async function doStudentLogin() {
   const code = (document.getElementById('sc').value||'').trim();
   const err = document.getElementById('sc-err');
   err.classList.add('hidden');
+  err.textContent = 'رمز غير صحيح، تحقق من رمزك وأعد المحاولة';
   if(!CODE_MAP[code]) { err.classList.remove('hidden'); return; }
   const {name, section} = CODE_MAP[code];
-  // Check if already submitted
+
+  // ✅ فحص إذا كان الطالب موقوفاً — يمنع الدخول تماماً
+  try {
+    const lockSnap = await db.ref('locked/'+code).get();
+    if(lockSnap.exists()) {
+      err.textContent = '🔒 تم إيقافك من الاختبار. تواصل مع المعلم.';
+      err.classList.remove('hidden');
+      return;
+    }
+  } catch(e) { console.error(e); }
+
+  // فحص إذا سبق التسليم
   try {
     const snap = await db.ref('submitted/'+code).get();
     if(snap.exists()) {
@@ -404,7 +407,12 @@ async function doStudentLogin() {
       go('pg-done'); return;
     }
   } catch(e) { console.error(e); }
-  // Begin quiz
+
+  // ✅ تسجيل حالة "في الاختبار" في Firebase
+  try {
+    await db.ref('active/'+code).set({name, section, startedAt: Date.now()});
+  } catch(e) { console.error(e); }
+
   currentStudentCode = code;
   sData = {name, section, code};
   beginQuiz();
@@ -558,14 +566,14 @@ async function finish(timed) {
   const pct=Math.round(total/maxScore*100);
   const gi=gradeInfo(pct);
   const ts=new Date().toLocaleString('ar-SA',{dateStyle:'short',timeStyle:'short'});
-  // Build per-topic detail for analysis
   const topicDetail={};
   mcqD.forEach(d=>{ if(!topicDetail[d.topic]) topicDetail[d.topic]={total:0,correct:0,level:d.level}; topicDetail[d.topic].total++; if(d.correct) topicDetail[d.topic].correct++; });
   lastRec={name:sData.name,section:sData.section,code:sData.code,score:total,mcqScore:mcqSc,matchScore:mSc,orderScore:oSc,pct,gradeLabel:gi.lbl,elapsed:fmt(sUsed),timedOut:timed,time:ts,maxScore,topicDetail};
   try {
     await db.ref('results').push(lastRec);
-    // Mark as submitted to prevent re-entry
     await db.ref('submitted/'+sData.code).set({score:total,pct,gradeLabel:gi.lbl,time:ts,maxScore});
+    // ✅ حذف حالة "في الاختبار" بعد التسليم
+    await db.ref('active/'+sData.code).remove();
     toast('✅ تم إرسال نتيجتك للمعلم!',4000);
   } catch(e) { toast('⚠️ تعذّر الإرسال',4000); console.error(e); }
   showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore);
@@ -599,7 +607,6 @@ function showResult(pct,total,gi,timed,mcqD,mSc,oSc,maxScore) {
   document.getElementById('rev-area').innerHTML=rev;
 }
 
-// preview student name on code input
 function previewStudent() {
   const code = (document.getElementById('sc').value||'').trim();
   const prev = document.getElementById('student-preview');
@@ -616,8 +623,10 @@ function previewStudent() {
 }
 
 // ===================== TEACHER DASHBOARD =====================
-let allSubmitted={}, allLocked={}, activeStudentTab='all';
+// ✅ إضافة متغير allActive
+let allSubmitted={}, allLocked={}, allActive={}, activeStudentTab='all';
 
+// ✅ إضافة الاستماع لمسار active
 function startLiveDash() {
   db.ref('results').on('value', snap => {
     allResults=[];
@@ -631,6 +640,11 @@ function startLiveDash() {
   });
   db.ref('locked').on('value', snap => {
     allLocked = snap.val()||{};
+    renderStudentList(activeStudentTab);
+  });
+  // ✅ استماع لحالة "في الاختبار"
+  db.ref('active').on('value', snap => {
+    allActive = snap.val()||{};
     renderStudentList(activeStudentTab);
   });
 }
@@ -656,7 +670,6 @@ function renderStudentList(sec) {
     const code = NAME_CODE[st.name]||'';
     const submitted = allSubmitted[code];
     const locked = allLocked[code];
-    // find result record
     const rec = allResults.find(r=>r.code===code||r.name===st.name);
     let statusHtml, statusSort;
     if(submitted) {
@@ -665,7 +678,8 @@ function renderStudentList(sec) {
     } else if(locked) {
       statusHtml=`<span style="color:#ff6464;font-weight:700">🔒 موقوف (خرج من الصفحة)</span>`;
       statusSort=1;
-    } else if(rec) {
+    // ✅ الاعتماد على allActive بدلاً من rec لإظهار "في الاختبار"
+    } else if(allActive[code]) {
       statusHtml=`<span style="color:#ffd700;font-weight:700">⏳ في الاختبار الآن</span>`;
       statusSort=2;
     } else {
@@ -732,7 +746,6 @@ function renderDash(sec) {
   document.getElementById('dbody').innerHTML=rows;
 }
 
-// Allow retry: delete submitted flag, keep result in history
 async function allowRetry(recId, code, name) {
   showConf('🔄','إعادة الاختبار',`هل تريد السماح لـ "${name}" بإعادة الاختبار؟\nسيتم الاحتفاظ بنتيجته الحالية في السجل.`,async()=>{
     try {
@@ -742,7 +755,6 @@ async function allowRetry(recId, code, name) {
   });
 }
 
-// Reset lock: remove the locked flag so student can continue
 async function resetLock(code, name) {
   showConf('🔓','إعادة التعيين',`هل تريد فتح قفل الاختبار لـ "${name}"؟\nسيتمكن الطالب من متابعة الاختبار.`,async()=>{
     try {
@@ -757,6 +769,7 @@ function doClear() {
     db.ref('results').remove();
     db.ref('submitted').remove();
     db.ref('locked').remove();
+    db.ref('active').remove();
     toast('✅ تم مسح جميع النتائج.',3000);
   });
 }
@@ -786,7 +799,6 @@ function doXL(sec) {
 function doAnalysisXL() {
   if(!allResults.length){toast('❌ لا توجد بيانات',3000);return;}
   const secs=['1','2','4','5'];
-  // Aggregate topic performance
   const topicMap={};
   allResults.forEach(r=>{
     if(!r.topicDetail) return;
@@ -799,7 +811,6 @@ function doAnalysisXL() {
   const weakTopics=topics.filter(t=>t.pct<60);
   const strongTopics=topics.filter(t=>t.pct>=80);
 
-  // Per-section stats
   const secStats={};
   secs.forEach(sec=>{
     const fil=allResults.filter(r=>r.section===sec);
@@ -809,7 +820,6 @@ function doAnalysisXL() {
     secStats[sec]={count:fil.length,avg,pass,fail:fil.length-pass,ex,top:fil.length?Math.max(...fil.map(r=>r.pct)):0,low:fil.length?Math.min(...fil.map(r=>r.pct)):0};
   });
 
-  // Build topic per section
   const topicBySec={};
   secs.forEach(sec=>{
     topicBySec[sec]={};
@@ -843,12 +853,10 @@ tr:nth-child(even) td{background:#f5fff5}
 .tip{background:#fffde7;border-right:4px solid #ffd700;padding:8px 12px;margin:6px 0;font-size:11px}
 </style></head><body>`;
 
-  // Cover
   h+=`<h1>📊 تقرير تحليل النتائج — الاختبار النهائي (دعم وتمكين)</h1>
 <p style="font-size:12px;color:#555">مادة: العلوم | الصف السابع | إعداد: الأستاذ عماد أبو حجيلة | تاريخ: ${new Date().toLocaleDateString('ar-SA')}</p>
 <hr style="border-color:#228b22;margin:10px 0">`;
 
-  // ===== SECTION 1: Overview =====
   h+=`<h2>📋 أولاً: النظرة العامة</h2>
 <div class="box">
 <table><thead><tr><th>البيان</th><th>القيمة</th></tr></thead><tbody>
@@ -860,7 +868,6 @@ tr:nth-child(even) td{background:#f5fff5}
 <tr><td>عدد الحاصلين على امتياز (90%+)</td><td><strong style="color:#1a3a1a">${allResults.filter(r=>r.pct>=90).length}</strong></td></tr>
 </tbody></table></div>`;
 
-  // Per section overview
   h+=`<h3>📚 أداء كل شعبة</h3>
 <table><thead><tr><th>الشعبة</th><th>عدد الطلاب</th><th>المتوسط</th><th>أعلى نتيجة</th><th>أدنى نتيجة</th><th>الناجحون</th><th>الراسبون</th><th>الامتياز</th><th>التقييم</th></tr></thead><tbody>`;
   secs.forEach(sec=>{
@@ -871,7 +878,6 @@ tr:nth-child(even) td{background:#f5fff5}
   });
   h+=`</tbody></table>`;
 
-  // Bar chart (ASCII-style in Excel)
   h+=`<h3>📊 رسم بياني — متوسط كل شعبة</h3><table><thead><tr><th>الشعبة</th><th>المتوسط</th><th>التمثيل البياني</th></tr></thead><tbody>`;
   secs.forEach(sec=>{
     const s=secStats[sec];
@@ -882,9 +888,7 @@ tr:nth-child(even) td{background:#f5fff5}
   });
   h+=`</tbody></table>`;
 
-  // ===== SECTION 2: Learning Outcomes Analysis =====
   h+=`<h2>🎯 ثانياً: تحليل نواتج التعلم المفقودة</h2>`;
-
   h+=`<table><thead><tr><th>الموضوع / ناتج التعلم</th><th>مستوى التفكير</th><th>إجمالي الإجابات</th><th>الصحيحة</th><th>نسبة الإتقان</th><th>التشخيص</th>`;
   secs.forEach(sec=>h+=`<th>ش${sec}</th>`);
   h+=`</tr></thead><tbody>`;
@@ -904,7 +908,6 @@ tr:nth-child(even) td{background:#f5fff5}
   });
   h+=`</tbody></table>`;
 
-  // Weak outcomes detail
   if(weakTopics.length>0){
     h+=`<div class="red-box"><h3>⚠️ نواتج التعلم التي تحتاج تدخلاً فورياً (أقل من 60%)</h3><ul style="margin-right:20px;line-height:2">`;
     weakTopics.forEach(t=>{
@@ -919,9 +922,7 @@ tr:nth-child(even) td{background:#f5fff5}
     h+=`</ul></div>`;
   }
 
-  // ===== SECTION 3: Remedial Suggestions =====
   h+=`<h2>💡 ثالثاً: الاقتراحات العلاجية</h2>`;
-
   weakTopics.forEach(t=>{
     let suggestions='';
     if(t.topic.includes('البناء الضوئي')||t.topic.includes('النبات')) suggestions=`<li>استخدام نماذج مجسمة لخلية نباتية وتحديد البلاستيدات الخضراء</li><li>تجربة عملية: ملاحظة فقاعات الأكسجين من نبات مائي تحت الضوء</li><li>مقاطع فيديو قصيرة توضح رحلة الضوء داخل الكلوروبلاست</li><li>بطاقات مفاهيمية للمقارنة بين عضيات الخلية ووظائفها</li>`;
@@ -929,12 +930,10 @@ tr:nth-child(even) td{background:#f5fff5}
     else if(t.topic.includes('الصفائح')||t.topic.includes('التكتونية')||t.topic.includes('التجوية')) suggestions=`<li>استخدام خرائط تفاعلية لحركة الصفائح التكتونية</li><li>نموذج عملي: محاكاة تيارات الحمل الحراري بالماء والحرارة</li><li>جولة افتراضية على حدود الصفائح (الهيمالايا، الأخدود الأفريقي)</li><li>تجربة التجوية الميكانيكية: تجميد الماء في شقوق الصخور الطينية</li>`;
     else if(t.topic.includes('الغلاف')||t.topic.includes('الطقس')||t.topic.includes('السحب')||t.topic.includes('الأعاصير')||t.topic.includes('الأوزون')) suggestions=`<li>رسم تفاعلي لطبقات الغلاف الجوي وخصائص كل طبقة</li><li>متابعة نشرة طقس حية وتحديد السحب والضغط الجوي يومياً</li><li>مقطع فيديو عن تكوين الإعصار القمعي وكيفية قياسه</li><li>نشاط: ترتيب درجات الحرارة في طبقات الغلاف من الأدنى للأعلى</li>`;
     else suggestions=`<li>مراجعة الكتاب المدرسي مع التركيز على الأمثلة والرسوم التوضيحية</li><li>أوراق عمل تدريبية مستهدفة لهذا الموضوع</li><li>مجموعات تعلم تعاوني للمناقشة والتطبيق</li>`;
-
     h+=`<h3>🔴 ${t.topic} — (${t.pct}% إتقان)</h3>
 <ul style="margin-right:20px;line-height:2;font-size:11px">${suggestions}</ul>`;
   });
 
-  // General remedial strategies
   h+=`<h3>📌 استراتيجيات علاجية عامة</h3>
 <div class="tip">🎯 <strong>التعلم التعاوني:</strong> تقسيم الطلاب لمجموعات مختلطة بين المتفوقين والمحتاجين للدعم للمراجعة المشتركة.</div>
 <div class="tip">🎮 <strong>التلعيب:</strong> استخدام تطبيقات تفاعلية مثل Kahoot وQuizlet لتحفيز المراجعة.</div>
@@ -942,7 +941,6 @@ tr:nth-child(even) td{background:#f5fff5}
 <div class="tip">🔬 <strong>التعلم القائم على الاستقصاء:</strong> أنشطة عملية بسيطة تجعل الطالب يكتشف المفهوم بنفسه.</div>
 <div class="tip">📊 <strong>المتابعة الفردية:</strong> تخصيص وقت إضافي للطلاب دون 50% مع أولياء الأمور لوضع خطة علاجية.</div>`;
 
-  // Students needing support
   const needSupport=allResults.filter(r=>r.pct<50).sort((a,b)=>a.pct-b.pct);
   if(needSupport.length>0){
     h+=`<h2>🆘 رابعاً: الطلاب الذين يحتاجون دعماً عاجلاً (أقل من 50%)</h2>
